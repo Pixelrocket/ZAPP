@@ -11,5 +11,17 @@ Gebruikers
 - ZilliZ beheerders, voor zover zij gerechtigd zijn om cliënt(vertegenwoordigers) toegang te verlenen tot cliëntinformatie. Deze groep gebruikers mogen ook algemene berichten over de zorgboerderij plaatsen die aan de cliënt(vertegenwoordigers) via ZAPP beschikbaar worden gemaakt.
 - Medewerkers van de betrokken zorgboerderij, voor zover zij reacties van cliënt(vertegenwoordigers) ontvangen en verwerken.
 
+Kernfunctionaliteit
+---
+- Raadplegen dagrapportages
+- Inloggen
+- Reageren op dagrapportages
+- Raadplegen algemene informatie
+- Contactformulier gebruiken
+- Accounts toegang verlenen
+- Koppelen cliënten aan vertegenwoordigers
+- Plaatsen algemene berichten
+- Ontvangen en verwerken reacties
+
 
 
