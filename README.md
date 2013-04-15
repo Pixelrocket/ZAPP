@@ -17,10 +17,12 @@ Functionaliteit
 - Raadplegen dagrapportages
 - Reageren op dagrapportages
 - Ontvangen en verwerken reacties
+
 ### Ondersteunend
 - Inloggen
 - Accounts toegang verlenen
 - Koppelen cliënten aan vertegenwoordigers
+
 ### Extra
 - Raadplegen algemene informatie
 - Contactformulier gebruiken
