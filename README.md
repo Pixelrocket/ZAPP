@@ -1,9 +1,9 @@
 ZAPP
 ====
 
-Productbeschrijving
+Productdefinitie
 ---
-ZAPP is een mobiele applicatie die (vertegenwoordigers van) cliënten van ZilliZ zorgboerderijen snel een eenvoudig toegang biedt tot actuele cliëntinformatie. Het betreft in eerste instantie het raadplegen van recente dagrapportages van eigen cliënten, het reageren op dagrapportages en toegang tot algemene informatie en contactinformatie.
+ZAPP is een mobiele applicatie die (vertegenwoordigers van) cliënten van ZilliZ zorgboerderijen snel een eenvoudig toegang biedt tot actuele cliëntinformatie, zonder dat de vertrouwelijkheid van de cliëntinformatie in het geding komt. Het betreft in eerste instantie het raadplegen van recente dagrapportages van eigen cliënten, het reageren op dagrapportages en toegang tot algemene informatie en contactinformatie.
 
 Gebruikers
 ---
