@@ -37,7 +37,7 @@
   <ul><li>Wat moet een gebruiker in het normale geval hebben en doen om ZAPP te kunnen gebruiken?
   </li><li>Wat moet een hacker kunnen en doen om toegang te krijgen op basis van een mobiel apparaat met een geactiveerde ZAPP erop dat hij in handen heeft gekregen?
   </li><li>Wat moet een hacker kunnen en doen om toegang te krijgen als hij de gebruikersnaam en het wachtwoord van een account te weten is gekomen?
-  </li><li>Wat kan een hacker als hij een 'token' heeft weten te bemachtigen?
+  </li><li>Wat kan een hacker als hij een 'token' heeft weten te onderscheppen?
   </li></ul>
 </td></tr>
 
