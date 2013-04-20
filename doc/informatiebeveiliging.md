@@ -1,10 +1,11 @@
 #Informatiebeveiliging
 
-<table>
-<tbody>
+<table><thead>
 <tr>
   <td>Nr.</td><td>Watje</td><td>Rationale</td><td>Hoetje</td><td>Opmerkingen</td>
-</tr><tr>
+</tr>
+</thead><tbody>
+<tr>
   <td>1</td><td>
     Van de drie aspecten van informatiebeveiliging (integriteit, beschikbaarheid, vertrouwelijkheid) is het voor ZAPP specifiek van belang om de vertrouwelijkheid te beschermen
   </td><td>
