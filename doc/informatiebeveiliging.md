@@ -2,7 +2,7 @@
 
 <table><thead>
 <tr>
-  <td>Nr.</td><td>Watje</td><td>Rationale</td><td>Hoetje</td><td>Opmerkingen</td>
+  <th>Nr.</th><th>Watje</th><th>Rationale</th><th>Hoetje</th><th>Opmerkingen</th>
 </tr>
 </thead><tbody>
 <tr>
