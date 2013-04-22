@@ -1,10 +1,8 @@
 #Informatiebeveiliging
 
-<table><thead>
-<tr>
-  <th>Nr.</th><th>Watje</th><th>Rationale</th><th>Hoetje</th><th>Opmerkingen</th>
-</tr>
-</thead><tbody>
+<table><thead><tr>
+<th>Nr.</th><th>Watje</th><th>Rationale</th><th>Hoetje</th><th>Opmerkingen</th>
+</tr></thead><tbody>
 
 <tr><td>1</td><td>
   Van de drie aspecten van informatiebeveiliging (integriteit, beschikbaarheid, vertrouwelijkheid) is het voor ZAPP specifiek van belang om de vertrouwelijkheid te beschermen
@@ -15,8 +13,7 @@
 </td><td>
 </td></tr>
 
-<tr><td>2</td>
-<td>
+<tr><td>2</td><td>
   De bescherming van de vertrouwelijkheid moet gerechtigde gebruikers zo min mogelijk in de weg zitten bij hun toegang tot de informatie
 </td><td>
   Het primaire doel van ZAPP als toevoeging op de bestaande Web-toegang is dat je er snel en eenvoudig bij kan
@@ -25,8 +22,7 @@
 </td><td>
 </td></tr>
 
-<tr><td>3</td>
-<td>
+<tr><td>3</td><td>
   Beveiligingsmaatregelen moeten transparant en inzichtelijk zijn voor gebruikers
 </td><td>
   Geen 'security by obscurity'; wij tonen aan dat het veilig is door uit te leggen hoe de beveiliging werkt. Dat maakt het beveiligingssysteem ontvankelijk voor verbeteringsvoorstellen van buitenaf. Bovendien draagt het bij aan het vertrouwen van de gebruikers in het beveiligingssysteem. En gebruikers zijn beter in staat om veilig met het systeem om te gaan
@@ -41,8 +37,7 @@
   </li></ul>
 </td></tr>
 
-<tr><td>4</td>
-<td>
+<tr><td>4</td><td>
   Gegevensuitwisseling tussen ZAPP en de ZilliZ-server mag voor derden niet inzichtelijk zijn
 </td><td>
   Internetverkeer kan gemakkelijk afgeluisterd worden, maar wat derden zo kunnen onderscheppen, mag voor hen niet leesbaar zijn
@@ -51,8 +46,7 @@
 </td><td>
 </td></tr>
 
-<tr><td>5</td>
-<td>
+<tr><td>5</td><td>
   Waar mogelijk hergebruik beveiliging van bestaande ZilliZ-toegang
 </td><td>
   ZAPP-gebruikers zijn meestal bestaande gebruikers van het ZilliZ-systeem en hebben daar dan al een account met de bijbehorende autorisaties (w.o. koppeling van cliënten aan eencliëntvertegenwoordiger). Het is voor de gebruikers handig om voor ZAPP hetzelfde account te kunnen gebruiken. En het is voor de beveiliging beter om niet meer dan één enkele lijst van accounts en autorisaties te hebben
@@ -64,8 +58,7 @@
 </td><td>
 </td></tr>
 
-<tr><td>6</td>
-<td>
+<tr><td>6</td><td>
   Clientvertegenwoordigers mogen alleen informatie inzien over hun 'eigen' cliënten
 </td><td>
   vanzelfsprekend
@@ -74,8 +67,7 @@
 </td><td>
 </td></tr>
 
-<tr><td>7</td>
-<td>
+<tr><td>7</td><td>
   Cliëntinformatie mag niet op het mobiele apparaat worden opgeslagen
 </td><td>
   Een derde die toegang weet te krijgen tot het apparaat, mag daarmee niet de mogelijkheid te krijgen om cliëntinformatie in te zien
@@ -88,8 +80,7 @@
 </td><td>
 </td></tr>
 
-<tr><td>8</td>
-<td>
+<tr><td>8</td><td>
   Wachtwoord van ZilliZ-account mag niet op het mobiele apparaat worden opgeslagen
 </td><td>
   Een derde die toegang weet te krijgen tot het apparaat, mag daarmee niet de mogelijkheid te krijgen om het wachtwoord te achterhalen
@@ -101,8 +92,7 @@
 </td><td>
 </td></tr>
 
-<tr><td>9</td>
-<td>
+<tr><td>9</td><td>
   ZAPP-toegang vanaf een speciefiek mobiel apparaat moet expliciet door de gebruiker worden goedgekeurd
 </td><td>
   Een derde die de beschikking weet te krijgen over de gebruikersnaam en het wachtwoord van een gebruiker moet daarmee niet zomaar de mogelijkheid hebben om vanaf een willekeurig apparaat daadwerkelijk via ZAPP toegang te krijgen tot cliëntinformatie
@@ -113,5 +103,13 @@
 </td><td>
   <b>Vraag:</b> Hoe doet de HAN dat met die apparaat-identificatie?
 </td></tr>
+
+<!--
+<tr><td></td><td>
+</td><td>
+</td><td>
+</td><td>
+</td></tr>
+-->
 
 </tbody></table>
