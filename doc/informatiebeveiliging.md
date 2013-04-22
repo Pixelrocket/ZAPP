@@ -114,6 +114,15 @@
   <b>Vraag:</b> Alleen beheerders of ook gebruikers? <br> <b>Vraag:</b> Alle actieve tokens, of per specifiek apparaat?
 </td></tr>
 
+<tr><td>11</td><td>
+  Toegang tot ZAPP op het mobiele apparaat moet worden afgeschermd
+</td><td>
+  Een derde die toegang weet te krijgen tot het apparaat, mag daarmee niet meteen ook de mogelijkheid hebben om ZAPP erop te openen en zo met een nog actieve toegangssleutel de cliëntinformatie in te zien
+</td><td>
+  Iedere keer bij het starten van ZAPP moet de gebruiker een PIN-code ingeven en de gebruiker moet de PIN-code geheim houden
+</td><td>
+</td></tr>
+
 <!--
 <tr><td></td><td>
 </td><td>
