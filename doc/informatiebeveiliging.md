@@ -123,6 +123,16 @@
 </td><td>
 </td></tr>
 
+<tr><td>12</td><td>
+  Gebruikers moeten hun wachtwoord kunnen wijzigen
+</td><td>
+  Als een gebruiker een wachtwoord heeft gebruikt dat hij ook in andere applicaties heeft gebruikt en bij één van die applicaties is er een beveiligingsincident geweest, dan moet de gebruiker z'n ZilliZ-wachtwoord veranderen, omdat het oude wachtwoord mogelijk bij derden bekend is geworden
+</td><td>
+  Via de gebruikersinstellingen-pagina van de ZilliZ-website
+</td><td>
+  <b>Vraag:</b> Zit dit er al in? <br> <b>Vraag:</b> Zijn er ook al constraints van kracht voor wachtwoordsterkte en geldigheidsduur?
+</td></tr>
+
 <!--
 <tr><td></td><td>
 </td><td>
