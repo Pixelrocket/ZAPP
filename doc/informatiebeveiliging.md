@@ -170,8 +170,9 @@ Ga vervolgens als volgt te werk:
 1. Download ZAPP uit de App Store
 2. Open ZAPP en geef een zelf te kiezen PIN-code op. Onthoud je PIN-code, maar houd 'm geheim
 3. Typ de gebruikersnaam en het wachtwoord in van je ZilliZ-account
-4. Ga naar je e-mailprogramma en volg de activatielink in de e-mail die je van ZilliZ krijgt. Na de bevestiging van de activatiepagina is ZAPP klaar voor gebruik vanaf jouw apparaat met jouw account.
+4. Ga naar je e-mailprogramma en volg de activatielink in de e-mail die je van ZilliZ krijgt. Na de bevestiging van de activatiepagina is ZAPP klaar voor gebruik vanaf jouw apparaat met jouw account
 5. Open ZAPP en geef je PIN-code in
+
 Om je wachtwoord te veranderen ga je naar de [gebruikersinstellingen](TODO) op de ZilliZ-website. Om je PIN-code te veranderen, ga je in ZAPP naar de Instellingen
 
 ###Hoe is de cliëntinformatie in ZAPP beveiligd?
