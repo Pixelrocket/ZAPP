@@ -109,9 +109,9 @@
 </td><td>
   Bij verlies of diefstal van een apparaat met ZAPP erop, mogen de daarop aanwezige toegangssleutels ('tokens') niet langer toegang kunnen geven tot cliëntinformatie op de ZilliZ-server
 </td><td>
-  Beheerders of gebruikers zelf krijgen via de ZilliZ-website de mogelijkheid om alle voor hun account actieve sleutels te deactiveren
+  Beheerders of gebruikers zelf krijgen via de ZilliZ-website de mogelijkheid om alle voor hun account actieve tokens te deactiveren
 </td><td>
-  <b>Vraag:</b> Alleen beheerders of ook gebruikers? <br>Vraag:</b> Alle actieve tokens, of per specifiek apparaat?
+  <b>Vraag:</b> Alleen beheerders of ook gebruikers? <br> <b>Vraag:</b> Alle actieve tokens, of per specifiek apparaat?
 </td></tr>
 
 <!--
