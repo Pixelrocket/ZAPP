@@ -104,6 +104,16 @@
   <b>Vraag:</b> Hoe doet de HAN dat met die apparaat-identificatie?
 </td></tr>
 
+<tr><td>10</td><td>
+  Uitgegeven toegangssleutels moeten ingetrokken kunnen worden
+</td><td>
+  Bij verlies of diefstal van een apparaat met ZAPP erop, mogen de daarop aanwezige toegangssleutels ('tokens') niet langer toegang kunnen geven tot cliëntinformatie op de ZilliZ-server
+</td><td>
+  Beheerders of gebruikers zelf krijgen via de ZilliZ-website de mogelijkheid om alle voor hun account actieve sleutels te deactiveren
+</td><td>
+  <b>Vraag:</b> Alleen beheerders of ook gebruikers? <br>Vraag:</b> Alle actieve tokens, of per specifiek apparaat?
+</td></tr>
+
 <!--
 <tr><td></td><td>
 </td><td>
