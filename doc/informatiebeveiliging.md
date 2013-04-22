@@ -216,4 +216,16 @@ De vertrouwelijke informatie is in ZAPP dus veilig door de vercijferde communica
 
 ##Technische beschrijving van de beveiliging
 
-De hoetjes onder de streep. TODO
+De hoetjes onder de streep:
+
+1. Alle verkeer tussen ZAPP en ZilliZ gaat met https; niets gaat in clear text
+2. ZAPP gebruikt ZilliZ-authenticatie (gebruikersnaam en wachtwoord) en ZilliZ-autorisatie (extranettoegang en koppeling cliënten aan cliëntvertegenwoordiger)
+3. Voor ZAPP is er bij een gebruikersaccount een (geverifieerd) e-mailadres nodig. **Vraag:** Zit er in ZilliZ ook al een verplicht geverifieerd e-mailadres bij de accounts?
+4. Eerder getoonde gegevenssets mogen niet worden bewaard en moeten dus bij een volgende sessie opnieuw worden opgehaald; daarom moeten alle selecties als zodanig specifiek adresseerbaar zijn (REST URIs)
+5. Een aanmeldservice controleert gebruikersnaam + wachtwoord + apparaat-identifier en levert een token. Het wachtwoord (en het token) **Vraag:** kunnen/moeten hier *end-to-end* vercijferd worden ("handmatig" encrypten; los van https)
+6. Tokens kunnen los van ZAPP worden ingetrokken. **Vraag:** moet er een standaard verloopcriterium aan tokens worden gesteld (na zoveel requests of na zoveel tijd of na zo lang geen gebruikersactiviteit automatisch deactiveren), of blijven ze in principe altijd geldig?
+7. Na aanmelden gaat er een e-mail naar de gebruiker met een activatielink. Pas na activatie door de gerbuiker vindt de server het token geldig.
+8. ZAPP doet niks zonder PIN-code. De PIN-code wordt na intypen snel gecheckt met een opgeslagen hash en daarna meteen gewist uit het geheugen.
+9. Na het intypen van de PIN-code wordt ook het vercijferd opgeslagen token ontcijferd (PIN-code is deel van de sleutel). Token blijft in geheugen totdat ZAPP van het scherm gaat; daarna moet de PIN weer worden ingetypt om het token weer te genereren.
+10. Wachtwoorden en cliëntinformatie mogen niet worden opgeslagen (ook niet vercijferd) en worden gewist uit het geheugen zodra ZAPP van het scherm gaat.
+11. Als de gebruiker een nieuwe PIN-code instelt, moet hij eerst de oude PIN-code intypen. Met de oude PIN-code wordt het token ontcijferd en met de nieuwe PIN-code wordt het token weer vercijferd opgeslagen.
