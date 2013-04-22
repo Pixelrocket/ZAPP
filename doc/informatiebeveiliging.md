@@ -133,6 +133,15 @@
   <b>Vraag:</b> Zit dit al in de website? <br> <b>Vraag:</b> Zijn er ook al constraints van kracht voor wachtwoordsterkte en geldigheidsduur? <br> <b>Opmerking:</b> Hoewel mogelijk is het niet nodig om dan meteen ook alle tokens van de gebruiker te deactiveren
 </td></tr>
 
+<tr><td>13</td><td>
+  Gebruikers moeten hun PIN-code kunnen wijzigen
+</td><td>
+  Als een gebruiker denkt dat z'n PIN-code bij iemand anders bekend is geraakt, dan moet hij een andere PIN-code instellen
+</td><td>
+  Via de settings binnen ZAPP op het mobiele apparaat
+</td><td>
+</td></tr>
+
 <!--
 <tr><td></td><td>
 </td><td>
