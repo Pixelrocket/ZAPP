@@ -130,7 +130,7 @@
 </td><td>
   Via de gebruikersinstellingen-pagina van de ZilliZ-website
 </td><td>
-  <b>Vraag:</b> Zit dit er al in? <br> <b>Vraag:</b> Zijn er ook al constraints van kracht voor wachtwoordsterkte en geldigheidsduur?
+  <b>Vraag:</b> Zit dit al in de website? <br> <b>Vraag:</b> Zijn er ook al constraints van kracht voor wachtwoordsterkte en geldigheidsduur? <br> <b>Opmerking:</b> Hoewel mogelijk is het niet nodig om dan meteen ook alle tokens van de gebruiker te deactiveren
 </td></tr>
 
 <!--
