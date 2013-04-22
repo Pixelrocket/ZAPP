@@ -173,7 +173,8 @@ Ga vervolgens als volgt te werk:
 4. Ga naar je e-mailprogramma en volg de activatielink in de e-mail die je van ZilliZ krijgt. Na de bevestiging van de activatiepagina is ZAPP klaar voor gebruik vanaf jouw apparaat met jouw account
 5. Open ZAPP en geef je PIN-code in
 
-Om je wachtwoord te veranderen ga je naar de [gebruikersinstellingen](TODO) op de ZilliZ-website. Om je PIN-code te veranderen, ga je in ZAPP naar de Instellingen
+Om je wachtwoord te veranderen ga je naar de [gebruikersinstellingen](TODO) op de ZilliZ-website. Om je PIN-code te veranderen, ga je in ZAPP naar de Instellingen. Het is verstandig om een lang en moeilijk te raden wachtwoord te kiezen, dat je niet ook voor andere applicaties gebruikt, en om het regelmatig te veranderen. Je PIN-code kan je in principe onveranderd laten. Maar voor zowel je wachtwoord als je PIN-code geldt: verander 'm zodra je vermoed dat iemand anders 'm te weten gekomen kan zijn.
+Als je het apparaat kwijtraakt waar ZAPP op staat, of het wordt gestolen, geef dit dan snel door aan ZilliZ, zodat we de toegang vanaf dat apparaat kunnen blokkeren. Als je het apparaat later weer terugvindt, kan je zelf eenvoudig met je ZilliZ-account en je e-mail de toegang weer instellen.
 
 ###Hoe is de cliëntinformatie in ZAPP beveiligd?
 TODO
