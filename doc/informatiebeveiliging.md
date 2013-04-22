@@ -154,10 +154,13 @@
 
 </tbody></table>
 
+
 ##Uitleg
+
 Hieronder de in eis nummer 3 bedoelde lekenproza
 
 ###ZAPP in gebruik nemen
+
 Om ZAPP te kunnen gaan gebruiken, heb je het volgende nodig:
 
 - Een tablet of smartphone
@@ -174,10 +177,20 @@ Ga vervolgens als volgt te werk:
 5. Open ZAPP en geef je PIN-code in
 
 Om je wachtwoord te veranderen ga je naar de [gebruikersinstellingen](TODO) op de ZilliZ-website. Om je PIN-code te veranderen, ga je in ZAPP naar de Instellingen. Het is verstandig om een lang en moeilijk te raden wachtwoord te kiezen, dat je niet ook voor andere applicaties gebruikt, en om het regelmatig te veranderen. Je PIN-code kan je in principe onveranderd laten. Maar voor zowel je wachtwoord als je PIN-code geldt: verander 'm zodra je vermoed dat iemand anders 'm te weten gekomen kan zijn.
+
 Als je het apparaat kwijtraakt waar ZAPP op staat, of het wordt gestolen, geef dit dan snel door aan ZilliZ, zodat we de toegang vanaf dat apparaat kunnen blokkeren. Als je het apparaat later weer terugvindt, kan je zelf eenvoudig met je ZilliZ-account en je e-mail de toegang weer instellen.
 
 ###Hoe is de cliëntinformatie in ZAPP beveiligd?
-TODO
+
+Alle cliëntinformatie die in ZAPP wordt getoond, haalt ZAPP van de ZilliZ-server via het Internet. Omdat internetverkeer in principe openbaar is en dus voor iedereeen in te zien, vercijferen we alles met [HTTPS](http://nl.wikipedia.org/wiki/HyperText_Transfer_Protocol_Secure). Alleen jouw ZAPP op jouw apparaat kan de gegevens ontcijferen. Cliëntinformatie wordt nooit op je apparaat opgeslagen; zodra je ZAPP verlaat is alle informatie vergeten en de volgende keer wordt alles opnieuw opgehaald bij de ZilliZ-server. Zo voorkomen we dat iemand die jou apparaat te pakken krijgt erin kan gaan grasduinen naar vertrouwelijke gegevens.
+
+Ook je ZilliZ wachtwoord wordt niet opgeslagen. Als je je gebruikersnaam en wachtwoord opgeeft, krijg jouw ZAPP daarmee van de ZilliZ-server een toegangssleutel (een 'token'), die in alle volgende communicatie steeds de deuren opent. Zodra het token binnen is, wist ZAPP je wachtwoord uit het geheugen van je apparaat. Ook weer om te voorkomen dat iemand anders op jouw apparaat je wachtwoord zou kunnen vinden. Het token kunnen we op afstand deactiveren als het nodig is.
+
+Mocht iemand je gebruikersnaam en wachtwoord weten te achterhalen, dan kan die niet zomaar ZAPP downloaden en inloggen. Zou hij dat proberen, dan krijg jij een mailtje met de vraag of je de ZAPP-toegang met jouw account vanaf een niet eerder gebruikt apparaat wil activeren. Dat is voor jou het signaal dat je je wachtwoord moet veranderen.
+
+Mocht iemand anders jouw apparaat in handen krijgen met ZAPP erop, en hij weet door de schermvergrendeling van het apparaat te breken, dan kan hij ZAPP niet gebruiken, omdat hij jouw PIN-code niet weet. Bovendien kan hij buiten ZAPP om geen vertrouwelijke gegevens op het apparaat vinden, omdat cliëntinformatie en wachtwoorden nooit op het apparaat worden opgeslagen. De toegangssleutel tot de ZilliZ-server, het 'token', is alleen vercijferd op het apparaat aanwezig. Om het te kunnen ontcijferen is de PIN-code nodig, die ook al niet op het apparaat is opgeslagen; die moet telkens door de gebruiker worden ingetypt. Mocht een onvoorstelbaar capabele hacker er toch in slagen om het token te pakken te krijgen, dan hebben we ondertussen tijd genoeg gehad om het token onbruikbaar te maken door het op afstand te deactiveren.
+
 
 ##Technische beschrijving van de beveiliging
+
 De hoetjes onder de streep. TODO
