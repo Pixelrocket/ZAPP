@@ -190,6 +190,8 @@ Mocht iemand je gebruikersnaam en wachtwoord weten te achterhalen, dan kan die n
 
 Mocht iemand anders jouw apparaat in handen krijgen met ZAPP erop, en hij weet door de schermvergrendeling van het apparaat te breken, dan kan hij ZAPP niet gebruiken, omdat hij jouw PIN-code niet weet. Bovendien kan hij buiten ZAPP om geen vertrouwelijke gegevens op het apparaat vinden, omdat cliëntinformatie en wachtwoorden nooit op het apparaat worden opgeslagen. De toegangssleutel tot de ZilliZ-server, het 'token', is alleen vercijferd op het apparaat aanwezig. Om het te kunnen ontcijferen is de PIN-code nodig, die ook al niet op het apparaat is opgeslagen; die moet telkens door de gebruiker worden ingetypt. Mocht een onvoorstelbaar capabele hacker er toch in slagen om het token te pakken te krijgen, dan hebben we ondertussen tijd genoeg gehad om het token onbruikbaar te maken door het op afstand te deactiveren.
 
+De vertrouwelijke informatie is in ZAPP dus veilig door de vercijferde communicatie, door de gegevens niet op het apparaat te bewaren, en door de combinatie van ZilliZ-account, e-mail account en PIN-code. Houd je PIN-code en de wachtwoorden van je ZilliZ- en e-mailaccounts geheim. Kies sterke wachtwoorden en verander ze regelmatig. Gebruik nooit hetzelfde wachtwoord voor de twee accounts. En waarschuw ZilliZ bij diefstal of verlies van je apparaat.
+
 
 ##Technische beschrijving van de beveiliging
 
