@@ -92,6 +92,7 @@
   </li><li>Toegang tot informatie in ZilliZ gaat vervolgens op basis van het token
   </li></ul>
 </td><td>
+  Strikt genomen kan je zonder het wachtwoord op te slaan ook zonder tokens werken, maar dan moet het wachtwoord bij elke sessie worden ingetypt, wat strijdig is met eis nummer 2 en bovendien is het <em>minder</em> veilig, ten eerste omdat het wachtwoord veel langer in het geheugen aanwezig is en het ten tweede heel vaak over Internet wordt opgestuurd (weliswaar vercijferd, maar https is niet end-to-end veilig; als je alleen bij het aanmelden het wachtwoord uitwisselt, kan je dat stukje eventueel wél end-to-end vercijferen)
 </td></tr>
 
 <tr><td>9</td><td>
