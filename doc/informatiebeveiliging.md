@@ -1,5 +1,7 @@
 #Informatiebeveiliging
 
+##Eisen
+
 <table><thead><tr>
 <th>Nr.</th><th>Watje</th><th>Rationale</th><th>Hoetje</th><th>Opmerkingen</th>
 </tr></thead><tbody>
@@ -151,3 +153,26 @@
 -->
 
 </tbody></table>
+
+##Uitleg
+Hieronder de in eis nummer 3 bedoelde lekenproza
+
+###ZAPP in gebruik nemen
+Om ZAPP te kunnen gaan gebruiken, heb je het volgende nodig:
+- Een tablet of smartphone
+- Een account voor de bij het apparaat behorende App Store
+- Een account (gebruikersnaam en wachtwoord) van ZilliZ, waarvoor de zgn. "extranet" toegang is aangezet
+- Een e-mail account, dat is gekoppeld aan je ZilliZ-account
+Ga vervolgens als volgt te werk:
+1. Download ZAPP uit de App Store
+2. Open ZAPP en geef een zelf te kiezen PIN-code op. Onthoud je PIN-code, maar houd 'm geheim
+3. Typ de gebruikersnaam en het wachtwoord in van je ZilliZ-account
+4. Ga naar je e-mailprogramma en volg de activatielink in de e-mail die je van ZilliZ krijgt. Na de bevestiging van de activatiepagina is ZAPP klaar voor gebruik vanaf jouw apparaat met jouw account.
+5. Open ZAPP en geef je PIN-code in
+Om je wachtwoord te veranderen ga je naar de [gebruikersinstellingen](TODO) op de ZilliZ-website. Om je PIN-code te veranderen, ga je in ZAPP naar de Instellingen
+
+###Hoe is de cliëntinformatie in ZAPP beveiligd?
+TODO
+
+##Technische beschrijving van de beveiliging
+De hoetjes onder de streep. TODO
