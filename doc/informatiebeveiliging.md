@@ -83,7 +83,7 @@
 <tr><td>8</td><td>
   Wachtwoord van ZilliZ-account mag niet op het mobiele apparaat worden opgeslagen
 </td><td>
-  Een derde die toegang weet te krijgen tot het apparaat, mag daarmee niet de mogelijkheid te krijgen om het wachtwoord te achterhalen
+  Een derde die toegang weet te krijgen tot het apparaat, mag daarmee niet de mogelijkheid krijgen om het wachtwoord te achterhalen
 </td><td>
   <ul><li>Wachtwoord alleen in het werkgeheugen houden tijdens het aanmeldproces
   </li><li>Aanmeldproces levert een 'token' (toeganssleutel)
