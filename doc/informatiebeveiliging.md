@@ -159,11 +159,14 @@ Hieronder de in eis nummer 3 bedoelde lekenproza
 
 ###ZAPP in gebruik nemen
 Om ZAPP te kunnen gaan gebruiken, heb je het volgende nodig:
+
 - Een tablet of smartphone
 - Een account voor de bij het apparaat behorende App Store
 - Een account (gebruikersnaam en wachtwoord) van ZilliZ, waarvoor de zgn. "extranet" toegang is aangezet
 - Een e-mail account, dat is gekoppeld aan je ZilliZ-account
+
 Ga vervolgens als volgt te werk:
+
 1. Download ZAPP uit de App Store
 2. Open ZAPP en geef een zelf te kiezen PIN-code op. Onthoud je PIN-code, maar houd 'm geheim
 3. Typ de gebruikersnaam en het wachtwoord in van je ZilliZ-account
