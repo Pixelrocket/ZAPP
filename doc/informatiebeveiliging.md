@@ -105,6 +105,7 @@
   </li></ul>
 </td><td>
   <b>Vraag:</b> Hoe doet de HAN dat met die apparaat-identificatie?
+  <b>Mogelijk antwoord:</b> niet zozeer het device, alswel de app-installatie identificeren, door zelf een UUID aan te maken en in een file op het device op te slaan (vercijferd zoals het token; zie eis nr. 15)
 </td></tr>
 
 <tr><td>10</td><td>
