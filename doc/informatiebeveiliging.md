@@ -114,7 +114,9 @@
 </td><td>
   Beheerders of gebruikers zelf krijgen via de ZilliZ-website de mogelijkheid om alle voor hun account actieve tokens te deactiveren
 </td><td>
-  <b>Vraag:</b> Alleen beheerders of ook gebruikers? <br> <b>Vraag:</b> Alle actieve tokens, of per specifiek apparaat?
+  <ul><li><b>Vraag:</b> Alleen beheerders of ook gebruikers?
+  </li><li><b>Vraag:</b> Alle actieve tokens, of per specifiek apparaat?
+  </li></ul>
 </td></tr>
 
 <tr><td>11</td><td>
@@ -133,7 +135,10 @@
 </td><td>
   Via de gebruikersinstellingen-pagina van de ZilliZ-website
 </td><td>
-  <b>Vraag:</b> Zit dit al in de website? <br> <b>Vraag:</b> Zijn er ook al constraints van kracht voor wachtwoordsterkte en geldigheidsduur? <br> <b>Opmerking:</b> Hoewel mogelijk is het niet nodig om dan meteen ook alle tokens van de gebruiker te deactiveren
+  <ul><li><b>Vraag:</b> Zit dit al in de website?
+  </li><li><b>Vraag:</b> Zijn er ook al constraints van kracht voor wachtwoordsterkte en geldigheidsduur?
+  </li><li><b>Opmerking:</b> Hoewel mogelijk is het niet nodig om dan meteen ook alle tokens van de gebruiker te deactiveren
+  </li></ul>
 </td></tr>
 
 <tr><td>13</td><td>
@@ -168,6 +173,9 @@
 </td><td>
 </td><td>
 </td><td>
+  <ul><li><b></b>
+  </li><li><b></b>
+  </li></ul>
 </td></tr>
 -->
 
