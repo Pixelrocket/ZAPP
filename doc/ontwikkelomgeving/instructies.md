@@ -40,3 +40,5 @@ Download en installeer [Sublime Text 2](http://www.sublimetext.com/2)
 Download en installeer de OSX-versie via [Corona Labs](http://www.coronalabs.com/products/corona-sdk/)
 ###Linux
 Download de Windows-versie via [Corona Labs](http://www.coronalabs.com/products/corona-sdk/) en installeer via [Wine](http://www.winehq.org/)
+
+##7. TODO: proof of the pudding
