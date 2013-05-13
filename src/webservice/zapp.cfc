@@ -1,22 +1,22 @@
 <cfcomponent output="false">
 
-	<!--- Variabelen voor de complete component --->
+	<!--- Variables for component --->
 	<cfset this.datasource = "ds_zilliz_test" />
-	<cfset this.passwordsleutel = "Z2OIhfkjsyIJKHH23GfjhfkuIYUW" />
+	<cfset this.passwordkey = "Z2OIhfkjsyIJKHH23GfjhfkuIYUW" />
 
-	<!--- Valideer de inlog van de gebruiker --->
-	<cffunction name="getCredentials" access="remote" returntype="any" output="false" returnformat="json" hint="Valideer de inloggegevens">
+	<!--- Validate user login --->
+	<cffunction name="getCredentials" access="remote" returntype="any" output="false" hint="Validate user login">
 		<cfargument name="username" required="yes" type="string" />
 		<cfargument name="password" required="yes" type="string" />
-		<cfset var passwordEncrypted = Encrypt(arguments.password, this.passwordsleutel) />
+		<cfset var passwordEncrypted = Encrypt(arguments.password, this.passwordkey) />
 		<cfquery name="qrySelect" datasource="#this.datasource#" cachedwithin="#CreateTimeSpan(0,0,0,0)#">
 			SELECT				cue_id AS accountid
-								, cue_first_name AS voornaam
-								, cue_infix AS tussenvoegsel
-								, cue_last_name AS achternaam
-								, cue_email_address AS emailadres
+								, cue_first_name AS firstname
+								, cue_infix AS infix
+								, cue_last_name AS lastname
+								, cue_email_address AS emailaddress
 								, aus_id AS userid
-								, COUNT(cuc_id) AS aantalclienten
+								, COUNT(cuc_id) AS noofclients
 			FROM				aut_user
 									LEFT OUTER JOIN ctr_crowner
 										ON aut_user.aus_ccr_id = ctr_crowner.ccr_id
@@ -41,7 +41,7 @@
 								, aus_id
 		</cfquery>
 		<cfif qrySelect.recordcount NEQ 1 OR qrySelect.cue_id EQ "" OR qrySelect.aantal_clienten EQ 0>
-			<cfset var returnVariable = ["toegang geweigerd"] />
+			<cfset var returnVariable = ["access denied"] />
 		<cfelse>
 			<cfset var returnVariable = qrySelect />
 		</cfif>
