@@ -1,5 +1,21 @@
 #Informatiebeveiliging
 
+##Initieel
+Hoewel de combinatie "snel en eenvoudig" en "niet in het geding komen van de vertrouwelijkheid" niet direct doet denken aan een oplossing waarbij de gebruiker elke keer z'n gebruikersnaam en wachtwoord opgeeft, is dat uit pragmatische overwegingen toch de insteek waar we in eerste instantie mee aan de slag gaan. Ook al omdat de klant zelf aangeeft daar het meeste gevoel bij te hebben. Bovendien werkt de website op dit moment ook op die manier.
+Een overgang naar een oplossing die veiliger is en tegelijk ook gemakkelijker voor de gebruiker, bewaren we dan voor een volgende fase. Zo'n oplossing staat hieronder al uitgewerkt, maar die gebruiken we vooralsnog dus nog niet.
+Wat we initieel wel doen is:
+
+- Alle gegevensverkeer tussen ZAPP en de ZilliZ-server wordt vercijferd (met HTTPS)
+- Gebruiker opent ZAPP
+- Gebruiker geeft gebruikersnaam en wachtwoord in en ZAPP stuurt die naar de server
+- Server geeft sessietoken terug
+- ZAPP stuurt bij alle serververzoeken het sessietoken mee
+- Token verloopt na een bepaalde periode van inactiviteit
+- Bij afsluiten van ZAPP wordt het sessietoken gewist (dat wil zeggen: token wordt alleen in werkgeheugen bewaard en niet op schijf weggeschreven)
+- Bij weer openen van ZAPP (of na de periode van inactiviteit) moet de gebruiker opnieuw inloggen
+
+___
+
 ##Eisen
 
 <table><thead><tr>
