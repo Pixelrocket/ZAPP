@@ -10,13 +10,13 @@
 		<cfargument name="password" required="yes" type="string" />
 		<cfset var passwordEncrypted = Encrypt(arguments.password, this.passwordsleutel) />
 		<cfquery name="qrySelect" datasource="#this.datasource#" cachedwithin="#CreateTimeSpan(0,0,0,0)#">
-			SELECT				cue_id
-								, cue_first_name
-								, cue_infix
-								, cue_last_name
-								, cue_email_address
-								, aus_id
-								, COUNT(cuc_id) AS aantal_clienten
+			SELECT				cue_id AS accountid
+								, cue_first_name AS voornaam
+								, cue_infix AS tussenvoegsel
+								, cue_last_name AS achternaam
+								, cue_email_address AS emailadres
+								, aus_id AS userid
+								, COUNT(cuc_id) AS aantalclienten
 			FROM				aut_user
 									LEFT OUTER JOIN ctr_crowner
 										ON aut_user.aus_ccr_id = ctr_crowner.ccr_id
