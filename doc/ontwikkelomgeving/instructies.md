@@ -30,7 +30,7 @@ Download en installeer [Sublime Text 2](http://www.sublimetext.com/2)
 
 ###OSX
 3. Open Sublime, kies File | Open... en kies je thuismap (Shift+Cmd+H)
-4. In de sidebar, klap open: `Library/Application Support/Sublime Text 2/Packages/Lua`
+4. In de sidebar, klap open: `~/Library/Application Support/Sublime Text 2/Packages/Lua`
 5. Ctrl+Klik op de eerste file in die `Lua` directory en kies `Reveal in Finder`
 6. Bewaar wat daar staat als backup in een nieuw mapje
 7. Kopieer de gedownloade bestanden
