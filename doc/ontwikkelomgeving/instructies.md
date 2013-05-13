@@ -22,7 +22,7 @@ Download en installeer [Sublime Text 2](http://www.sublimetext.com/2)
 2. `./configure`
 3. `make`
 4. `sudo make install`
-5. Kopieer `luarocks-config.lua` naar `~/.luarocks/config.lua`
+5. Kopieer [`luarocks-config.lua`](https://github.com/Pixelrocket/ZAPP/blob/master/doc/ontwikkelomgeving/luarocks-config.lua) naar `~/.luarocks/config.lua`
 
 ##5. Sublime Lua Dev
 1. Ga naar de repository op [github](https://github.com/rorydriscoll/LuaSublime)
