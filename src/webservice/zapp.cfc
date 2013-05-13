@@ -64,9 +64,56 @@
 												ON ccc_client.ccl_rco_id = rel_contact.rco_id
 			WHERE				cuc_cue_id = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.accountid#" />
 								AND ccl_active = 1
-
 		</cfquery>
-		<cfreturn serializejson(qrySelect) />
+		<cfscript>
+			var queryConvertedToArray = [];
+		    for( var i=1; i LTE qrySelect.recordcount; i++ )
+		    {
+		        queryConvertedToArray[i] = {};
+		        queryConvertedToArray[i]["clientid"] = qrySelect.clientid[i];
+		        queryConvertedToArray[i]["clientnameinformal"] = qrySelect.clientnameinformal[i];
+		        queryConvertedToArray[i]["clientnameformal"] = qrySelect.clientnameformal[i];
+		        queryConvertedToArray[i]["photo"] = qrySelect.photo[i];
+		        queryConvertedToArray[i]["gender"] = qrySelect.gender[i];
+		    }
+	    </cfscript>
+	    <cfreturn serializejson(queryConvertedToArray) />
+	</cffunction>
+
+	<!--- Get daily reports from clients --->
+	<cffunction name="getDailyReports" access="remote" returntype="any" output="false" hint="Get daily reports from clients">
+		<cfargument name="clientid" required="yes" type="string" />
+		<cfquery name="qrySelect" datasource="#this.datasource#" cachedwithin="#CreateTimeSpan(0,0,0,0)#">
+			SELECT				cdo_id AS dossierid
+								, cem_first_name AS employeefirstname
+								, cem_infix AS employeeinfix
+								, cem_last_name AS employeelastname
+								, cue_first_name AS userfirstname
+								, cue_infix AS userinfix
+								, cue_last_name AS userlastname
+								, mma_id AS dossiermapid
+								, mma_map AS dossiermap
+								, cdo_date
+								, cdo_subject
+								, cdo_dossier
+								, cdo_intranet
+								, cdo_date_added
+			FROM				ccc_dossier
+									LEFT OUTER JOIN aut_user
+										ON ccc_dossier.cdo_aus_id = aut_user.aus_id
+											LEFT OUTER JOIN cmp_user_extranet
+												ON aut_user.aus_cue_id = cmp_user_extranet.cue_id
+											LEFT OUTER JOIN cmp_employee
+												ON aut_user.aus_cem_id = cmp_employee.cem_id
+											LEFT OUTER JOIN rel_contact
+												ON aut_user.aus_rco_id = rel_contact.rco_id
+									LEFT OUTER JOIN map_map
+										ON ccc_dossier.cdo_mma_id = map_map.mma_id
+			WHERE				cdo_ccl_id = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.clientid#" />
+								AND mma_extranet = 1
+			ORDER BY			cdo_date_added DESC
+		</cfquery>
+		<cfreturn serializejson(qrySelect,true) />
 	</cffunction>
 
 </cfcomponent>
