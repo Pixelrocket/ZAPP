@@ -48,4 +48,25 @@
 		<cfreturn serializejson(returnVariable) />
 	</cffunction>
 
+	<!--- Get clients from account --->
+	<cffunction name="getClients" access="remote" returntype="any" output="false" hint="Get clients from account">
+		<cfargument name="accountid" required="yes" type="string" />
+		<cfquery name="qrySelect" datasource="#this.datasource#" cachedwithin="#CreateTimeSpan(0,0,0,0)#">
+			SELECT				ccl_id AS clientid
+								, ccl_aanspreektitel AS clientnameinformal
+								, rco_relatie_opgemaakt AS clientnameformal
+								, rco_photo AS photo
+								, rco_gender AS gender
+			FROM				cmp_user_extranet_clients
+									LEFT OUTER JOIN ccc_client
+										ON cmp_user_extranet_clients.cuc_ccl_id = ccc_client.ccl_id
+											LEFT OUTER JOIN rel_contact
+												ON ccc_client.ccl_rco_id = rel_contact.rco_id
+			WHERE				cuc_cue_id = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.accountid#" />
+								AND ccl_active = 1
+
+		</cfquery>
+		<cfreturn serializejson(qrySelect) />
+	</cffunction>
+
 </cfcomponent>
