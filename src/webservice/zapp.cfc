@@ -40,7 +40,7 @@
 								, cue_email_address
 								, aus_id
 		</cfquery>
-		<cfif qrySelect.recordcount NEQ 1 OR qrySelect.cue_id EQ "" OR qrySelect.aantal_clienten EQ 0>
+		<cfif qrySelect.recordcount NEQ 1 OR qrySelect.accountid EQ "" OR qrySelect.noofclients EQ 0>
 			<cfset var returnVariable = ["access denied"] />
 		<cfelse>
 			<cfset var returnVariable = qrySelect />
