@@ -1,4 +1,4 @@
-local widget = require ("widget")
+local widget = require("widget")
 
 local menugroup = display.newGroup()
 local contentgroup = display.newGroup()
@@ -16,7 +16,7 @@ local contenttable = widget.newTableView({
     local rowtext = display.newText(row, "table row " .. row.index, 0, 0, native.systemFont, 20)
     rowtext.x = 10 + row.x - row.contentWidth / 2 + rowtext.contentWidth / 2
     rowtext.y = row.contentHeight / 2
-    rowtext:setTextColor( 0, 0, 0 )
+    rowtext:setTextColor(0, 0, 0)
     print(row, row.index)
 end
 })
