@@ -38,7 +38,11 @@ function tableview:switchposition()
 end
 
 -- FIXME; can break on any new widget version,
--- but for now probably a better solution than keeping a fork of the widget library
+-- but for now probably a better solution than keeping a fork of the widget library.
+-- The problem is that the TableView widget uses up all touch hook points for its
+-- implementation of table scrolling and row selecting & swiping, and doesn't
+-- provide any possibility for touch extension through its API.
+-- The tableview[2] part is the dirty hack here.
 local view = tableview[2]
 local widgettouch = view.touch
 function view:touch (event)
