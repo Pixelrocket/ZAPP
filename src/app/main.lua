@@ -13,6 +13,15 @@ menu:add("client1", "Jan")
 menu:add("client2", "Piet")
 menu:add("client3", "Klaas")
 
+titlebar.menu.text = "<"
+function titlebar.menu:touch (event)
+  if "began" == event.phase then
+    content.tableview:switchposition()
+  end
+  return true
+end
+titlebar.menu:addEventListener("touch", titlebar.menu)
+
 titlebar.caption.text = "Jan"
 
 content:add("report2", "27 mei: De eerste aardbeien geplukt!")
