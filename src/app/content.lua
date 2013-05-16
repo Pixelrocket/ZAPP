@@ -14,7 +14,7 @@ local slide = {
 }
 
 local tableview = widget.newTableView({
-  left = slide.left,
+  left = slide[slide.position],
   width = display.contentWidth,
   height = display.contentHeight,
   onRowRender = rowcaption(content)
