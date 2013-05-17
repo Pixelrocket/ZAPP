@@ -16,17 +16,14 @@ content:on("slide", function (position)
   if "right" == position then titlebar:deactivate() end
 end)
 
--- TODO login GUI & webservice call
+-- TODO login GUI & webservice request
 menu:add("username", "Alex Verschuur")
 menu:add("zorgboerderij", "Boer Harms")
 menu:add("logout", "Uitloggen")
 
--- TODO save selectedclient on exit
-local selectedclient = nil
-
 local listclients
 network.request("https://www.greenhillhost.nl/ws_zapp/getClients/", "GET", function (event)
-  -- TODO GUI instead of print() for the cases where we don't get any clients
+  -- TODO GUI instead of print() for error cases
   if event.isError then
     print("network error")
   elseif event.status ~= 200 then
@@ -41,6 +38,10 @@ network.request("https://www.greenhillhost.nl/ws_zapp/getClients/", "GET", funct
   end
 end)
 
+-- TODO save selectedclient on exit
+local selectedclient = nil
+
+local setclient
 listclients = function (clients)
   -- TODO GUI instead of print() for the cases where we don't get any clients
   if #clients < 1 then return print("no clients!") end
@@ -50,12 +51,19 @@ listclients = function (clients)
     if name == selectedclient then known = true end
     menu:add("client" .. i, name)
   end
-  if not known then selectedclient = clients[1].clientnameinformal end
-  titlebar:activate(selectedclient)
-  content:add("report2", "27 mei: De eerste aardbeien geplukt!")
-  content:add("report1", "26 mei: " .. selectedclient .. " heeft vandaag alle kazen gedraaid")
+  if known then setclient(selectedclient)
+  else setclient(clients[1].clientnameinformal) end
 end
 
-
+setclient = function (name)
+  selectedclient = name
+  titlebar:activate(name)
+  -- TODO client's daily reports webservice request
+  content:add("report2", "27 mei: De eerste aardbeien geplukt!")
+  content:add("report1", "26 mei: " .. name .. " heeft álle kazen gedraaid")
+  for i=1,50 do
+    content:add(i)
+  end
+end
 
 
