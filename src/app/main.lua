@@ -16,13 +16,15 @@ content:on("slide", function (position)
   if "right" == position then titlebar:deactivate() end
 end)
 
-
+-- TODO login GUI & webservice call
 menu:add("username", "Alex Verschuur")
 menu:add("zorgboerderij", "Boer Harms")
 menu:add("logout", "Uitloggen")
 
+-- TODO save selectedclient on exit
 local selectedclient = nil
 
+local listclients
 network.request("https://www.greenhillhost.nl/ws_zapp/getClients/", "GET", function (event)
   -- TODO GUI instead of print() for the cases where we don't get any clients
   if event.isError then
@@ -35,19 +37,24 @@ network.request("https://www.greenhillhost.nl/ws_zapp/getClients/", "GET", funct
   else
     -- TODO pcall
     local clients = json.decode(event.response)
-    if #clients < 1 then return print("no clients!") end
-    local known = false
-    for i,client in ipairs(clients) do
-      local name = client.clientnameinformal
-      if name == selectedclient then known = true end
-      menu:add("client" .. i, name)
-    end
-    if not known then selectedclient = clients[1].clientnameinformal end
-    titlebar:activate(selectedclient)
-    content:add("report2", "27 mei: De eerste aardbeien geplukt!")
-    content:add("report1", "26 mei: " .. selectedclient .. " heeft vandaag alle kazen gedraaid")
+    listclients(clients)
   end
 end)
+
+listclients = function (clients)
+  -- TODO GUI instead of print() for the cases where we don't get any clients
+  if #clients < 1 then return print("no clients!") end
+  local known = false
+  for i,client in ipairs(clients) do
+    local name = client.clientnameinformal
+    if name == selectedclient then known = true end
+    menu:add("client" .. i, name)
+  end
+  if not known then selectedclient = clients[1].clientnameinformal end
+  titlebar:activate(selectedclient)
+  content:add("report2", "27 mei: De eerste aardbeien geplukt!")
+  content:add("report1", "26 mei: " .. selectedclient .. " heeft vandaag alle kazen gedraaid")
+end
 
 
 
