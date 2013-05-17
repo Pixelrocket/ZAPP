@@ -1,9 +1,23 @@
 local widget = require("widget")
 local rowcaption = require("rowcaption")
 
+local on = {
+  slide = nil
+}
+
+local function emit (event, ...)
+  if "function" == type(on[event]) then
+    on[event](...)
+  end
+end
+
 local content = {
   textcolor = {r = 0, g = 0, b = 0}
 }
+
+function content:on(event, listener)
+  on[event] = listener
+end
 
 local slide = {
   left = 0,
@@ -19,22 +33,12 @@ local tableview = widget.newTableView({
   height = display.contentHeight,
   onRowRender = rowcaption(content)
 })
-content.tableview = tableview
 
-function tableview:position(leftorright)
-  if self.x == slide[leftorright] then return end
+function content:slide(leftorright)
+  if tableview.x == slide[leftorright] then return end
   slide.position = leftorright
-  self.x = slide[leftorright]
-end
-
-function tableview:restoreposition()
-  self:position(slide.position)
-end
-
-function tableview:switchposition()
-  local leftorright = "left"
-  if slide.position == "left" then leftorright = "right" end
-  self:position(leftorright)
+  tableview.x = slide[leftorright]
+  emit("slide", leftorright)
 end
 
 -- FIXME; can break on any new widget version,
@@ -58,9 +62,9 @@ function view:touch (event)
       end
     elseif "ended" == event.phase or "canceled" == event.phase then
       if distance > slide.swipethreshold then
-        tableview:switchposition()
+        content:slide(direction)
       else
-        tableview:restoreposition()
+        content:slide(slide.position)
       end
     end
 
@@ -71,9 +75,14 @@ function view:touch (event)
   return true
 end
 
+
+function content:setTop(y)
+  tableview.y = y
+end
+
 function content:add (id, text)
   self[id] = text
-  self.tableview:insertRow({
+  tableview:insertRow({
     id = id
   })
 end

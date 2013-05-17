@@ -10,7 +10,7 @@ local menu = {
   }
 }
 
-menu.tableview = widget.newTableView({
+local tableview = widget.newTableView({
   width = display.contentWidth * 2 / 3,
   height = display.contentHeight,
   backgroundColor = {0, 133, 161, 180},
@@ -18,9 +18,13 @@ menu.tableview = widget.newTableView({
   onRowRender = rowcaption(menu)
 })
 
+function menu:setTop(y)
+  tableview.y = y
+end
+
 function menu:add (id, text)
   self[id] = text
-  self.tableview:insertRow({
+  tableview:insertRow({
     id = id,
     lineColor = self.linecolor,
     rowColor = self.rowcolor

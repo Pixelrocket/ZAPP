@@ -1,23 +1,90 @@
-local titlebar = display.newRect(0, 0, display.contentWidth, 0)
-titlebar:setFillColor(0, 133, 161)
-
-titlebar.menu = display.newText("", 8, 0, native.systemFont, 16)
-titlebar.menu:setTextColor(255, 255, 255)
-
-local logo = display.newImage("favicon.ico", 0, display.topStatusBarContentHeight + 10)
-
-titlebar.caption = display.newText("", 0, 0, native.systemFont, 20)
-titlebar.caption:setTextColor(255, 255, 255)
-
-titlebar.height = 10 + logo.contentHeight + 10
-titlebar.y = logo.y
-titlebar.menu.y = logo.y
-titlebar.caption.y = logo.y
-logo.x = titlebar.menu.x + titlebar.menu.contentWidth + 10
-titlebar.caption.x = logo.x + logo.contentWidth + 20
-
 -- prevent scrolled content from shining through device's status bar
 local statusbarshield = display.newRect(0, 0, display.contentWidth, display.topStatusBarContentHeight)
 statusbarshield:setFillColor(0, 0, 0)
+
+local on = {
+  menu = nil
+}
+
+local function emit (event, ...)
+  if "function" == type(on[event]) then
+    on[event](...)
+  end
+end
+
+local titlebar = display.newRect(0, 0, display.contentWidth, 0)
+titlebar:setFillColor(0, 133, 161)
+
+function titlebar:on (event, listener)
+  on[event] = listener
+end
+
+local caption = display.newText("", 0, 0, native.systemFont, 20)
+caption:setTextColor(255, 255, 255)
+caption.isVisible = false
+
+local menu = display.newRect(0, 0, 0, 0)
+local function highlight (bool)
+  local r, g, b = 0, 133, 161
+  if bool then r, g, b = 27, 161, 226 end
+  menu:setFillColor(r, g, b)
+  menu.highlight = bool
+end
+highlight(false)
+
+local back = display.newText("<", 0, 0, native.systemFont, 16)
+back:setTextColor(255, 255, 255)
+back.isVisible = false
+
+local logo = display.newImage("favicon.ico", 0, display.topStatusBarContentHeight + 10)
+
+local active = false
+
+function menu:touch (event)
+  if not active then return true end
+  if "began" == event.phase then
+    highlight(true)
+  elseif "ended" == event.phase then
+    if menu.highlight then
+      emit("menu")
+    end
+    highlight(false)
+  elseif "moved" == event.phase or "canceled" == event.phase then
+    highlight(false)
+  end
+  return true
+end
+menu:addEventListener("touch", menu)
+
+local function setactive (bool)
+  active = bool
+  back.isVisible = bool
+  caption.isVisible = bool
+end
+
+function titlebar:activate (text)
+  if text and "string" == type(text) then
+    caption.text = text
+    caption.x = 0 + caption.contentWidth / 2 + menu.width
+  end
+  setactive(true)
+end
+
+function titlebar:deactivate ()
+  setactive(false)
+end
+
+
+titlebar.height = 8 + logo.contentHeight + 8
+menu.height = titlebar.height
+titlebar.y = logo.y
+menu.y = logo.y
+back.y = logo.y
+caption.y = logo.y
+back.x = 3 + back.contentWidth / 2
+logo.x = 0 + logo.contentWidth / 2 + back.x + back.contentWidth / 2
+menu.width = 5 + logo.x + logo.contentWidth / 2
+menu.x = menu.contentWidth / 2
+
 
 return titlebar
