@@ -1,23 +1,10 @@
 local widget = require("widget")
+local EventEmitter = require("EventEmitter")
 local rowcaption = require("rowcaption")
 
-local on = {
-  slide = nil
-}
-
-local function emit (event, ...)
-  if "function" == type(on[event]) then
-    on[event](...)
-  end
-end
-
-local content = {
+local content = EventEmitter:new({
   textcolor = {r = 0, g = 0, b = 0}
-}
-
-function content:on(event, listener)
-  on[event] = listener
-end
+})
 
 local slide = {
   left = 0,
@@ -38,7 +25,7 @@ function content:slide(leftorright)
   if tableview.x == slide[leftorright] then return end
   slide.position = leftorright
   tableview.x = slide[leftorright]
-  emit("slide", leftorright)
+  self:emit("slide", leftorright)
 end
 
 -- FIXME; can break on any new widget version,

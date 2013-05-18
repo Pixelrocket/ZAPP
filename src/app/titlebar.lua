@@ -1,23 +1,13 @@
+local EventEmitter = require("EventEmitter")
+
 -- prevent scrolled content from shining through device's status bar
 local statusbarshield = display.newRect(0, 0, display.contentWidth, display.topStatusBarContentHeight)
 statusbarshield:setFillColor(0, 0, 0)
 
-local on = {
-  menu = nil
-}
-
-local function emit (event, ...)
-  if "function" == type(on[event]) then
-    on[event](...)
-  end
-end
-
-local titlebar = display.newRect(0, 0, display.contentWidth, 0)
+local titlebar = EventEmitter:new(
+  display.newRect(0, 0, display.contentWidth, 0)
+)
 titlebar:setFillColor(0, 133, 161)
-
-function titlebar:on (event, listener)
-  on[event] = listener
-end
 
 local caption = display.newText("", 0, 0, native.systemFont, 20)
 caption:setTextColor(255, 255, 255)
@@ -46,7 +36,7 @@ function menu:touch (event)
     highlight(true)
   elseif "ended" == event.phase then
     if menu.highlight then
-      emit("menu")
+      titlebar:emit("menu")
     end
     highlight(false)
   elseif "moved" == event.phase or "canceled" == event.phase then
