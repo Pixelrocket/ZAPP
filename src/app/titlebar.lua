@@ -64,6 +64,10 @@ function titlebar:deactivate ()
   setactive(false)
 end
 
+function titlebar:getBottom()
+  return self.y + self.contentHeight / 2
+end
+
 
 titlebar.height = 8 + logo.contentHeight + 8
 menu.height = titlebar.height

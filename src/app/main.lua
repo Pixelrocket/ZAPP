@@ -3,7 +3,7 @@ local menu = require("menu")
 local content = require("content")
 local titlebar = require("titlebar")
 
-local top = titlebar.y + titlebar.contentHeight / 2
+local top = titlebar:getBottom()
 menu:setTop(top)
 content:setTop(top)
 
