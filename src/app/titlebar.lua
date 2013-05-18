@@ -26,7 +26,7 @@ local back = display.newText("<", 0, 0, native.systemFont, 16)
 back:setTextColor(255, 255, 255)
 back.isVisible = false
 
-local logo = display.newImage("favicon.ico", 0, display.topStatusBarContentHeight + 10)
+local logo = display.newImage("favicon.ico", 0, 0)
 
 local active = false
 
@@ -68,13 +68,13 @@ function titlebar:getBottom()
   return self.y + self.contentHeight / 2
 end
 
-
 titlebar.height = 8 + logo.contentHeight + 8
 menu.height = titlebar.height
-titlebar.y = logo.y
-menu.y = logo.y
-back.y = logo.y
-caption.y = logo.y
+titlebar.y = display.topStatusBarContentHeight + titlebar.contentHeight / 2
+logo.y = titlebar.y
+menu.y = titlebar.y
+back.y = titlebar.y
+caption.y = titlebar.y
 back.x = 3 + back.contentWidth / 2
 logo.x = 0 + logo.contentWidth / 2 + back.x + back.contentWidth / 2
 menu.width = 5 + logo.x + logo.contentWidth / 2
