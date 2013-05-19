@@ -1,0 +1,17 @@
+settings = {
+  
+  orientation = {
+    default = "portrait",
+    supported = { "portrait", }
+  },
+
+  android = {
+    versionCode = 10,
+    usesPermissions = {
+      "android.permission.INTERNET",
+    },
+    usesFeatures = {
+    },
+  }
+
+}
