@@ -1,5 +1,7 @@
 local EventEmitter = require("EventEmitter")
 
+display.setStatusBar(display.DarkStatusBar)
+
 -- prevent scrolled content from shining through device's status bar
 local statusbarshield = display.newRect(0, 0, display.contentWidth, display.topStatusBarContentHeight)
 statusbarshield:setFillColor(0, 0, 0)
