@@ -68,7 +68,7 @@ function titlebar:getBottom()
   return self.y + self.contentHeight / 2
 end
 
-titlebar.height = 8 + logo.contentHeight + 8
+titlebar.height = 50
 menu.height = titlebar.height
 titlebar.y = display.topStatusBarContentHeight + titlebar.contentHeight / 2
 logo.y = titlebar.y
