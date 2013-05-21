@@ -38,14 +38,18 @@ local view = tableview[2]
 local widgettouch = view.touch
 function view:touch (event)
 
+  local sliding = false
   local direction = "left"
   if event.x > event.xStart then direction = "right" end
   if direction ~= slide.position then
 
     local distance = math.abs(event.x - event.xStart)
     if "moved" == event.phase then
-      if distance > slide.startthreshold then
+      if distance > slide.startthreshold
+        and tableview.x >= slide.left
+        and tableview.x <= slide.right then
         tableview.x = tableview.x + (event.x - slide.prevx)
+        sliding = true
       end
     elseif "ended" == event.phase or "canceled" == event.phase then
       if distance > slide.swipethreshold then
@@ -58,7 +62,9 @@ function view:touch (event)
   end
   slide.prevx = event.x
 
-  widgettouch(view, event)
+  if not sliding then
+    widgettouch(view, event)
+  end
   return true
 end
 
