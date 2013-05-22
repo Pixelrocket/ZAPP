@@ -8,7 +8,7 @@ local content = EventEmitter:new({
 
 local slide = {
   left = 0,
-  right = display.contentWidth * 2 / 3,
+  right = display.contentWidth - 75,
   position = "left",
   startthreshold = 5,
   swipethreshold = 75

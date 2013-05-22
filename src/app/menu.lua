@@ -11,7 +11,7 @@ local menu = {
 }
 
 local tableview = widget.newTableView({
-  width = display.contentWidth * 2 / 3,
+  width = display.contentWidth - 75,
   height = display.contentHeight,
   backgroundColor = {0, 133, 161, 180},
   noLines = true,
