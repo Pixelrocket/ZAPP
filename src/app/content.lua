@@ -62,8 +62,12 @@ function view:touch (event)
   end
   slide.prevx = event.x
 
-  if slide.position == "left"
-  and not sliding then
+  if slide.position == "right" then
+    if event.xStart >= slide.right
+    and "ended" == event.phase then
+      content:slide("left")
+    end
+  elseif not sliding then
     widgettouch(view, event)
   end
   return true
