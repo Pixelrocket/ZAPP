@@ -31,6 +31,12 @@ up.isVisible = false
 local logo = display.newImage("favicon.ico", 0, 0)
 logo.width = logo.width * 3
 
+local hr = {}
+hr.background = display.newRect(0, 0, display.contentWidth, 2)
+hr.background:setFillColor(0, 0, 0, 255)
+hr.foreground = display.newRect(0, 0, display.contentWidth, 2)
+hr.foreground:setFillColor(0, 133, 161, 100)
+
 local active = false
 
 function menu:touch (event)
@@ -82,6 +88,8 @@ up.x = 5 + up.contentWidth / 2
 logo.x = 5 + logo.contentWidth / 2 + up.x + up.contentWidth / 2
 menu.width = 5 + logo.x + logo.contentWidth / 2
 menu.x = menu.contentWidth / 2
+hr.background.y = titlebar:getBottom()
+hr.foreground.y = hr.background.y
 
 
 return titlebar
