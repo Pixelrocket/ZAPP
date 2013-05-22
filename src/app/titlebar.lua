@@ -35,7 +35,7 @@ local hr = {}
 hr.background = display.newRect(0, 0, display.contentWidth, 2)
 hr.background:setFillColor(0, 0, 0, 255)
 hr.foreground = display.newRect(0, 0, display.contentWidth, 2)
-hr.foreground:setFillColor(0, 133, 161, 100)
+hr.foreground:setFillColor(0, 133, 161, 140)
 
 local active = false
 
