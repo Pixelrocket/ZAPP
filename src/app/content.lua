@@ -46,8 +46,8 @@ function view:touch (event)
     local distance = math.abs(event.x - event.xStart)
     if "moved" == event.phase then
       if distance > slide.startthreshold
-        and tableview.x >= slide.left
-        and tableview.x <= slide.right then
+      and tableview.x >= slide.left
+      and tableview.x <= slide.right then
         tableview.x = tableview.x + (event.x - slide.prevx)
         sliding = true
       end
@@ -62,7 +62,8 @@ function view:touch (event)
   end
   slide.prevx = event.x
 
-  if not sliding then
+  if slide.position == "left"
+  and not sliding then
     widgettouch(view, event)
   end
   return true
