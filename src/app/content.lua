@@ -10,7 +10,7 @@ local slide = {
   left = 0,
   right = display.contentWidth - 75,
   position = "left",
-  startthreshold = 5,
+  startthreshold = 10,
   swipethreshold = 75
 }
 
