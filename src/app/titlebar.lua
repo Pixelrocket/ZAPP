@@ -49,8 +49,16 @@ function menu:touch (event)
       titlebar:emit("menu")
     end
     highlight(false)
-  elseif "moved" == event.phase or "canceled" == event.phase then
+  elseif "canceled" == event.phase then
     highlight(false)
+  elseif "moved" == event.phase then
+    local distance = math.max(
+      math.abs(event.x - event.xStart),
+      math.abs(event.y - event.yStart)
+    )
+    if distance > 10 then
+      highlight(false)
+    end
   end
   return true
 end
