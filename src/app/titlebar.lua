@@ -6,6 +6,7 @@ display.setStatusBar(display.DarkStatusBar)
 local statusbarshield = display.newRect(0, 0, display.contentWidth, display.topStatusBarContentHeight)
 statusbarshield:setFillColor(0, 0, 0)
 
+
 local titlebar = EventEmitter:new(
   display.newRect(0, 0, display.contentWidth, 0)
 )
@@ -14,6 +15,7 @@ titlebar:setFillColor(0, 133, 161)
 local caption = display.newText("", 0, 0, native.systemFont, 20)
 caption:setTextColor(255, 255, 255)
 caption.isVisible = false
+
 
 local menu = display.newRect(0, 0, 0, 0)
 local function highlight (bool)
@@ -64,6 +66,7 @@ function menu:touch (event)
 end
 menu:addEventListener("touch", menu)
 
+
 local function setactive (bool)
   active = bool
   up.isVisible = bool
@@ -85,6 +88,7 @@ end
 function titlebar:getBottom()
   return self.y + self.contentHeight / 2
 end
+
 
 titlebar.height = 50
 menu.height = titlebar.height
