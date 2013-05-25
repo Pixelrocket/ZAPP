@@ -90,7 +90,7 @@ function titlebar:getBottom()
 end
 
 
-titlebar.height = 50
+titlebar.height = 48
 menu.height = titlebar.height
 titlebar.y = display.topStatusBarContentHeight + titlebar.contentHeight / 2
 logo.y = titlebar.y
@@ -101,7 +101,7 @@ up.x = 5 + up.contentWidth / 2
 logo.x = 3 + logo.contentWidth / 2 + up.x + up.contentWidth / 2
 menu.width = 5 + logo.x + logo.contentWidth / 2
 menu.x = menu.contentWidth / 2
-hr.background.y = titlebar:getBottom()
+hr.background.y = titlebar:getBottom() - 1
 hr.foreground.y = hr.background.y
 
 
