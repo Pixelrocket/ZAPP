@@ -24,8 +24,13 @@ local tableview = widget.newTableView({
 function content:slide(leftorright)
   if tableview.x == slide[leftorright] then return end
   slide.position = leftorright
-  tableview.x = slide[leftorright]
-  self:emit("slide", leftorright)
+  transition.to(tableview, {
+    time = 250,
+    x = slide[leftorright],
+    onComplete = function ()
+      self:emit("slide", leftorright)
+    end
+  })
 end
 
 -- FIXME; can break on any new widget version,
