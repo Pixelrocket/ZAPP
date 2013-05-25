@@ -51,50 +51,50 @@ function view:touch (event)
   -- * when in right position, sliding to the left will do the nice sliding; any other movement,
   --   including tapping, will snap it back to the left position
 
-  local leftorright = "left"
-  if event.x > event.xStart then leftorright = "right" end
+  local function direction ()
+    if event.x > event.xStart then return "right"
+    else return "left" end
+  end
+
+  local distance = {}
+  function distance._d (a, b) return math.abs(a - b) end
+  function distance:x () return self._d(event.x, event.xStart) end
+  function distance:y () return self._d(event.y, event.yStart) end
 
   if "began" == event.phase then
-    slide.sliding = false
-    slide.scrolling = false
+    slide.sliding, slide.scrolling = false, false
     widgettouch(view, event)
+
   elseif "moved" == event.phase then
-    if not slide.sliding
-    and not slide.scrolling
-    and "left" == slide.position then
-      local ydistance = math.abs(event.y - event.yStart)
-      if ydistance > slide.startthreshold then
-        slide.scrolling = true
-      end
+    if not slide.sliding and not slide.scrolling
+    and "left" == slide.position
+    and distance:y() > slide.startthreshold then
+      slide.scrolling = true
     end
-    if not slide.scrolling
-    and not slide.sliding then
-      local xdistance = math.abs(event.x - event.xStart)
-      if slide.position ~= leftorright
-      and xdistance > slide.startthreshold then
-        slide.sliding = true
-      end
+    if not slide.scrolling and not slide.sliding
+    and direction() ~= slide.position
+    and distance:x() > slide.startthreshold then
+      slide.sliding = true
     end
+
     if slide.scrolling then
       widgettouch(view, event)
     elseif slide.sliding
-    and tableview.x >= slide.left
-    and tableview.x <= slide.right then
+    and tableview.x >= slide.left and tableview.x <= slide.right then
       tableview.x = tableview.x + (event.x - slide.prevx)
     end
+
   elseif "ended" == event.phase or "canceled" == event.phase then
     if slide.sliding then
-      local xdistance = math.abs(event.x - event.xStart)
-      if xdistance > slide.swipethreshold then
-        content:slide(leftorright)
+      if distance:x() > slide.swipethreshold then
+        content:slide(direction())
       else
         content:slide(slide.position)
       end
     elseif "right" == slide.position then
       content:slide("left")
     end
-    slide.sliding = false
-    slide.scrolling = false
+    slide.sliding, slide.scrolling = false, false
     widgettouch(view, event)
   end
 
