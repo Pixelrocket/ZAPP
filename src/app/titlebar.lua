@@ -37,8 +37,10 @@ logo.height = logo.height * 1.5
 local hr = {}
 hr.background = display.newRect(0, 0, display.contentWidth, 2)
 hr.background:setFillColor(0, 0, 0, 255)
-hr.foreground = display.newRect(0, 0, display.contentWidth, 2)
-hr.foreground:setFillColor(0, 133, 161, 140)
+hr[1] = display.newRect(0, 0, display.contentWidth, 1)
+hr[1]:setFillColor(0, 133, 161, 200)
+hr[2] = display.newRect(0, 0, display.contentWidth, 1)
+hr[2]:setFillColor(0, 133, 161, 140)
 
 local active = false
 
@@ -101,8 +103,9 @@ up.x = 5 + up.contentWidth / 2
 logo.x = 3 + logo.contentWidth / 2 + up.x + up.contentWidth / 2
 menu.width = 5 + logo.x + logo.contentWidth / 2
 menu.x = menu.contentWidth / 2
-hr.background.y = titlebar:getBottom() - 1
-hr.foreground.y = hr.background.y
+hr.background.y = titlebar:getBottom() - hr.background.contentHeight / 2
+hr[1].y = hr.background.y - hr[1].contentHeight / 2
+hr[2].y = hr[1].y + hr[1].contentHeight
 
 
 return titlebar
