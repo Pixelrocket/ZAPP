@@ -27,6 +27,7 @@ function content:slide(leftorright)
   slide.position = leftorright
   transition.to(tableview, {
     time = 250,
+    transition = easing.outExpo,
     x = slide[leftorright],
     onComplete = function ()
       self:emit("slide", leftorright)
