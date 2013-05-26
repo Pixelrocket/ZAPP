@@ -16,6 +16,8 @@ content:on("slide", function (position)
   if "right" == position then titlebar:deactivate() end
 end)
 
+local showerror
+
 -- TODO login GUI & webservice request
 menu:add("username", "Alex Verschuur")
 menu:add("zorgboerderij", "Boer Harms")
@@ -23,18 +25,13 @@ menu:add("logout", "Uitloggen")
 
 local listclients
 network.request("https://www.greenhillhost.nl/ws_zapp/getClients/", "GET", function (event)
-  -- TODO GUI instead of print() for error cases
-  if event.isError then
-    print("network error")
-  elseif event.status ~= 200 then
-    print("unexpected status for network event:")
-    for k,v in pairs(event) do
-      print(k,v)
-    end
-  else
+  if not event.isError
+  and event.status == 200 then
     -- TODO pcall
     local clients = json.decode(event.response)
     listclients(clients)
+  else
+    showerror("Het is niet gelukt om een netwerkverbinding te maken")
   end
 end)
 
@@ -64,6 +61,16 @@ setclient = function (name)
   for i=1,50 do
     content:add(i)
   end
+end
+
+showerror = function (message)
+  native.showAlert("ZAPP", message, {"OK"},
+    function (event)
+      if "clicked" == event.action then
+        native.requestExit()
+        print("requestExit")
+      end
+    end)
 end
 
 
