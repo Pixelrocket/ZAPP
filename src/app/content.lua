@@ -1,3 +1,4 @@
+require("luarocks.loader")
 local widget = require("widget")
 local EventEmitter = require("EventEmitter")
 local rowcaption = require("rowcaption")

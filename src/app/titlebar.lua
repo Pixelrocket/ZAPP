@@ -1,3 +1,4 @@
+require("luarocks.loader")
 local EventEmitter = require("EventEmitter")
 
 display.setStatusBar(display.DarkStatusBar)
