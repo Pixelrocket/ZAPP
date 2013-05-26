@@ -1,2 +1,8 @@
 
 src/app/.DS_Store
+
+bin/
+lib/
+share/
+
+*.rock
