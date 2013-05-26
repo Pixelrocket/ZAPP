@@ -32,8 +32,8 @@ up:setTextColor(255, 255, 255)
 up.isVisible = false
 
 local logo = display.newImage("favicon.ico", 0, 0)
-logo.width = logo.width * 3
-logo.height = logo.height * 1.5
+logo.height = 32
+logo.width = 64
 
 local hr = {}
 hr.background = display.newRect(0, 0, display.contentWidth, 2)
