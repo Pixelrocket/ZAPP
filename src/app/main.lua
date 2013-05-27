@@ -24,16 +24,20 @@ menu:add("zorgboerderij", "Boer Harms")
 menu:add("logout", "Uitloggen")
 
 local listclients
-network.request("https://www.greenhillhost.nl/ws_zapp/getClients/", "GET", function (event)
-  if not event.isError
-  and event.status == 200 then
-    -- TODO pcall
-    local clients = json.decode(event.response)
+local function fetchclients ()
+  network.request("https://www.greenhillhost.nl/ws_zapp/getClients/", "GET", function (event)
+    local clients = {}
+    if event.isError
+    or event.status ~= 200 then
+      showerror("Het is niet gelukt om een netwerkverbinding te maken")
+    else
+      -- TODO pcall
+      clients = json.decode(event.response)
+    end
     listclients(clients)
-  else
-    showerror("Het is niet gelukt om een netwerkverbinding te maken")
-  end
-end)
+  end)
+end
+fetchclients()
 
 -- TODO save selectedclient on exit
 local selectedclient = nil
@@ -41,7 +45,11 @@ local selectedclient = nil
 local setclient
 listclients = function (clients)
   -- TODO GUI instead of print() for the cases where we don't get any clients
-  if #clients < 1 then return print("no clients!") end
+  if #clients < 1 then
+    menu:add("fetchclients", "Cliënten...", fetchclients)
+    content:slide("right")
+    return print("no clients!")
+  end
   local known = false
   for i,client in ipairs(clients) do
     local name = client.clientnameinformal
@@ -61,6 +69,7 @@ setclient = function (name)
   for i=1,50 do
     content:add(i)
   end
+  content:slide("left")
 end
 
 showerror = function (message)
