@@ -15,7 +15,6 @@ local tableview = widget.newTableView({
   height = display.contentHeight,
   backgroundColor = {0, 133, 161, 180},
   noLines = true,
-  onRowRender = rowcaption(menu)
   onRowRender = rowcaption(menu),
   onRowTouch = function (event)
     if "release" == event.phase
@@ -29,8 +28,6 @@ function menu:setTop(y)
   tableview.y = y
 end
 
-function menu:add (id, text)
-  self[id] = text
 function menu:add (id, text, action)
   if self[id] then return end
   self[id] = {text = text, action = action}
