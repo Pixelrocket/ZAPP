@@ -4,6 +4,8 @@ local content = require("content")
 local titlebar = require("titlebar")
 local login = require("login")
 
+login()
+
 local top = titlebar:getBottom()
 menu:setTop(top)
 content:setTop(top)
