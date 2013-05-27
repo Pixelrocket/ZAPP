@@ -2,6 +2,7 @@ local json = require("json")
 local menu = require("menu")
 local content = require("content")
 local titlebar = require("titlebar")
+local login = require("login")
 
 local top = titlebar:getBottom()
 menu:setTop(top)
@@ -21,7 +22,7 @@ local showerror
 -- TODO login GUI & webservice request
 menu:add("username", "Alex Verschuur")
 menu:add("zorgboerderij", "Boer Harms")
-menu:add("logout", "Uitloggen")
+menu:add("login", "Uitloggen", login)
 
 local listclients
 local function fetchclients ()
