@@ -110,7 +110,8 @@ function content:setTop(y)
 end
 
 function content:add (id, text)
-  self[id] = text
+  if self[id] then return end
+  self[id] = {text = text}
   tableview:insertRow({
     id = id
   })
