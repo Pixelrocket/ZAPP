@@ -34,7 +34,8 @@ function menu:add (id, text, action)
   tableview:insertRow({
     id = id,
     lineColor = self.linecolor,
-    rowColor = self.rowcolor
+    rowColor = self.rowcolor,
+    rowHeight = 20
   })
 end
 
