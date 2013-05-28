@@ -1,4 +1,5 @@
 local EventEmitter = require("EventEmitter")
+local widget = require("widget")
 
 display.setStatusBar(display.DarkStatusBar)
 
@@ -8,27 +9,23 @@ statusbarshield:setFillColor(0, 0, 0)
 
 
 local titlebar = EventEmitter:new(
-  display.newRect(0, 0, display.contentWidth, 0)
+  display.newRect(0, 0, display.contentWidth, 48)
 )
 titlebar:setFillColor(0, 133, 161)
 
 local caption = display.newText("", 0, 0, native.systemFont, 20)
 caption:setTextColor(255, 255, 255)
-caption.isVisible = false
 
-
-local menu = display.newRect(0, 0, 0, 0)
-local function highlight (bool)
-  local r, g, b = 0, 133, 161
-  if bool then r, g, b = 27, 161, 226 end
-  menu:setFillColor(r, g, b)
-  menu.highlight = bool
-end
-highlight(false)
+local menu = widget.newButton({
+  width = titlebar.width, height = titlebar.height,
+  defaultFile = "default.png", overFile = "over.png",
+  onRelease = function ()
+    titlebar:emit("menu")
+  end
+})
 
 local up = display.newText("<", 0, 0, native.systemFont, 20)
 up:setTextColor(255, 255, 255)
-up.isVisible = false
 
 local logo = display.newImage("favicon.ico", 0, 0)
 logo.height = 32
@@ -42,43 +39,16 @@ hr[1]:setFillColor(0, 133, 161, 200)
 hr[2] = display.newRect(0, 0, display.contentWidth, 1)
 hr[2]:setFillColor(0, 133, 161, 140)
 
-local active = false
-
-function menu:touch (event)
-  if not active then return true end
-  if "began" == event.phase then
-    highlight(true)
-  elseif "ended" == event.phase then
-    if menu.highlight then
-      titlebar:emit("menu")
-    end
-    highlight(false)
-  elseif "canceled" == event.phase then
-    highlight(false)
-  elseif "moved" == event.phase then
-    local distance = math.max(
-      math.abs(event.x - event.xStart),
-      math.abs(event.y - event.yStart)
-    )
-    if distance > 10 then
-      highlight(false)
-    end
-  end
-  return true
-end
-menu:addEventListener("touch", menu)
-
-
 local function setactive (bool)
-  active = bool
   up.isVisible = bool
   caption.isVisible = bool
+  menu:setEnabled(bool)
 end
 
 function titlebar:activate (text)
   if text and "string" == type(text) then
     caption.text = text
-    caption.x = 0 + caption.contentWidth / 2 + menu.width
+    caption.x = 0 + caption.contentWidth / 2 + menu.contentWidth
   end
   setactive(true)
 end
@@ -91,9 +61,6 @@ function titlebar:getBottom()
   return self.y + self.contentHeight / 2
 end
 
-
-titlebar.height = 48
-menu.height = titlebar.height
 titlebar.y = display.topStatusBarContentHeight + titlebar.contentHeight / 2
 logo.y = titlebar.y
 menu.y = titlebar.y
@@ -107,5 +74,6 @@ hr.background.y = titlebar:getBottom() - hr.background.contentHeight / 2
 hr[1].y = hr.background.y - hr[1].contentHeight / 2
 hr[2].y = hr[1].y + hr[1].contentHeight
 
+titlebar:deactivate()
 
 return titlebar
