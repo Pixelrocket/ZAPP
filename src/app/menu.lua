@@ -35,7 +35,7 @@ function menu:add (id, text, action)
     id = id,
     lineColor = self.linecolor,
     rowColor = self.rowcolor,
-    rowHeight = 20
+    rowHeight = 40
   })
 end
 
