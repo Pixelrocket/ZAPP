@@ -143,7 +143,7 @@
 				queryConvertedToArray[i]["cdo_date_added"] = qrySelect.cdo_date_added[i];
 			}
 		</cfscript>
-		<cfreturn serializejson(qrySelect,true) />
+		<cfreturn serializejson(queryConvertedToArray) />
 	</cffunction>
 
 </cfcomponent>
