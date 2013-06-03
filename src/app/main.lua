@@ -47,7 +47,6 @@ local selectedclient = nil
 
 local setclient
 listclients = function (clients)
-  -- TODO GUI instead of print() for the cases where we don't get any clients
   if #clients < 1 then
     menu:add("fetchclients", "Cliënten...", fetchclients)
     content:slide("right")
