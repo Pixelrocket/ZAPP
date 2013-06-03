@@ -59,6 +59,7 @@ listclients = function (clients)
     if name == selectedclient then known = true end
     menu:add("client" .. i, name)
   end
+  menu:remove("fetchclients")
   if known then setclient(selectedclient)
   else setclient(clients[1].clientnameinformal) end
 end

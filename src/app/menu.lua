@@ -39,4 +39,11 @@ function menu:add (id, text, action)
   })
 end
 
+function menu:remove (id)
+  local item = self[id] or {}
+  if item.index then -- don't upset the TableViewWidget with a non-existing row
+    tableview:deleteRow(item.index)
+  end
+end
+
 return menu
