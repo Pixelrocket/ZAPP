@@ -9,6 +9,6 @@
 	<cfloop list="#clients.ColumnList#" index="column">
 		<cfset record[LCase(column)] = clients.getObject(column)>
 	</cfloop>
-	<cfset ArrayAppend(result, record)>
+	<cfset ArrayAppend(result,record)>
 </cfwhile>
-</cfsilent><cfoutput>#SerializeJSON(result)#</cfoutput>
+</cfsilent><cfoutput>#result#</cfoutput>
