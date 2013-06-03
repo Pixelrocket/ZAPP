@@ -4,6 +4,8 @@ local content = require("content")
 local titlebar = require("titlebar")
 local login = require("login")
 
+-- login()
+
 local top = titlebar:getBottom()
 menu:setTop(top)
 content:setTop(top)
@@ -50,27 +52,30 @@ listclients = function (clients)
     content:slide("right")
     return print("no clients!")
   end
-  local known = false
+  local known, name = false, nil
   for i,client in ipairs(clients) do
-    local name = client.clientnameinformal
+    name = client.clientnameinformal
     if name == selectedclient then known = true end
-    menu:add("client" .. i, name)
+    menu:add("client" .. i, name, setclient(name))
   end
   menu:remove("fetchclients")
-  if known then setclient(selectedclient)
-  else setclient(clients[1].clientnameinformal) end
+  if known then name = selectedclient
+  else name = clients[1].clientnameinformal end
+  setclient(name)()
 end
 
 setclient = function (name)
-  selectedclient = name
-  titlebar:activate(name)
-  -- TODO client's daily reports webservice request
-  content:add("report2", "27 mei: De eerste aardbeien geplukt!")
-  content:add("report1", "26 mei: " .. name .. " heeft álle kazen gedraaid")
-  for i=1,50 do
-    content:add(i)
+  return function ()
+    if name ~= selectedclient then
+      selectedclient = name
+      titlebar:activate(name)
+      -- TODO client's daily reports webservice request
+      content:empty()
+      content:add("report2", "27 mei: De eerste aardbeien geplukt!")
+      content:add("report1", "26 mei: " .. name .. " heeft álle kazen gedraaid")
+    end
+    content:slide("left")
   end
-  content:slide("left")
 end
 
 showerror = function (message)

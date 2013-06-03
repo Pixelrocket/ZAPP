@@ -2,9 +2,8 @@ local widget = require("widget")
 local EventEmitter = require("EventEmitter")
 local rowcaption = require("rowcaption")
 
-local content = EventEmitter:new({
-  textcolor = {r = 0, g = 0, b = 0}
-})
+local content = EventEmitter:new()
+local items = {}
 
 local slide = {
   left = 0,
@@ -18,7 +17,7 @@ local tableview = widget.newTableView({
   left = slide[slide.position],
   width = display.contentWidth,
   height = display.contentHeight,
-  onRowRender = rowcaption(content)
+  onRowRender = rowcaption(items, 0, 0, 0)
 })
 
 function content:slide(leftorright)
@@ -108,12 +107,19 @@ function content:setTop(y)
   tableview.y = y
 end
 
-function content:add (id, text)
-  if self[id] then return end
-  self[id] = {text = text}
+function content:add (id, text, action)
+  if items[id] then return end
+  items[id] = {text = text, action = action}
   tableview:insertRow({
     id = id
   })
+end
+
+function content:empty ()
+  tableview:deleteAllRows()
+  for k in pairs(items) do
+    items[k] = nil
+  end
 end
 
 return content

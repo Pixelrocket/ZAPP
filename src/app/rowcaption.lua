@@ -1,4 +1,4 @@
-local function rowcaption (items)
+local function rowcaption (items, r, g, b)
   return function (event)
     local row = event.row
     local item = items[row.id] or {text = nil}
@@ -7,7 +7,7 @@ local function rowcaption (items)
     local rowtext = display.newText(row, text, 0, 0, native.systemFont, 14)
     rowtext.x = 10 + row.x - row.contentWidth / 2 + rowtext.contentWidth / 2
     rowtext.y = row.contentHeight / 2
-    rowtext:setTextColor(items.textcolor.r, items.textcolor.g, items.textcolor.b)
+    rowtext:setTextColor(r, g, b)
   end
 end
 
