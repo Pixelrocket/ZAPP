@@ -5,8 +5,11 @@ local titlebar = require("titlebar")
 local login = require("login")
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 --login()
 
+=======
+>>>>>>> 6fa091b1f6a2cb0f7e2539a5e7099ead193eb8d9
 =======
 >>>>>>> 6fa091b1f6a2cb0f7e2539a5e7099ead193eb8d9
 local top = titlebar:getBottom()
