@@ -35,8 +35,15 @@ function menu:add (id, text, action)
     id = id,
     lineColor = self.linecolor,
     rowColor = self.rowcolor,
-    rowHeight = 20
+    rowHeight = 40
   })
+end
+
+function menu:remove (id)
+  local item = self[id] or {}
+  if item.index then -- don't upset the TableViewWidget with a non-existing row
+    tableview:deleteRow(item.index)
+  end
 end
 
 return menu

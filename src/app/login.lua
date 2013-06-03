@@ -29,7 +29,7 @@ local function login ()
 	--maak inloggen knop
 	local loginButton = widget.newButton{
 		label = "inloggen",
-		fontSize = 10
+		fontSize = 20
 	}
 	loginButton.x = 0
 	loginButton.y = 400

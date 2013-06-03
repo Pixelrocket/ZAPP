@@ -4,8 +4,11 @@ local content = require("content")
 local titlebar = require("titlebar")
 local login = require("login")
 
-login()
+<<<<<<< HEAD
+--login()
 
+=======
+>>>>>>> 6fa091b1f6a2cb0f7e2539a5e7099ead193eb8d9
 local top = titlebar:getBottom()
 menu:setTop(top)
 content:setTop(top)
@@ -47,7 +50,6 @@ local selectedclient = nil
 
 local setclient
 listclients = function (clients)
-  -- TODO GUI instead of print() for the cases where we don't get any clients
   if #clients < 1 then
     menu:add("fetchclients", "Cliënten...", fetchclients)
     content:slide("right")
@@ -59,6 +61,7 @@ listclients = function (clients)
     if name == selectedclient then known = true end
     menu:add("client" .. i, name)
   end
+  menu:remove("fetchclients")
   if known then setclient(selectedclient)
   else setclient(clients[1].clientnameinformal) end
 end
