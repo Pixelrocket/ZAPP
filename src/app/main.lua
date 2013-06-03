@@ -66,12 +66,14 @@ end
 
 setclient = function (name)
   return function ()
-    selectedclient = name
-    titlebar:activate(name)
-    -- TODO client's daily reports webservice request
-    content:empty()
-    content:add("report2", "27 mei: De eerste aardbeien geplukt!")
-    content:add("report1", "26 mei: " .. name .. " heeft álle kazen gedraaid")
+    if name ~= selectedclient then
+      selectedclient = name
+      titlebar:activate(name)
+      -- TODO client's daily reports webservice request
+      content:empty()
+      content:add("report2", "27 mei: De eerste aardbeien geplukt!")
+      content:add("report1", "26 mei: " .. name .. " heeft álle kazen gedraaid")
+    end
     content:slide("left")
   end
 end
