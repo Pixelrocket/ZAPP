@@ -42,6 +42,21 @@ local function fetchclients ()
 end
 fetchclients()
 
+local listreports
+local function fetchreports ()
+  network.request("https://www.greenhillhost.nl/ws_zapp/getDailyReports/", "GET", function (event)
+    local reports = {}
+    if event.isError
+    or event.status ~= 200 then
+      showerror("Het is niet gelukt om een netwerkverbinding te maken")
+    else
+      -- TODO pcall
+      reports = json.decode(event.response)
+    end
+    listreports(reports)
+  end)
+end
+
 -- TODO save selectedclient on exit
 local selectedclient = nil
 
@@ -71,6 +86,12 @@ setclient = function (name)
       titlebar:activate(name)
       -- TODO client's daily reports webservice request
       content:empty()
+      fetchreports()
+      -- for i,report in ipairs(reports) do
+      --   name = report.clientnameinformal
+      --   if name == selectedclient then known = true end
+      --   menu:add("client" .. i, name, setclient(name))
+      -- end
       content:add("report2", "27 mei: De eerste aardbeien geplukt!")
       content:add("report1", "26 mei: " .. name .. " heeft álle kazen gedraaid")
     end
