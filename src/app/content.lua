@@ -24,8 +24,8 @@ function content:slide(leftorright)
   if tableview.x == slide[leftorright] then return end
   slide.position = leftorright
   transition.to(tableview, {
-    time = 250,
-    transition = easing.outExpo,
+    time = 400,
+    transition = easing.inOutQuad,
     x = slide[leftorright],
     onComplete = function ()
       self:emit("slide", leftorright)
