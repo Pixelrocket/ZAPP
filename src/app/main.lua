@@ -5,11 +5,23 @@ local content = require("content")
 local titlebar = require("titlebar")
 local login = require("login")
 
-appstate:init({
-  selectedclient = nil
-})
 
--- login()
+local fetchclients
+login:on("authenticated", function (userinfo, accesstoken)
+  userinfo = userinfo or {
+    displayname = "Alex Verschuur",
+    carefarm = {
+      displayname = "Boer Harms"
+    }
+  }
+  menu:add("username", userinfo.displayname)
+  menu:add("zorgboerderij", userinfo.carefarm.displayname)
+  menu:add("login", "Uitloggen", function () login:show() end)
+  fetchclients()
+  login:hide()
+end)
+login:show()
+
 
 local top = titlebar:getBottom()
 menu:setTop(top)
@@ -24,15 +36,15 @@ content:on("slide", function (position)
   if "right" == position then titlebar:deactivate() end
 end)
 
+
+appstate:init({
+  selectedclient = nil
+})
+
 local showerror
 
--- TODO login GUI & webservice request
-menu:add("username", "Alex Verschuur")
-menu:add("zorgboerderij", "Boer Harms")
-menu:add("login", "Uitloggen", login)
-
 local listclients
-local function fetchclients ()
+fetchclients = function ()
   network.request("https://www.greenhillhost.nl/ws_zapp/getClients/", "GET", function (event)
     local clients = {}
     if event.isError
@@ -45,7 +57,6 @@ local function fetchclients ()
     listclients(clients)
   end)
 end
-fetchclients()
 
 local setclient
 listclients = function (clients)
