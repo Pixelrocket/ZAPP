@@ -1,11 +1,13 @@
 local json = require("json")
-local state = require("appstate")
+local appstate = require("appstate")
 local menu = require("menu")
 local content = require("content")
 local titlebar = require("titlebar")
 local login = require("login")
 
-state:load()
+appstate:init({
+  selectedclient = nil
+})
 
 -- login()
 
@@ -70,18 +72,18 @@ listclients = function (clients)
   local known, name = false, nil
   for i,client in ipairs(clients) do
     name = client.clientnameinformal
-    if name == state.data.selectedclient then known = true end
+    if name == appstate:get("selectedclient") then known = true end
     menu:add("client" .. i, name, setclient(name))
   end
   menu:remove("fetchclients")
-  if known then name = state.data.selectedclient
+  if known then name = appstate:get("selectedclient")
   else name = clients[1].clientnameinformal end
   setclient(name)(true)
 end
 
 setclient = function (name)
   return function (force)
-    if force or name ~= state.data.selectedclient then
+    if force or name ~= appstate:get("selectedclient") then
       titlebar:activate(name)
       content:empty()
       -- TODO client's daily reports webservice request
@@ -93,8 +95,7 @@ setclient = function (name)
       -- end
       content:add("report2", "27 mei: De eerste aardbeien geplukt!")
       content:add("report1", "26 mei: " .. name .. " heeft álle kazen gedraaid")
-      state.data.selectedclient = name
-      state:save()
+      appstate:set("selectedclient", name, true)
     end
     content:slide("left")
   end

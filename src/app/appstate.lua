@@ -1,26 +1,40 @@
 local json = require("json")
 
-local state = {
-  data = {
-    selectedclient = nil
-  }
-}
+local appstate = {}
+local data = {}
+local path = system.pathForFile("appstate.json", system.DocumentsDirectory)
 
-state.path = system.pathForFile("state.json", system.DocumentsDirectory)
-
-function state:save()
-  local file = io.open(self.path, "w")
-  local datastring = json.encode(self.data)
+function appstate:persist()
+  local file = io.open(path, "w")
+  local datastring = json.encode(data)
   file:write(datastring)
   io.close(file)
 end
 
-function state:load()
-  local file = io.open(self.path, "r")
-  if not file then return self:save() end
-  local datastring = file:read("*a")
-  self.data = json.decode(datastring)
+function appstate:init(defaults)
+  defaults = defaults or {}
+  for k,v in pairs(defaults) do
+    data[k] = v
+  end
+
+  local file = io.open(path, "r")
+  if not file then return self:persist() end
+  local readstring = file:read("*a")
   io.close(file)
+
+  local readtable = json.decode(readstring)
+  for k,v in pairs(readtable) do
+    data[k] = v
+  end
 end
 
-return state
+function appstate:get (key)
+  return data[key]
+end
+
+function appstate:set (key, value, persist)
+  data[key] = value
+  if persist then self:persist() end
+end
+
+return appstate
