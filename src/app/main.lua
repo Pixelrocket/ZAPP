@@ -15,7 +15,7 @@ local top = titlebar:getBottom()
 menu:setTop(top)
 content:setTop(top)
 
-titlebar:on("menu", function ()
+titlebar:on("up", function ()
   content:slide("right")
 end)
 
