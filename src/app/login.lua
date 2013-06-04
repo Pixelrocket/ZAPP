@@ -1,6 +1,6 @@
+local widget = require("widget")
+
 local function login ()
-	-- activeer de widget
-	local widget = require "widget"
 	-- maak de achtergrond
 	local _H = display.contentHeight
 	local _W = display.contentWidth
