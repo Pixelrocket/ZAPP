@@ -72,7 +72,7 @@ listclients = function (clients)
   local known, name = false, nil
   for i,client in ipairs(clients) do
     name = client.clientnameinformal
-    if name == appstate:get("selectedclient") then known = true end
+    if not known and name == appstate:get("selectedclient") then known = true end
     menu:add("client" .. i, name, setclient(name))
   end
   menu:remove("fetchclients")
