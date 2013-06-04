@@ -47,21 +47,6 @@ local function fetchclients ()
 end
 fetchclients()
 
-local listreports
-local function fetchreports ()
-  network.request("https://www.greenhillhost.nl/ws_zapp/getDailyReports/", "GET", function (event)
-    local reports = {}
-    if event.isError
-    or event.status ~= 200 then
-      showerror("Het is niet gelukt om een netwerkverbinding te maken")
-    else
-      -- TODO pcall
-      reports = json.decode(event.response)
-    end
-    listreports(reports)
-  end)
-end
-
 local setclient
 listclients = function (clients)
   if #clients < 1 then
@@ -81,12 +66,12 @@ listclients = function (clients)
   setclient(name)(true)
 end
 
+local fetchreports
 setclient = function (name)
   return function (force)
     if force or name ~= appstate:get("selectedclient") then
       titlebar:activate(name)
       content:empty()
-      -- TODO client's daily reports webservice request
       fetchreports()
       -- for i,report in ipairs(reports) do
       --   name = report.clientnameinformal
@@ -99,6 +84,24 @@ setclient = function (name)
     end
     content:slide("left")
   end
+end
+
+local listreports
+fetchreports = function ()
+  network.request("https://www.greenhillhost.nl/ws_zapp/getDailyReports/", "GET", function (event)
+    local reports = {}
+    if event.isError
+    or event.status ~= 200 then
+      showerror("Het is niet gelukt om een netwerkverbinding te maken")
+    else
+      -- TODO pcall
+      reports = json.decode(event.response)
+    end
+    listreports(reports)
+  end)
+end
+
+listreports = function ()
 end
 
 showerror = function (message)
