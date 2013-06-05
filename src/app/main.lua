@@ -84,12 +84,6 @@ setclient = function (name)
       titlebar:activate(name)
       content:empty()
       fetchreports()
-      for i,report in ipairs(reports) do
-        reporttitle = "(" + report.dossiermap + ") " + reports.cdo_date + ": " + reports.cdo_subject
-        content:add("report" .. i, reporttitle)
-      end
-      content:add("report2", "27 mei: De eerste aardbeien geplukt!")
-      content:add("report1", "26 mei: " .. name .. " heeft álle kazen gedraaid")
       appstate:set("selectedclient", name, true)
     end
     content:slide("left")
@@ -111,7 +105,11 @@ fetchreports = function ()
   end)
 end
 
-listreports = function ()
+listreports = function (reports)
+  for i,report in ipairs(reports) do
+    local reporttitle = "(" .. report.dossiermap .. ") " .. report.cdo_date .. ": " .. report.cdo_subject
+    content:add("report" .. i, reporttitle)
+  end
 end
 
 showerror = function (message)
