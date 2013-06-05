@@ -84,11 +84,10 @@ setclient = function (name)
       titlebar:activate(name)
       content:empty()
       fetchreports()
-      -- for i,report in ipairs(reports) do
-      --   name = report.clientnameinformal
-      --   if name == selectedclient then known = true end
-      --   menu:add("client" .. i, name, setclient(name))
-      -- end
+      for i,report in ipairs(reports) do
+        reporttitle = "(" + report.dossiermap + ") " + reports.cdo_date + ": " + reports.cdo_subject
+        content:add("report" .. i, reporttitle)
+      end
       content:add("report2", "27 mei: De eerste aardbeien geplukt!")
       content:add("report1", "26 mei: " .. name .. " heeft álle kazen gedraaid")
       appstate:set("selectedclient", name, true)
@@ -124,5 +123,3 @@ showerror = function (message)
       end
     end)
 end
-
-
