@@ -120,6 +120,8 @@
 					cdo_ccl_id = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.clientid#" />
 			AND
 					mma_extranet = 1
+			AND
+					dossiermap = <cfqueryparam cfsqltype="cf_sql_varchar" value="Dagrapportage" />
 			ORDER BY
 					cdo_date_added DESC
 		</cfquery>
