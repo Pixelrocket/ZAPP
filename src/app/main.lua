@@ -83,7 +83,7 @@ setclient = function (name)
     if force or name ~= appstate:get("selectedclient") then
       titlebar:activate(name)
       content:empty()
-      fetchreports()
+      fetchreports(name)
       appstate:set("selectedclient", name, true)
     end
     content:slide("left")
@@ -91,7 +91,8 @@ setclient = function (name)
 end
 
 local listreports
-fetchreports = function ()
+fetchreports = function (client)
+  -- TODO: client parameter in reports service
   network.request("https://www.greenhillhost.nl/ws_zapp/getDailyReports/", "GET", function (event)
     local reports = {}
     if event.isError
