@@ -117,8 +117,7 @@ showerror = function (message)
   native.showAlert("ZAPP", message, {"OK"},
     function (event)
       if "clicked" == event.action then
-        native.requestExit()
-        print("requestExit")
+        print("error", message)
       end
     end)
 end
