@@ -1,8 +1,8 @@
 <cfcontent type="application/json" /><cfsilent>
-<cfset variables.username = "hilhorst" />
-<cfset variables.password = "171049" />
+<cfparam name="url.frmUsername" default="hilhorst" />
+<cfparam name="url.frmPassword" default="171049" />
 <cfinvoke component="../zapp" method="getCredentials" returnvariable="credentials">
-	<cfinvokeargument name="username" value="#variables.username#" />
-	<cfinvokeargument name="password" value="#variables.password#" />
+	<cfinvokeargument name="username" value="#url.frmUsername#" />
+	<cfinvokeargument name="password" value="#url.frmPassword#" />
 </cfinvoke>
 </cfsilent><cfoutput>#credentials#</cfoutput>
