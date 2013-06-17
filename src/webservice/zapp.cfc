@@ -1,15 +1,15 @@
 <cfcomponent output="false">
 
 	<!--- Variables for component --->
-	<cfif FindNocase("localhost",cgi.server_name) EQ 0>
+	<cfif Find("railo",cgi.server_name)>
+		<cfset this.datasource = "zapp" />
+	<cfelseif FindNoCase("localhost",cgi_server_name) EQ 0>
 		<cfset this.datasource = "ds_zilliz_test" />
-	<cfelse>
-		<cfset this.datasource = "ds_zilliz" />
 	</cfif>
 	<cfset this.passwordkey = "Z2OIhfkjsyIJKHH23GfjhfkuIYUW" />
 
 	<!--- Validate user login --->
-	<cffunction name="getCredentials" access="remote" returntype="any" output="false" hint="Validate user login">
+	<cffunction name="getCredentials" access="remote" returnformat="JSON" output="false" hint="Validate user login">
 		<cfargument name="username" required="yes" type="string" />
 		<cfargument name="password" required="yes" type="string" />
 		<cfset var passwordEncrypted = Encrypt(arguments.password, this.passwordkey) />
@@ -35,31 +35,28 @@
 					AND cue_active = 1
 				LEFT OUTER JOIN cmp_user_extranet_clients
 					ON cmp_user_extranet.cue_id = cmp_user_extranet_clients.cuc_cue_id
-			WHERE				aus_username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" />
-								AND aus_password_encoded = <cfqueryparam cfsqltype="cf_sql_varchar" value="#passwordEncrypted#" />
-								AND aus_active = 1
-								AND ccr_active = 1
-			GROUP BY			cue_id
-								, cue_first_name
-								, cue_infix
-								, cue_last_name
-								, cue_email_address
-								, aus_id
+			WHERE
+					aus_username = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.username#" />
+			AND
+					aus_password_encoded = <cfqueryparam cfsqltype="cf_sql_varchar" value="#passwordEncrypted#" />
+			AND
+					aus_active = 1
+			AND
+					ccr_active = 1
+			GROUP BY
+					cue_id
+			,		cue_first_name
+			,		cue_infix
+			,		cue_last_name
+			,		cue_email_address
+			,		aus_id
 		</cfquery>
-		<cfscript>
-			var queryConvertedToArray = [];
-			for( var i=1; i LTE qrySelect.recordcount; i++ ) {
-				queryConvertedToArray[i] = {};
-				queryConvertedToArray[i]["accountid"] = qrySelect.accountid[i];
-				queryConvertedToArray[i]["firstname"] = qrySelect.firstname[i];
-				queryConvertedToArray[i]["infix"] = qrySelect.infix[i];
-				queryConvertedToArray[i]["lastname"] = qrySelect.lastname[i];
-				queryConvertedToArray[i]["emailaddress"] = qrySelect.emailaddress[i];
-				queryConvertedToArray[i]["userid"] = qrySelect.userid[i];
-				queryConvertedToArray[i]["noofclients"] = qrySelect.noofclients[i];
-			}
-		</cfscript>
-		<cfreturn serializejson(queryConvertedToArray) />
+		<cfif qrySelect.recordcount NEQ 1 OR qrySelect.accountid EQ "" OR qrySelect.noofclients EQ 0>
+			<cfset var returnVariable = ["access denied"] />
+		<cfelse>
+			<cfset var returnVariable = qrySelect />
+		</cfif>
+		<cfreturn serializejson(returnVariable) />
 	</cffunction>
 
 	<!--- Get clients from account --->
