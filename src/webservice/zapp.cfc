@@ -1,7 +1,11 @@
 <cfcomponent output="false">
 
 	<!--- Variables for component --->
-	<cfset this.datasource = "ds_zilliz_test" />
+	<cfif FindNocase("localhost",cgi.server_name) EQ 0>
+		<cfset this.datasource = "ds_zilliz_test" />
+	<cfelse>
+		<cfset this.datasource = "ds_zilliz" />
+	</cfif>
 	<cfset this.passwordkey = "Z2OIhfkjsyIJKHH23GfjhfkuIYUW" />
 
 	<!--- Validate user login --->
@@ -42,12 +46,20 @@
 								, cue_email_address
 								, aus_id
 		</cfquery>
-		<cfif qrySelect.recordcount NEQ 1 OR qrySelect.accountid EQ "" OR qrySelect.noofclients EQ 0>
-			<cfset var returnVariable = ["access denied"] />
-		<cfelse>
-			<cfset var returnVariable = qrySelect />
-		</cfif>
-		<cfreturn serializejson(returnVariable) />
+		<cfscript>
+			var queryConvertedToArray = [];
+			for( var i=1; i LTE qrySelect.recordcount; i++ ) {
+				queryConvertedToArray[i] = {};
+				queryConvertedToArray[i]["accountid"] = qrySelect.accountid[i];
+				queryConvertedToArray[i]["firstname"] = qrySelect.firstname[i];
+				queryConvertedToArray[i]["infix"] = qrySelect.infix[i];
+				queryConvertedToArray[i]["lastname"] = qrySelect.lastname[i];
+				queryConvertedToArray[i]["emailaddress"] = qrySelect.emailaddress[i];
+				queryConvertedToArray[i]["userid"] = qrySelect.userid[i];
+				queryConvertedToArray[i]["noofclients"] = qrySelect.noofclients[i];
+			}
+		</cfscript>
+		<cfreturn serializejson(queryConvertedToArray) />
 	</cffunction>
 
 	<!--- Get clients from account --->
