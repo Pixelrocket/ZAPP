@@ -1,4 +1,4 @@
-<cfcomponent output="true">
+<cfcomponent output="false">
 
 	<!--- Variables for component --->
 	<cfset this.datasource = "ds_zilliz_test" />
@@ -51,7 +51,7 @@
 	</cffunction>
 
 	<!--- Get clients from account --->
-	<cffunction name="getClients" access="remote" returntype="any" output="true" hint="Get clients from account">
+	<cffunction name="getClients" access="remote" returntype="any" output="false" hint="Get clients from account">
 		<cfargument name="accountid" required="yes" type="string" />
 		<cfquery name="qrySelect" datasource="#this.datasource#" cachedwithin="#CreateTimeSpan(0,0,0,0)#">
 			SELECT
@@ -86,7 +86,7 @@
 	</cffunction>
 
 	<!--- Get daily reports from clients --->
-	<cffunction name="getDailyReports" access="remote" returntype="any" output="true" hint="Get daily reports from clients">
+	<cffunction name="getDailyReports" access="remote" returntype="any" output="false" hint="Get daily reports from clients">
 		<cfargument name="clientid" required="yes" type="string" />
 		<cfquery name="qrySelect" datasource="#this.datasource#" cachedwithin="#CreateTimeSpan(0,0,0,0)#">
 			SELECT
