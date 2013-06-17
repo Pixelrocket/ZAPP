@@ -86,7 +86,7 @@
 	</cffunction>
 
 	<!--- Get daily reports from clients --->
-	<cffunction name="getDailyReports" access="remote" returntype="any" output="false" hint="Get daily reports from clients">
+	<cffunction name="getDailyReports" access="remote" returntype="any" output="true" hint="Get daily reports from clients">
 		<cfargument name="clientid" required="yes" type="string" />
 		<cfquery name="qrySelect" datasource="#this.datasource#" cachedwithin="#CreateTimeSpan(0,0,0,0)#">
 			SELECT
@@ -116,12 +116,14 @@
 					ON aut_user.aus_rco_id = rel_contact.rco_id
 				LEFT OUTER JOIN map_map
 					ON ccc_dossier.cdo_mma_id = map_map.mma_id
+						LEFT OUTER JOIN map_maptype
+							ON map_map.mma_mmt_id = map_maptype.mmt_id
 			WHERE
 					cdo_ccl_id = <cfqueryparam cfsqltype="cf_sql_integer" value="#arguments.clientid#" />
 			AND
 					mma_extranet = 1
 			AND
-					dossiermap = <cfqueryparam cfsqltype="cf_sql_varchar" value="Dagrapportage" />
+					mmt_code = <cfqueryparam cfsqltype="cf_sql_varchar" value="C" />
 			ORDER BY
 					cdo_date_added DESC
 		</cfquery>
