@@ -3,8 +3,10 @@
 	<!--- Variables for component --->
 	<cfif Find("railo",cgi.server_name)>
 		<cfset this.datasource = "zapp" />
-	<cfelseif FindNoCase("localhost",cgi_server_name) EQ 0>
+	<cfelseif FindNoCase("localhost",cgi.server_name) EQ 0>
 		<cfset this.datasource = "ds_zilliz_test" />
+	<cfelse>
+		<cfset this.datasource = "ds_zilliz" />
 	</cfif>
 	<cfset this.passwordkey = "Z2OIhfkjsyIJKHH23GfjhfkuIYUW" />
 
