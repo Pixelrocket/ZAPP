@@ -4,7 +4,8 @@
   "description": "ZAPP is een mobiele applicatie die (vertegenwoordigers van) cliënten van ZilliZ zorgboerderijen snel een eenvoudig toegang biedt tot actuele cliëntinformatie, zonder dat de vertrouwelijkheid van de cliëntinformatie in het geding komt",
   "main": "main.lua",
   "dependencies": {
-    "lua-loader": "~0.0.1"
+    "lua-loader": "~0.0.1",
+    "lua-events": "~0.0.1"
   },
   "devDependencies": {},
   "scripts": {
