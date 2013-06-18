@@ -6,9 +6,6 @@ local content = require("content")
 local titlebar = require("titlebar")
 local login = require("login")
 
-local foo = require("foo")
-print(foo.hello())
-
 local fetchclients
 login:on("authenticated", function (userinfo, accesstoken)
   userinfo = userinfo or {
