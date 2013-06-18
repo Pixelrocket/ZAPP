@@ -1,3 +1,5 @@
+require("node_modules.lpm.init")(function() end)
+require("node_modules.lpm.init")(function() end)
 local json = require("json")
 local appstate = require("appstate")
 local menu = require("menu")
@@ -5,6 +7,8 @@ local content = require("content")
 local titlebar = require("titlebar")
 local login = require("login")
 
+local foo = require("foo")
+print(foo.hello())
 
 local fetchclients
 login:on("authenticated", function (userinfo, accesstoken)
