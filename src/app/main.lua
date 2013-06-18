@@ -1,5 +1,4 @@
 require("node_modules.lpm.init")(function() end)
-require("node_modules.lpm.init")(function() end)
 local json = require("json")
 local appstate = require("appstate")
 local menu = require("menu")
