@@ -41,4 +41,18 @@ Download en installeer de OSX-versie via [Corona Labs](http://www.coronalabs.com
 ###Linux
 Download de Windows-versie via [Corona Labs](http://www.coronalabs.com/products/corona-sdk/) en installeer via [Wine](http://www.winehq.org/)
 
-##7. TODO: proof of the pudding
+##7. npm
+Download en installeer [Node.js](http://nodejs.org/download/)
+
+##8. GitHub
+1. Zorg voor een account op [GitHub](http://github.com)
+2. Zorg dat je een `collaborator` wordt van [PixelRocket](http://github.com/pixelrocket)
+3. Download en installeer [GitHub for Mac](http://mac.github.com) of [GitHub for Windows](http://windows.github.com)
+
+##9. Proof of the pudding
+1. Start GitHub for Mac/Windows, vind PixelRocket/ZAPP en doe `Clone to Computer`
+2. Start Sublime en open de folder `ZAPP/src/app`
+3. Bekijk in Sublime de file package.json en zie de opsomming van `dependencies`
+4. Open een terminal en `cd` naar `ZAPP/src/app` en doe `npm install` en zie dat npm de dependencies downloadt en installeert
+5. Start de Corona Terminal, kies Simulator en open `ZAPP/src/app` en zie dat de app 'werkt'
+
