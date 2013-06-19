@@ -1,6 +1,6 @@
 require("node_modules.lua-loader.init")(function() end)
 local json = require("json")
-local appstate = require("appstate")
+local savestate = require("lua-savestate")
 local menu = require("menu")
 local content = require("content")
 local titlebar = require("titlebar")
@@ -37,7 +37,7 @@ content:on("slide", function (position)
 end)
 
 
-appstate:init({
+savestate:init({
   selectedclient = nil
 })
 
@@ -68,11 +68,11 @@ listclients = function (clients)
   local known, name = false, nil
   for i,client in ipairs(clients) do
     name = client.clientnameinformal
-    if not known and name == appstate:get("selectedclient") then known = true end
+    if not known and name == savestate:get("selectedclient") then known = true end
     menu:add("client" .. i, name, setclient(name))
   end
   menu:remove("fetchclients")
-  if known then name = appstate:get("selectedclient")
+  if known then name = savestate:get("selectedclient")
   else name = clients[1].clientnameinformal end
   setclient(name)(true)
 end
@@ -80,11 +80,11 @@ end
 local fetchreports
 setclient = function (name)
   return function (force)
-    if force or name ~= appstate:get("selectedclient") then
+    if force or name ~= savestate:get("selectedclient") then
       titlebar:activate(name)
       content:empty()
       fetchreports(name)
-      appstate:set("selectedclient", name, true)
+      savestate:set("selectedclient", name, true)
     end
     content:slide("left")
   end
