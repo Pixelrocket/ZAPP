@@ -1,4 +1,4 @@
-local EventEmitter = require("EventEmitter")
+local EventEmitter = require("lua-events").EventEmitter
 local widget = require("widget")
 
 display.setStatusBar(display.DarkStatusBar)

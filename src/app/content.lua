@@ -1,5 +1,5 @@
 local widget = require("widget")
-local EventEmitter = require("EventEmitter")
+local EventEmitter = require("lua-events").EventEmitter
 local rowcaption = require("rowcaption")
 
 local content = EventEmitter:new()
