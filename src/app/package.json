@@ -6,7 +6,8 @@
   "dependencies": {
     "lua-loader": "~0.0.1",
     "lua-events": "~0.0.1",
-    "lua-savestate": "~0.0.1"
+    "lua-savestate": "~0.0.1",
+    "lua-date": "~2.1.0"
   },
   "devDependencies": {},
   "scripts": {
