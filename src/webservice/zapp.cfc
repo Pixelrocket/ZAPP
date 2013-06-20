@@ -66,6 +66,7 @@
 				queryConvertedToArray[i]["noofclients"] = qrySelect.noofclients[i];
 			}
 		</cfscript>
+		<cfreturn serializejson(queryConvertedToArray) />
 	</cffunction>
 
 	<!--- Get clients from account --->
