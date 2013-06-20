@@ -51,7 +51,7 @@ fetchclients = function ()
     or event.status ~= 200 then
       showerror("Het is niet gelukt om een netwerkverbinding te maken")
     else
-      clients = json.decode(event.response) or {}
+      clients = json.decode(event.response) or clients
     end
     listclients(clients)
   end)
@@ -98,7 +98,7 @@ fetchreports = function (client)
     or event.status ~= 200 then
       showerror("Het is niet gelukt om een netwerkverbinding te maken")
     else
-      reports = json.decode(event.response) or {}
+      reports = json.decode(event.response) or reports
     end
     listreports(reports)
   end)
