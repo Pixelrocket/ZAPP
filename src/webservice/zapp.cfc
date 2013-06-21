@@ -14,7 +14,7 @@
 	<cffunction name="getCredentials" access="remote" returnformat="JSON" output="false" hint="Validate user login">
 		<cfargument name="username" required="yes" type="string" />
 		<cfargument name="password" required="yes" type="string" />
-		<cfset var passwordEncrypted = Encrypt(arguments.password, this.passwordkey) />
+		<cfset var passwordEncrypted = Encrypt(arguments.password,this.passwordkey) />
 		<cfquery name="qrySelect" datasource="#this.datasource#" cachedwithin="#CreateTimeSpan(0,0,0,0)#">
 			SELECT
 					cue_id AS accountid
