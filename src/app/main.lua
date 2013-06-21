@@ -5,9 +5,10 @@ local menu = require("menu")
 local content = require("content")
 local titlebar = require("titlebar")
 local login = require("login")
-local date = require("lua-date")
+local timeago = require("lua-timeago")
 
-print(date("2013-06-20T10:32:00+02:00"))
+timeago.setlanguage("nederlands")
+print(timeago.parse())
 
 local fetchclients
 login:on("authenticated", function (userinfo, accesstoken)
