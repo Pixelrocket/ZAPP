@@ -8,6 +8,7 @@ local login = require("login")
 local timeago = require("lua-timeago")
 
 timeago.setlanguage("nederlands")
+timeago.setstyle("short")
 
 local fetchclients
 login:on("authenticated", function (userinfo, accesstoken)
