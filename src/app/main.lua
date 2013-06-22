@@ -8,7 +8,6 @@ local login = require("login")
 local timeago = require("lua-timeago")
 
 timeago.setlanguage("nederlands")
-print(timeago.parse())
 
 local fetchclients
 login:on("authenticated", function (userinfo, accesstoken)
@@ -110,12 +109,19 @@ end
 
 listreports = function (reports)
   for i,report in ipairs(reports) do
-    print("\n")
-    for k,v in pairs(report) do
-      print(k,v)
+    -- print("\n")
+    -- for k,v in pairs(report) do
+    --   print(k,v)
+    -- end
+    if report.dossiermap == "Dagrapportage" then
+      local name = ""
+      if report.employeefirstname then name = report.employeefirstname end
+      if report.employeeinfix then name = name .. " " .. report.employeeinfix end
+      if report.employeelastname then name = name .. " " .. report.employeelastname end
+      local when = timeago.parse(report.cdo_date_added)
+      local reporttitle = report.cdo_dossier .. " " .. name .. " " .. when
+      content:add("report" .. i, reporttitle)
     end
-    local reporttitle = "(" .. report.dossiermap .. ") " .. report.cdo_date .. ": " .. report.cdo_subject
-    content:add("report" .. i, reporttitle)
   end
 end
 
