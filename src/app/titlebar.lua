@@ -29,7 +29,7 @@ caret:setTextColor(255, 255, 255)
 
 local logo = display.newImage("favicon.ico", 0, 0)
 logo.height = 32
-logo.width = 64
+logo.width = 32
 
 local hr = {}
 hr.background = display.newRect(0, 0, display.contentWidth, 2)

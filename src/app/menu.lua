@@ -4,22 +4,24 @@ local rowcaption = require("rowcaption")
 local menu = {}
 local items = {}
 
-local tableview = widget.newTableView({
-  width = display.contentWidth - 75,
-  height = display.contentHeight,
-  backgroundColor = {0, 133, 161, 180},
-  noLines = true,
-  onRowRender = rowcaption(items, 200, 200, 200),
-  onRowTouch = function (event)
-    if "release" == event.phase
-    and items[event.row.id].action then
-      items[event.row.id].action()
-    end
-  end
-})
+local tableview
 
-function menu:setTop(y)
-  tableview.y = y
+function menu:init (top)
+  tableview = widget.newTableView({
+    left = 0,
+    top = top,
+    width = display.contentWidth - 75,
+    height = display.contentHeight - top,
+    backgroundColor = {0, 133, 161, 180},
+    noLines = true,
+    onRowRender = rowcaption(items, 200, 200, 200),
+    onRowTouch = function (event)
+      if "release" == event.phase
+      and items[event.row.id].action then
+        items[event.row.id].action()
+      end
+    end
+  })
 end
 
 local linecolor = {0, 0, 0, 0}
