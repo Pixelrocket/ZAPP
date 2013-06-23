@@ -5,10 +5,6 @@ local menu = require("menu")
 local content = require("content")
 local titlebar = require("titlebar")
 local login = require("login")
-local timeago = require("lua-timeago")
-
-timeago.setlanguage("nederlands")
-timeago.setstyle("short")
 
 local fetchclients
 login:on("authenticated", function (userinfo, accesstoken)
@@ -115,13 +111,24 @@ listreports = function (reports)
     --   print(k,v)
     -- end
     if report.dossiermap == "Dagrapportage" then
-      local name = ""
-      if report.employeefirstname then name = report.employeefirstname end
-      if report.employeeinfix then name = name .. " " .. report.employeeinfix end
-      if report.employeelastname then name = name .. " " .. report.employeelastname end
-      local when = timeago.parse(report.cdo_date_added)
-      local reporttitle = report.cdo_dossier .. " " .. name .. " " .. when
-      content:add("report" .. i, reporttitle)
+      local name
+      local function addpart (part)
+        if not part then return end
+        if name then name = name .. " " .. part
+        else name = part end
+      end
+      for _,part in ipairs({
+        report.employeefirstname,
+        report.employeeinfix,
+        report.employeelastname
+      }) do
+        addpart(part)
+      end
+      content:add("report" .. i, {
+        what = report.cdo_dossier,
+        who = name,
+        when = report.cdo_date_added
+      })
     end
   end
 end

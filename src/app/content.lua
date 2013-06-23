@@ -1,6 +1,9 @@
 local widget = require("widget")
 local EventEmitter = require("lua-events").EventEmitter
-local rowcaption = require("rowcaption")
+local timeago = require("lua-timeago")
+
+timeago.setlanguage("nederlands")
+timeago.setstyle("short")
 
 local content = EventEmitter:new()
 local items = {}
@@ -13,11 +16,37 @@ local slide = {
   swipethreshold = 75
 }
 
+local r, g, b = 0, 0, 0
+
 local tableview = widget.newTableView({
   left = slide[slide.position],
   width = display.contentWidth,
-  height = display.contentHeight,
-  onRowRender = rowcaption(items, 0, 0, 0)
+  -- FIXME, see alse setTop()
+  height = display.contentHeight - 68,
+  onRowRender = function (event)
+    local row = event.row
+    local item = items[row.id]
+    item.index = row.index -- needed as the prameter for TableViewWidget:deleteRow()
+    local report = item.report
+
+    local whenago = timeago.parse(report.when)
+    local whentext = display.newText(row, whenago, 0, 0, native.systemFont, 10)
+    whentext.x = 10 + row.x - row.contentWidth / 2 + whentext.contentWidth / 2
+    whentext.y = 4 + whentext.contentHeight / 2
+    whentext:setTextColor(150, 150, 150)
+
+    local whotext = display.newText(row, report.who, 0, 0, native.systemFont, 10)
+    whotext.x = row.x + row.contentWidth / 2 - whotext.contentWidth / 2 - 10
+    whotext.y = whentext.y
+    whotext:setTextColor(150, 150, 150)
+
+    local textwidth = row.contentWidth - 20
+    local textheight = row.contentHeight - whentext.contentHeight - 8
+    local whattext = display.newText(row, report.what, 0, 0, textwidth, textheight, native.systemFont, 14)
+    whattext.x = 10 + row.x - row.contentWidth / 2 + whattext.contentWidth / 2
+    whattext.y = whentext.y + whentext.contentHeight / 2 + whattext.contentHeight / 2
+    whattext:setTextColor(r, g, b)
+  end
 })
 
 function content:slide(leftorright)
@@ -107,11 +136,19 @@ function content:setTop(y)
   tableview.y = y
 end
 
-function content:add (id, text, action)
+function content:add (id, report, action)
   if items[id] then return end
-  items[id] = {text = text, action = action}
+  items[id] = {report = report, action = action}
+  report.what = string.gsub(report.what, "\n", " ")
+  report.what = string.gsub(report.what, "\r", " ")
+  report.what = string.gsub(report.what, "\t", " ")
+  report.what = string.gsub(report.what, "  ", " ")
+  report.what = string.gsub(report.what, "  ", " ")
+  local charsperline = 40
+  local lines = math.ceil(#report.what / charsperline)
   tableview:insertRow({
-    id = id
+    id = id,
+    rowHeight = 45 + 18 * (lines - 1)
   })
 end
 
