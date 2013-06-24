@@ -113,12 +113,8 @@ listreports = function (reports)
         if name then name = name .. " " .. part
         else name = part end
       end
-      for _,part in ipairs({
-        report.employeefirstname,
-        report.employeeinfix,
-        report.employeelastname
-      }) do
-        addpart(part)
+      for _,field in ipairs({"employeefirstname", "employeeinfix", "employeelastname"}) do
+        addpart(report[field])
       end
       content:add("report" .. i, {
         what = report.cdo_dossier,
