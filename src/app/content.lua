@@ -10,8 +10,8 @@ local items = {}
 
 local margin = {
   width = 10,
-  height = 4,
-  spacing = 2
+  height = 5,
+  spacing = 0
 }
 local fontsize = {
   small = 12,
