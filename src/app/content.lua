@@ -138,13 +138,11 @@ end
 function content:add (id, report, action)
   if items[id] then return end
   items[id] = {report = report, action = action}
-  report.what = string.gsub(report.what, "\n", " ")
-  report.what = string.gsub(report.what, "\r", " ")
-  report.what = string.gsub(report.what, "\t", " ")
-  report.what = string.gsub(report.what, "  ", " ")
-  report.what = string.gsub(report.what, "  ", " ")
   local charsperline = 40
   local lines = math.ceil(#report.what / charsperline)
+  for _,match in ipairs({"\n", "\r", "\t", "  ", "  "}) do
+    report.what = string.gsub(report.what, match, " ")
+  end
   tableview:insertRow({
     id = id,
     rowHeight = 45 + 18 * (lines - 1)
