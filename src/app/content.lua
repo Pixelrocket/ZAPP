@@ -8,7 +8,16 @@ timeago.setstyle("short")
 local content = EventEmitter:new()
 local items = {}
 
-local margin = 10
+local margin = {
+  width = 10,
+  height = 4,
+  spacing = 2
+}
+local fontsize = {
+  small = 12,
+  large = 16
+}
+local font = native.systemFont
 
 local function rowrender (event)
   local row = event.row
@@ -17,21 +26,21 @@ local function rowrender (event)
   local report = item.report
 
   local whenago = timeago.parse(report.when)
-  local whentext = display.newText(row, whenago, 0, 0, native.systemFont, 10)
-  whentext.x = margin + row.x - row.contentWidth / 2 + whentext.contentWidth / 2
-  whentext.y = 4 + whentext.contentHeight / 2
+  local whentext = display.newText(row, whenago, 0, 0, font, fontsize.small)
+  whentext.x = margin.width + row.x - row.contentWidth / 2 + whentext.contentWidth / 2
+  whentext.y = margin.height + whentext.contentHeight / 2
   whentext:setTextColor(150, 150, 150)
 
-  local whotext = display.newText(row, report.who, 0, 0, native.systemFont, 10)
-  whotext.x = row.x + row.contentWidth / 2 - whotext.contentWidth / 2 - margin
+  local whotext = display.newText(row, report.who, 0, 0, font, fontsize.small)
+  whotext.x = row.x + row.contentWidth / 2 - whotext.contentWidth / 2 - margin.width
   whotext.y = whentext.y
   whotext:setTextColor(150, 150, 150)
 
-  local textwidth = row.contentWidth - 2 * margin
-  local textheight = row.contentHeight - whentext.contentHeight - 8
-  local whattext = display.newText(row, report.what, 0, 0, textwidth, textheight, native.systemFont, 14)
-  whattext.x = margin + row.x - row.contentWidth / 2 + whattext.contentWidth / 2
-  whattext.y = whentext.y + whentext.contentHeight / 2 + whattext.contentHeight / 2
+  local textwidth = row.contentWidth - 2 * margin.width
+  local textheight = row.contentHeight - whentext.contentHeight - 2 * margin.height - margin.spacing
+  local whattext = display.newText(row, report.what, 0, 0, textwidth, textheight, font, fontsize.large)
+  whattext.x = margin.width + row.x - row.contentWidth / 2 + whattext.contentWidth / 2
+  whattext.y = margin.spacing + whentext.y + whentext.contentHeight / 2 + whattext.contentHeight / 2
   whattext:setTextColor(0, 0, 0)
 end
 
@@ -143,16 +152,20 @@ function content:add (id, report, action)
   for _,match in ipairs({"\n", "\r", "\t", "  ", "  "}) do
     report.what = string.gsub(report.what, match, " ")
   end
-  local availablewidth = tableview.contentWidth - 2 * margin
-  local line = display.newText(report.what, 0, 0, native.systemFont, 14)
+  local availablewidth = tableview.contentWidth - 2 * margin.width
+  local line = display.newText(report.what, 0, 0, font, fontsize.large)
   local height = line.contentHeight
   if line.contentWidth > availablewidth then
     height = line.contentHeight * math.ceil(line.contentWidth / (availablewidth * .95) )
   end
   display.remove(line)
+  line = display.newText("", 0, 0, font, fontsize.small)
+  height = height + line.contentHeight
+  display.remove(line)
+  height = height + 2 * margin.height + margin.spacing
   tableview:insertRow({
     id = id,
-    rowHeight = 24 + height
+    rowHeight = height
   })
 end
 
