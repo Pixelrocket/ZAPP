@@ -8,6 +8,8 @@ timeago.setstyle("short")
 local content = EventEmitter:new()
 local items = {}
 
+local margin = 10
+
 local function rowrender (event)
   local row = event.row
   local item = items[row.id]
@@ -16,19 +18,19 @@ local function rowrender (event)
 
   local whenago = timeago.parse(report.when)
   local whentext = display.newText(row, whenago, 0, 0, native.systemFont, 10)
-  whentext.x = 10 + row.x - row.contentWidth / 2 + whentext.contentWidth / 2
+  whentext.x = margin + row.x - row.contentWidth / 2 + whentext.contentWidth / 2
   whentext.y = 4 + whentext.contentHeight / 2
   whentext:setTextColor(150, 150, 150)
 
   local whotext = display.newText(row, report.who, 0, 0, native.systemFont, 10)
-  whotext.x = row.x + row.contentWidth / 2 - whotext.contentWidth / 2 - 10
+  whotext.x = row.x + row.contentWidth / 2 - whotext.contentWidth / 2 - margin
   whotext.y = whentext.y
   whotext:setTextColor(150, 150, 150)
 
-  local textwidth = row.contentWidth - 20
+  local textwidth = row.contentWidth - 2 * margin
   local textheight = row.contentHeight - whentext.contentHeight - 8
   local whattext = display.newText(row, report.what, 0, 0, textwidth, textheight, native.systemFont, 14)
-  whattext.x = 10 + row.x - row.contentWidth / 2 + whattext.contentWidth / 2
+  whattext.x = margin + row.x - row.contentWidth / 2 + whattext.contentWidth / 2
   whattext.y = whentext.y + whentext.contentHeight / 2 + whattext.contentHeight / 2
   whattext:setTextColor(0, 0, 0)
 end
