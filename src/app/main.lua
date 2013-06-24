@@ -1,25 +1,22 @@
 require("node_modules.lua-loader.init")(function() end)
 local json = require("json")
+local savestate = require("lua-savestate")
 
 local menu = require("menu")
 local content = require("content")
 local titlebar = require("titlebar")
+local top = titlebar:getBottom() menu:init(top) content:init(top) titlebar:init()
+local login = require("login")
+
+titlebar:on("up", function ()
+  content:slide("right")
+end)
 
 content:on("slide", function (position)
   if "left" == position then titlebar:activate() end
   if "right" == position then titlebar:deactivate() end
 end)
 
-titlebar:on("up", function ()
-  content:slide("right")
-end)
-
-local savestate = require("lua-savestate")
-savestate:init({
-  selectedclient = nil
-})
-
-local login = require("login")
 local fetchclients
 login:on("authenticated", function (userinfo, accesstoken)
   userinfo = userinfo or {
@@ -28,19 +25,17 @@ login:on("authenticated", function (userinfo, accesstoken)
       displayname = "Boer Harms"
     }
   }
-  local top = titlebar:getBottom()
-  -- FIXME
-  local titlebar = require("titlebar")
-  menu:init(top)
-  content:init(top)
   menu:add("username", userinfo.displayname)
   menu:add("zorgboerderij", userinfo.carefarm.displayname)
   menu:add("login", "Uitloggen", function () login:show() end)
   fetchclients()
   login:hide()
 end)
-
 login:show()
+
+savestate:init({
+  selectedclient = nil
+})
 
 local showerror
 
