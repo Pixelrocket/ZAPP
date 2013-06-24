@@ -140,14 +140,19 @@ end
 function content:add (id, report, action)
   if items[id] then return end
   items[id] = {report = report, action = action}
-  local charsperline = 40
-  local lines = math.ceil(#report.what / charsperline)
   for _,match in ipairs({"\n", "\r", "\t", "  ", "  "}) do
     report.what = string.gsub(report.what, match, " ")
   end
+  local availablewidth = tableview.contentWidth - 2 * margin
+  local line = display.newText(report.what, 0, 0, native.systemFont, 14)
+  local height = line.contentHeight
+  if line.contentWidth > availablewidth then
+    height = line.contentHeight * math.ceil(line.contentWidth / (availablewidth * .95) )
+  end
+  display.remove(line)
   tableview:insertRow({
     id = id,
-    rowHeight = 45 + 18 * (lines - 1)
+    rowHeight = 24 + height
   })
 end
 
