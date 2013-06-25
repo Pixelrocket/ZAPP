@@ -14,7 +14,7 @@ function menu:init (top)
     height = display.contentHeight - top,
     backgroundColor = {0, 133, 161, 180},
     noLines = true,
-    onRowRender = rowcaption(items, 200, 200, 200),
+    onRowRender = rowcaption(items, 200, 200, 200, "Roboto-Regular"),
     onRowTouch = function (event)
       if "release" == event.phase
       and items[event.row.id].action then
@@ -24,20 +24,30 @@ function menu:init (top)
   })
 end
 
-local linecolor = {0, 0, 0, 0}
-local rowcolor = {
+local nocolor = {
   default = {0, 0, 0, 0},
-  over    = {0, 0, 0, 0}
+  over = {51, 181, 229, 225},
+}
+local actioncolor = {
+  default = {0, 0, 0, 0},
+  over = {0, 0, 0, 0},
 }
 
-function menu:add (id, text, action)
+function menu:add (id, text, actionorcategory)
   if items[id] then return end
+  local isCategory, action = false, nil
+  if "function" == type(actionorcategory) then action = actionorcategory end
+  if "boolean"  == type(actionorcategory) then isCategory = actionorcategory end
+  local rowHeight = 40
+  if isCategory then rowHeight = 40 * .8 end
+  local rowColor = nocolor
+  if action then rowColor = actioncolor end
   items[id] = {text = text, action = action}
   tableview:insertRow({
     id = id,
-    lineColor = linecolor,
-    rowColor = rowcolor,
-    rowHeight = 40
+    rowColor = rowColor,
+    isCategory = isCategory,
+    rowHeight = rowHeight
   })
 end
 

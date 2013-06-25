@@ -3,6 +3,7 @@ local widget = require("widget")
 
 local height = 48
 local r, g, b = 0, 133, 161
+local font = "Roboto-Regular"
 
 local titlebar = EventEmitter:new()
 local up, caret, caption
@@ -28,12 +29,13 @@ function titlebar:init ()
     end
   })
   
-  caret = display.newText("<", 0, 0, native.systemFont, 20)
+  caret = display.newText("<", 0, 0, font, 20)
 
-  local logo = display.newImage("favicon.ico", 0, 0)
-  logo.height, logo.width = 32, 32
+  local logo = display.newImage("logo_zilliz_kleur_laag.png", 0, 0)
+  local ratio = logo.width / logo.height
+  logo.height, logo.width = 20, 20 * ratio
 
-  caption = display.newText("", 0, 0, native.systemFont, 20)
+  caption = display.newText("", 0, 0, font, 20)
 
   local hr = {}
   hr.background = display.newRect(0, 0, display.contentWidth, 2)
@@ -67,7 +69,7 @@ end
 function titlebar:activate (text)
   if text and "string" == type(text) then
     caption.text = text
-    caption.x = 0 + caption.contentWidth / 2 + up.contentWidth
+    caption.x = 2 + caption.contentWidth / 2 + up.contentWidth
   end
   setactive(true)
 end
