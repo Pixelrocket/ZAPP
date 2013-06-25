@@ -9,15 +9,15 @@ local content = EventEmitter:new()
 local items = {}
 
 local margin = {
-  width = 10,
-  height = 5,
+  width = 20,
+  height = 10,
   spacing = 0
 }
 local fontsize = {
   small = 12,
-  large = 16
+  large = 15
 }
-local font = native.systemFont
+local font = "Roboto-Light"
 
 local function rowrender (event)
   local row = event.row
