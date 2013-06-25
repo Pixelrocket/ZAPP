@@ -26,11 +26,11 @@ end
 
 local nocolor = {
   default = {0, 0, 0, 0},
-  over = {51, 181, 229, 225},
+  over = {0, 0, 0, 0}
 }
 local actioncolor = {
   default = {0, 0, 0, 0},
-  over = {0, 0, 0, 0},
+  over = {51, 181, 229, 225}
 }
 
 function menu:add (id, text, actionorcategory)
