@@ -14,7 +14,7 @@ function menu:init (top)
     height = display.contentHeight - top,
     backgroundColor = {0, 133, 161, 180},
     noLines = true,
-    onRowRender = rowcaption(items, 200, 200, 200, "Roboto-Regular"),
+    onRowRender = rowcaption(items, 200, 200, 200, "Roboto-Regular", 18, 10),
     onRowTouch = function (event)
       if "release" == event.phase
       and items[event.row.id].action then
