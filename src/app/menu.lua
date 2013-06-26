@@ -33,22 +33,34 @@ local actioncolor = {
   over = {51, 181, 229, 225}
 }
 
-function menu:add (id, text, actionorcategory)
+local function insertRow (id, options, text, action)
   if items[id] then return end
-  local isCategory, action = false, nil
-  if "function" == type(actionorcategory) then action = actionorcategory end
-  if "boolean"  == type(actionorcategory) then isCategory = actionorcategory end
-  local rowHeight = 40
-  if isCategory then rowHeight = 40 * .8 end
-  local rowColor = nocolor
-  if action then rowColor = actioncolor end
   items[id] = {text = text, action = action}
   tableview:insertRow({
     id = id,
-    rowColor = rowColor,
-    isCategory = isCategory,
-    rowHeight = rowHeight
+    rowColor = options.rowColor,
+    isCategory = options.isCategory,
+    rowHeight = options.rowHeight
   })
+end
+
+function menu:add (id, text, action)
+  local options = {
+    rowColor = nocolor,
+    isCategory = false,
+    rowHeight = 40
+  }
+  if action then options.rowColor = actioncolor end
+  insertRow(id, options, text, action)
+end
+
+function menu:addcategory (id, text)
+  local options = {
+    rowColor = nocolor,
+    isCategory = true,
+    rowHeight = 40 * .8
+  }
+  insertRow(id, options, text)
 end
 
 function menu:remove (id)

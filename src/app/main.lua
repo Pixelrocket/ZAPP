@@ -55,7 +55,7 @@ end
 
 local setclient
 listclients = function (clients)
-  menu:add("clients", "CLIËNTEN", true)
+  menu:addcategory("clients", "CLIËNTEN")
   if #clients < 1 then
     menu:add("fetchclients", "Cliënten...", fetchclients)
     content:slide("right")
