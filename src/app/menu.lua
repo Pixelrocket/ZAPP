@@ -7,11 +7,15 @@ local items = {}
 local tableview
 
 function menu:init (top)
+  local width = display.contentWidth - 75
+  local height = display.contentHeight - top
+  -- local background = display.newRect(0, height, width, display.pixelHeight)
+  -- background:setFillColor(0, 133, 161, 180)
   tableview = widget.newTableView({
     left = 0,
     top = top,
-    width = display.contentWidth - 75,
-    height = display.contentHeight - top,
+    width = width,
+    height = height,
     backgroundColor = {0, 133, 161, 180},
     noLines = true,
     onRowRender = rowcaption(items, 200, 200, 200, "Roboto-Regular", 18, 10),

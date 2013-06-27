@@ -52,9 +52,12 @@ local slide = {
   swipethreshold = 75
 }
 
-local tableview
+local group, tableview
 
 function content:init (top)
+  group = display.newGroup()
+  local background = display.newRect(group, 0, 0, display.pixelWidth, display.pixelHeight)
+  background:setFillColor(255, 255, 255)
   tableview = widget.newTableView({
     left = slide[slide.position],
     top = top,
@@ -62,6 +65,7 @@ function content:init (top)
     height = display.contentHeight - top,
     onRowRender = rowrender
   })
+  group:insert(tableview)
 
   -- FIXME; can break on any new widget version,
   -- but for now probably a better solution than keeping a fork of the widget library.
@@ -134,9 +138,9 @@ function content:init (top)
 end
 
 function content:slide (leftorright)
-  if tableview.x == slide[leftorright] then return end
+  if group.x == slide[leftorright] then return end
   slide.position = leftorright
-  transition.to(tableview, {
+  transition.to(group, {
     time = 400,
     transition = easing.outExpo,
     x = slide[leftorright],
