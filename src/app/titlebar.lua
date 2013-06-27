@@ -61,14 +61,11 @@ function titlebar:init ()
 end
 
 local function setactive (bool)
-  local alpha = 0
-  local onStart, onComplete = function ()
+  local alpha, onStart, onComplete = 0, function ()
     caret.isVisible = bool
     up:setEnabled(bool)
   end
-  if bool then
-    alpha, onComplete, onStart = 1, onStart, onComplete
-  end
+  if bool then alpha, onComplete, onStart = 1, onStart, onComplete end
   transition.to(caption, {
     time = 400,
     transition = easing.outExpo,
