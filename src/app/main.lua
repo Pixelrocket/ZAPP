@@ -25,9 +25,16 @@ login:on("authenticated", function (userinfo, accesstoken)
       displayname = "Boer Harms"
     }
   }
-  menu:add("username", userinfo.displayname)
+  menu:add("username", userinfo.displayname, function ()
+    native.showAlert("ZilliZ", "Wilt u met een ander account inloggen?", {"Annuleren", "OK"},
+      function (event)
+        if "clicked" == event.action
+        and 2 == event.index then
+          login:show()
+        end
+      end)
+  end)
   menu:add("zorgboerderij", userinfo.carefarm.displayname)
-  menu:add("login", "Uitloggen", function () login:show() end)
   fetchclients()
   login:hide()
 end)
@@ -127,7 +134,7 @@ listreports = function (reports)
 end
 
 showerror = function (message)
-  native.showAlert("ZAPP", message, {"OK"},
+  native.showAlert("ZilliZ", message, {"OK"},
     function (event)
       if "clicked" == event.action then
         print("error", message)
