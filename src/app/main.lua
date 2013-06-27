@@ -8,12 +8,16 @@ local titlebar = require("titlebar")
 local top = titlebar:getBottom() menu:init(top) content:init(top) titlebar:init()
 local login = require("login")
 
+savestate:init({
+  selectedclient = nil
+})
+
 titlebar:on("up", function ()
   content:slide("right")
 end)
 
 content:on("slide", function (position)
-  if "left" == position then titlebar:activate() end
+  if "left" == position then titlebar:activate(savestate:get("selectedclient")) end
   if "right" == position then titlebar:deactivate() end
 end)
 
@@ -39,10 +43,6 @@ login:on("authenticated", function (userinfo, accesstoken)
   login:hide()
 end)
 login:show()
-
-savestate:init({
-  selectedclient = nil
-})
 
 local showerror
 
@@ -72,7 +72,7 @@ listclients = function (clients)
   for i,client in ipairs(clients) do
     name = client.clientnameinformal
     if not known and name == savestate:get("selectedclient") then known = true end
-    menu:add("client" .. i, name, setclient(name))
+    menu:add("client" .. name, name, setclient(name))
   end
   menu:remove("fetchclients")
   if known then name = savestate:get("selectedclient")
@@ -84,10 +84,10 @@ local fetchreports
 setclient = function (name)
   return function (force)
     if force or name ~= savestate:get("selectedclient") then
-      titlebar:activate(name)
+      savestate:set("selectedclient", name, true)
+      menu:select("client" .. name)
       content:empty()
       fetchreports(name)
-      savestate:set("selectedclient", name, true)
     end
     content:slide("left")
   end

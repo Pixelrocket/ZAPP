@@ -14,6 +14,10 @@ local function rowcaption (items, r, g, b, font, size, margin)
     rowtext.x = margin + row.x - row.contentWidth / 2 + rowtext.contentWidth / 2
     rowtext.y = row.contentHeight / 2
     rowtext:setTextColor(r, g, b)
+    local flag = display.newRect(row, 0, 0, margin / 2, row.contentHeight)
+    flag:setFillColor(255, 0, 0, 180)
+    flag.isVisible = false
+    item.flag = flag
     if row.isCategory then
       local hr = display.newRect(row, 0, 1 + rowtext.y + rowtext.contentHeight / 2, row.contentWidth - 3 * margin, 1)
       hr.x = margin + row.x - row.contentWidth / 2 + hr.contentWidth / 2

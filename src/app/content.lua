@@ -134,9 +134,9 @@ function content:init (top)
 end
 
 function content:slide (leftorright)
+  self:emit("slide", leftorright)
   if tableview.x == slide[leftorright] then return end
   slide.position = leftorright
-  self:emit("slide", leftorright)
   transition.to(tableview, {
     time = 400,
     transition = easing.outExpo,

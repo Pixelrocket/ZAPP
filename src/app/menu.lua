@@ -70,4 +70,14 @@ function menu:remove (id)
   end
 end
 
+local flag
+function menu:select (id)
+  local item = items[id]
+  if not item then return end
+  local newflag = item.flag
+  if flag then flag.isVisible = false end
+  newflag.isVisible = true
+  flag = newflag
+end
+
 return menu
