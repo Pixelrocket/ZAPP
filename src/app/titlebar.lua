@@ -30,7 +30,7 @@ function titlebar:init ()
   })
   
   caret = display.newImage("1_navigation_previous_item.png", 0, 0)
-  caret.height, caret.width = 24, 24
+  caret.height, caret.width = 20, 20
 
   local logo = display.newImage("logo_zilliz_kleur_laag.png", 0, 0)
   local ratio = logo.width / logo.height
@@ -50,7 +50,7 @@ function titlebar:init ()
   for _,displayobject in ipairs({up, caret, logo, caption}) do
     displayobject.y = bar.y
   end
-  caret.x = -4 + caret.contentWidth / 2
+  caret.x = -3 + caret.contentWidth / 2
   logo.x = -3 + logo.contentWidth / 2 + caret.x + caret.contentWidth / 2
   up.width = 5 + logo.x + logo.contentWidth / 2
   up.x = up.contentWidth / 2
