@@ -1,4 +1,3 @@
-require("node_modules.lua-loader.init")(function() end)
 local EventEmitter = require("lua-events").EventEmitter
 
 local slider = {}
