@@ -1,10 +1,59 @@
 local widget = require("widget")
-local rowcaption = require("rowcaption")
 
-local menu = {}
 local items = {}
 
-local tableview
+local options = {
+  text = {
+    r = 200, g = 200, b = 200,
+    font = "Roboto-Regular", size = 18
+  },
+  margin = 10,
+  accent = {
+    r = 72, g = 212, b = 217
+  }
+}
+local function rowrender (event)
+  local row = event.row
+  local item = items[row.id] or {text = "table row " .. row.index}
+  item.index = row.index -- needed as the prameter for TableViewWidget:deleteRow()
+  local font, size, margin = options.text.font, options.text.size, options.margin
+  local r, g, b = options.text.r, options.text.g, options.text.b
+
+  if row.isCategory then -- shrink parameters for category rows
+    factor = .8
+    size, r, g, b = size * factor, r * factor, g * factor, b * factor
+  else -- flag to show for the selected row
+    local flag = display.newGroup()
+    row:insert(flag)
+    local bar = display.newRect(flag, 0, 0, margin / 2, row.contentHeight)
+    bar:setFillColor(options.accent.r, options.accent.g, options.accent.b)
+    local overlay = display.newRect(flag, 0, 0, row.contentWidth, row.contentHeight)
+    overlay:setFillColor(0, 0, 0, 50)
+    flag.isVisible = false
+    item.flag = flag
+    function item:select (prev)
+      if items[prev] and items[prev].flag then
+        items[prev].flag.isVisible = false
+      end
+      self.flag.isVisible = true
+      return row.id
+    end
+  end
+
+  local rowtext = display.newText(row, item.text, 0, 0, font, size)
+  rowtext.x = margin + row.x - row.contentWidth / 2 + rowtext.contentWidth / 2
+  rowtext.y = row.contentHeight / 2
+  rowtext:setTextColor(r, g, b)
+
+  if row.isCategory then -- underline a category's text
+    rowtext.y = rowtext.y - 2
+    local hr = display.newRect(row, 0, 1 + rowtext.y + rowtext.contentHeight / 2, row.contentWidth - 3 * margin, 1)
+    hr.x = margin + row.x - row.contentWidth / 2 + hr.contentWidth / 2
+    hr:setFillColor(r, g, b)
+  end
+end
+
+local menu, tableview = {}
 
 function menu:init (top)
   tableview = widget.newTableView({
@@ -14,7 +63,7 @@ function menu:init (top)
     height = display.viewableContentHeight - top,
     backgroundColor = {0, 133, 161, 180},
     noLines = true,
-    onRowRender = rowcaption(items, 200, 200, 200, "Roboto-Regular", 18, 10),
+    onRowRender = rowrender,
     onRowTouch = function (event)
       if "release" == event.phase
       and items[event.row.id].action then
@@ -70,14 +119,11 @@ function menu:remove (id)
   end
 end
 
-local flag
+local selected
 function menu:select (id)
-  local item = items[id]
-  if not item then return end
-  local newflag = item.flag
-  if flag then flag.isVisible = false end
-  newflag.isVisible = true
-  flag = newflag
+  if items[id] then
+    selected = items[id]:select(selected)
+  end
 end
 
 return menu

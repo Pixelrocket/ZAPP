@@ -5,7 +5,6 @@ local timeago = require("lua-timeago")
 timeago.setlanguage("nederlands")
 timeago.setstyle("short")
 
-local content = EventEmitter:new()
 local items = {}
 
 local margin = {
@@ -52,7 +51,7 @@ local slide = {
   swipethreshold = 75
 }
 
-local tableview
+local content, tableview = EventEmitter:new()
 
 function content:init (top)
   tableview = widget.newTableView({
