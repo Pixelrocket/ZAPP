@@ -149,20 +149,26 @@ function content:add (id, report, action)
   for _,match in ipairs({"\n", "\r", "\t", "  ", "  "}) do
     report.what = string.gsub(report.what, match, " ")
   end
+
+  local rowHeight, probe -- precalculate the value we need to pass to inserRow()
+  -- room for report heading
+  probe = display.newText("", 0, 0, font, fontsize.small)
+  rowHeight = probe.contentHeight
+  display.remove(probe)
+  -- room for report text
+  probe = display.newText(report.what, 0, 0, font, fontsize.large)
   local availablewidth = tableview.contentWidth - 2 * margin.width
-  local line = display.newText(report.what, 0, 0, font, fontsize.large)
-  local height = line.contentHeight
-  if line.contentWidth > availablewidth then
-    height = line.contentHeight * math.ceil(line.contentWidth / (availablewidth * .95) )
+  if availablewidth >= probe.contentWidth then
+    rowHeight = rowHeight + probe.contentHeight
+  else -- multiline
+    rowHeight = rowHeight + probe.contentHeight * math.ceil(probe.contentWidth / (availablewidth * .95) )
   end
-  display.remove(line)
-  line = display.newText("", 0, 0, font, fontsize.small)
-  height = height + line.contentHeight
-  display.remove(line)
-  height = height + 2 * margin.height + margin.spacing
+  display.remove(probe)
+  rowHeight = rowHeight + 2 * margin.height + margin.spacing
+
   tableview:insertRow({
     id = id,
-    rowHeight = height
+    rowHeight = rowHeight
   })
 end
 
