@@ -7,7 +7,7 @@ local options = {
     r = 200, g = 200, b = 200,
     font = "Roboto-Regular", size = 18
   },
-  margin = 10,
+  margin = 8,
   accent = {
     r = 72, g = 212, b = 217
   }

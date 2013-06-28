@@ -8,8 +8,8 @@ timeago.setstyle("short")
 local items = {}
 
 local margin = {
-  width = 20,
-  height = 10,
+  width = 16,
+  height = 8,
   spacing = 0
 }
 local fontsize = {
