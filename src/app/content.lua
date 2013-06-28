@@ -1,5 +1,5 @@
 local widget = require("widget")
-local slider = require("slider")
+local Slider = require("coronasdk-slider")
 local timeago = require("lua-timeago")
 
 timeago.setlanguage("nederlands")
@@ -61,7 +61,7 @@ function content:init (top)
   -- provide any possibility for touch extension through its API.
   -- The tableview[2] part is the dirty hack here.
   local view = tableview[2]
-  self = slider:new(self, view, {moveobject = tableview})
+  self = Slider:new(self, view, {moveobject = tableview})
 end
 
 function content:add (id, report, action)
