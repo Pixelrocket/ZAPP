@@ -5,8 +5,8 @@ local savestate = require("lua-savestate")
 local menu = require("menu")
 local content = require("content")
 local titlebar = require("titlebar")
-local top = titlebar:getBottom() menu:init(top) content:init(top) titlebar:init()
 local login = require("login")
+local top = titlebar:getBottom() menu:init(top) content:init(top) login:init(top) titlebar:init()
 
 savestate:init({
   selectedclient = nil
@@ -16,25 +16,29 @@ titlebar:on("up", function ()
   content:slide("right")
 end)
 
+local authenticated = false
 content:on("slide", function (position)
-  if "left" == position then titlebar:activate(savestate:get("selectedclient")) end
-  if "right" == position then titlebar:deactivate() end
+  if "right" == position then titlebar:deactivate()
+  elseif authenticated then titlebar:activate(savestate:get("selectedclient")) end
 end)
 
 local fetchclients
 login:on("authenticated", function (userinfo, accesstoken)
-  userinfo = userinfo or {
+  local userinfo = userinfo or {
     displayname = "Alex Verschuur",
     carefarm = {
       displayname = "Boer Harms"
     }
   }
+  authenticated = true
   menu:add("username", userinfo.displayname, function ()
     native.showAlert("ZilliZ", "Wilt u met een ander account inloggen?", {"Annuleren", "OK"},
       function (event)
         if "clicked" == event.action
         and 2 == event.index then
+          authenticated = false
           login:show()
+          content:slide("left")
         end
       end)
   end)

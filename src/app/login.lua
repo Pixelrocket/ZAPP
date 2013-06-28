@@ -3,57 +3,44 @@ local widget = require("widget")
 
 local login = EventEmitter:new()
 
--- maak de achtergrond
-local _H = display.contentHeight
-local _W = display.contentWidth
-local background = display.newImageRect("background.png",_W,_H)
-background:setReferencePoint(display.CenterReferencePoint)
-background.x = _W/2
-background.y = _H/2
--- toon tekst
-local _heightBase = 300
-local _heightDiff = 30
-local _textIndent = 130
-local textUsername = display.newText("gebruikersnaam",0,_heightBase,nil,14)
-textUsername:setReferencePoint(display.CenterRightReferencePoint)
-textUsername.x = _textIndent;
-local textPassword = display.newText("wachtwoord",0,_heightBase+_heightDiff,nil,14)
-textPassword:setReferencePoint(display.CenterRightReferencePoint)
-textPassword.x = _textIndent;
--- creer de inputvelden
-local _textIndent = 300
-local usernameField = native.newTextField(_textIndent,_heightBase,140,24)
-usernameField:setReferencePoint(display.CenterRightReferencePoint)
-usernameField.x = _textIndent
-local passwordField = native.newTextField(_textIndent,_heightBase+_heightDiff,140,24)
-passwordField:setReferencePoint(display.CenterRightReferencePoint)
-passwordField.x = _textIndent
---maak inloggen knop
-local loginButton = widget.newButton({
-	label = "inloggen",
-	fontSize = 20,
-  onRelease = function ()
-  	-- TODO: check credentials from textFields on the server,
-  	-- which on success will presumably return some userinfo object,
-  	-- and a token providing access to the user's resources on the server
-    login:emit("authenticated", userinfo, accesstoken)
-  end
-})
-loginButton.x = 0
-loginButton.y = 400
-loginButton:setReferencePoint(display.CenterRightReferencePoint)
-loginButton.x = _textIndent;
+local group
+function login:init(top)
+  group = display.newGroup()
+  local width, height = display.viewableContentWidth, display.viewableContentHeight - top
+  local rect = display.newRect(group, 0, top, width, height)
+  rect:setFillColor(100, 100, 100, 100)
+  local line = display.newLine(group, -5, rect.y - rect.contentHeight / 2, -5, rect.y + rect.contentHeight / 2)
+  line:setColor(0, 0, 0, 100)
+  line.width = 10
+  local button = widget.newButton({
+    label = "inloggen",
+    left = 16, top = top + 16,
+    width = 96, height = 48,
+    font = "Roboto-Regular", fontSize = 14,
+    onRelease = function ()
+      -- TODO: check credentials from textFields on the server,
+      -- which on success will presumably return some userinfo object,
+      -- and a token providing access to the user's resources on the server
+      login:emit("authenticated", userinfo, accesstoken)
+    end
+  })
+  group:insert(button)
+end
 
 function login:show ()
-  for _,v in ipairs({background, textUsername, textPassword, usernameField, passwordField, loginButton}) do
-  	v.isVisible = true
-  end
+  transition.to(group, {
+    time = 2000,
+    transition = easing.outExpo,
+    x = 0
+  })
 end
 
 function login:hide ()
-  for _,v in ipairs({background, textUsername, textPassword, usernameField, passwordField, loginButton}) do
-  	v.isVisible = false
-  end
+  transition.to(group, {
+    time = 2000,
+    transition = easing.outExpo,
+    x = group.contentWidth
+  })
 end
 
 return login
