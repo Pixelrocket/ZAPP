@@ -34,7 +34,7 @@ function titlebar:init ()
 
   local logo = display.newImage("logo_zilliz_kleur_laag.png", 0, 0)
   local ratio = logo.width / logo.height
-  logo.height, logo.width = 20, 20 * ratio
+  logo.height, logo.width = 18, 18 * ratio
 
   caption = display.newText("", 0, 0, font, 20)
 
