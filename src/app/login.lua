@@ -18,19 +18,16 @@ end
 
 local shade, form
 function login:init(top)
-  local width, height = display.viewableContentWidth, display.viewableContentHeight - top
-  shade = display.newRect(0, top, width, height) shade:setFillColor(0, 0, 0)
   form = display.newGroup()
+  local width, height = display.viewableContentWidth, display.viewableContentHeight - top
   local bg = display.newRect(form, 0, top, width, height) bg:setFillColor(255, 255, 255)
   top = top + 16
   fields.uid = native.newTextField(16, top + 4, width - 32, 40) fields.uid:addEventListener("userInput", input)
   fields.uid.text = "Gebruikersnaam"
-  fields.uid.basex = fields.uid.x
   fields.uid:setReturnKey("next")
   top = top + 48
   fields.pwd = native.newTextField(16, top + 4, width - 32, 40) fields.pwd:addEventListener("userInput", input)
   fields.pwd.text = "Wachtwoord"
-  fields.pwd.basex = fields.pwd.x
   fields.pwd:setReturnKey("go")
   top = top + 48
   local button = widget.newButton({
@@ -44,7 +41,7 @@ function login:init(top)
       -- TODO: check credentials from textFields on the server,
       -- which on success will presumably return some userinfo object,
       -- and a token providing access to the user's resources on the server
-      timer.performWithDelay(1000, function ()
+      timer.performWithDelay(500, function ()
         self:emit("authenticated", userinfo, accesstoken)
         self:hide()
       end)
@@ -69,18 +66,6 @@ function login:init(top)
 end
 
 local function slide (time, x, alpha)
-  transition.to(form, {
-    time = time,
-    transition = easing.outExpo,
-    x = x
-  })
-  for _,field in pairs(fields) do
-    transition.to(field, {
-      time = time,
-      transition = easing.outExpo,
-      x = field.basex + x
-    })
-  end
   transition.to(shade, {
     time = time,
     transition = easing.outExpo,
@@ -89,11 +74,41 @@ local function slide (time, x, alpha)
 end
 
 function login:show ()
-  slide(400, 0, 1)
+  local time = 400
+  form.alpha = 1
+  transition.from(form, {
+    time = time,
+    transition = easing.outExpo,
+    x = form.contentWidth
+  })
+  for _,field in pairs(fields) do
+    field.alpha = 1
+    field.isVisible = true
+    transition.from(field, {
+      time = time,
+      transition = easing.outExpo,
+      x = field.x + form.contentWidth
+    })
+  end
 end
 
 function login:hide ()
-  slide(1200, form.contentWidth, 0)
+  local time = 1200
+  transition.to(form, {
+    time = time,
+    transition = easing.outExpo,
+    alpha = 0
+  })
+  for _,field in pairs(fields) do
+    transition.to(field, {
+      time = time,
+      transition = easing.outExpo,
+      alpha = 0,
+      onComplete = function ()
+        field.isVisible = false
+      end
+    })
+  end
 end
 
 return login
