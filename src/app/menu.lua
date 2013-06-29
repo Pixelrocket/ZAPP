@@ -119,6 +119,13 @@ function menu:remove (id)
   end
 end
 
+function menu:empty ()
+  tableview:deleteAllRows()
+  for k in pairs(items) do
+    items[k] = nil
+  end
+end
+
 local selected
 function menu:select (id)
   if items[id] then

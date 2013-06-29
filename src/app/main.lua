@@ -38,13 +38,14 @@ login:on("authenticated", function (userinfo, accesstoken)
         and 2 == event.index then
           authenticated = false
           login:show()
+          content:empty()
           content:slide("left")
+          menu:empty()
         end
       end)
   end)
   menu:add("zorgboerderij", userinfo.carefarm.displayname)
   fetchclients()
-  login:hide()
 end)
 login:show()
 
@@ -81,18 +82,16 @@ listclients = function (clients)
   menu:remove("fetchclients")
   if known then name = savestate:get("selectedclient")
   else name = clients[1].clientnameinformal end
-  setclient(name)(true)
+  setclient(name)()
 end
 
 local fetchreports
 setclient = function (name)
-  return function (force)
-    if force or name ~= savestate:get("selectedclient") then
-      savestate:set("selectedclient", name, true)
-      menu:select("client" .. name)
-      content:empty()
-      fetchreports(name)
-    end
+  return function ()
+    content:empty()
+    savestate:set("selectedclient", name, true)
+    menu:select("client" .. name)
+    fetchreports(name)
     content:slide("left")
   end
 end

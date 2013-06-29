@@ -44,7 +44,10 @@ function login:init(top)
       -- TODO: check credentials from textFields on the server,
       -- which on success will presumably return some userinfo object,
       -- and a token providing access to the user's resources on the server
-      login:emit("authenticated", userinfo, accesstoken)
+      timer.performWithDelay(1000, function ()
+        self:emit("authenticated", userinfo, accesstoken)
+        self:hide()
+      end)
     end
   }) form:insert(button)
   top = top + 48
@@ -65,35 +68,32 @@ function login:init(top)
   end
 end
 
-local time = 400
-local function slide (values)
+local function slide (time, x, alpha)
   transition.to(form, {
     time = time,
     transition = easing.outExpo,
-    x = values.x
+    x = x
   })
   for _,field in pairs(fields) do
     transition.to(field, {
       time = time,
       transition = easing.outExpo,
-      x = field.basex + values.x
+      x = field.basex + x
     })
   end
   transition.to(shade, {
     time = time,
     transition = easing.outExpo,
-    alpha = values.alpha
+    alpha = alpha
   })
 end
 
 function login:show ()
-  slide({x = 0, alpha = 1})
+  slide(400, 0, 1)
 end
 
 function login:hide ()
-  timer.performWithDelay(1000, function ()
-    slide({x = form.contentWidth, alpha = 0})
-  end)
+  slide(1200, form.contentWidth, 0)
 end
 
 return login

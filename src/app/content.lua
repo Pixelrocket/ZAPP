@@ -75,7 +75,7 @@ function content:add (id, report, action)
   -- room for report heading
   probe = display.newText("", 0, 0, font, fontsize.small)
   rowHeight = probe.contentHeight
-  display.remove(probe)
+  probe:removeSelf()
   -- room for report text
   probe = display.newText(report.what, 0, 0, font, fontsize.large)
   local availablewidth = tableview.contentWidth - 2 * margin.width
@@ -84,7 +84,7 @@ function content:add (id, report, action)
   else -- multiline
     rowHeight = rowHeight + probe.contentHeight * math.ceil(probe.contentWidth / (availablewidth * .95) )
   end
-  display.remove(probe)
+  probe:removeSelf() probe = nil;
   rowHeight = rowHeight + 2 * margin.height + margin.spacing
 
   tableview:insertRow({
