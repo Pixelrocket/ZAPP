@@ -52,7 +52,7 @@ function login:init(top)
     left = 16, top = top + 4, width = width - 32, height = height - top - 4 - 16,
     onRowRender = function (event)
       local row = event.row
-      local text = display.newText(row, row.id, 0, 0, native.systemFont, 12)
+      local text = display.newText(row, row.id, 0, 0, row.id, 18)
       text.x = 4 + row.x - row.contentWidth / 2 + text.contentWidth / 2
       text.y = row.contentHeight / 2
       text:setTextColor(0, 0, 0)
@@ -60,8 +60,7 @@ function login:init(top)
   }) form:insert(tableview)
   for _,font in ipairs(native.getFontNames()) do
     tableview:insertRow({
-      id = font,
-      rowHeight = 20
+      id = font
     })
   end
 end
