@@ -16,7 +16,7 @@ local function input (event)
   end
 end
 
-local shade, form
+local form
 function login:init(top)
   form = display.newGroup()
   local width, height = display.viewableContentWidth, display.viewableContentHeight - top
