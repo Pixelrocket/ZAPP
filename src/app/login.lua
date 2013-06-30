@@ -1,8 +1,6 @@
 local EventEmitter = require("lua-events").EventEmitter
 local widget = require("widget")
 
-local login = EventEmitter:new()
-
 local fields = {
   uid = nil,
   pwd = nil
@@ -16,11 +14,12 @@ local function input (event)
   end
 end
 
-local form
+local login, group = EventEmitter:new(), display.newGroup()
+
 function login:init(top)
-  form = display.newGroup()
+  if group.numChildren > 0 then return end
   local width, height = display.viewableContentWidth, display.viewableContentHeight - top
-  local bg = display.newRect(form, 0, top, width, height) bg:setFillColor(255, 255, 255)
+  local bg = display.newRect(group, 0, top, width, height) bg:setFillColor(255, 255, 255)
   top = top + 16
   fields.uid = native.newTextField(16, top + 4, width - 32, 40) fields.uid:addEventListener("userInput", input)
   fields.uid.text = "Gebruikersnaam"
@@ -46,7 +45,7 @@ function login:init(top)
         self:hide()
       end)
     end
-  }) form:insert(button)
+  }) group:insert(button)
   top = top + 48
   local tableview = widget.newTableView({
     left = 16, top = top + 4, width = width - 32, height = height - top - 4 - 16,
@@ -57,7 +56,7 @@ function login:init(top)
       text.y = row.contentHeight / 2
       text:setTextColor(0, 0, 0)
     end
-  }) form:insert(tableview)
+  }) group:insert(tableview)
   for _,font in ipairs(native.getFontNames()) do
     tableview:insertRow({
       id = font
@@ -65,21 +64,13 @@ function login:init(top)
   end
 end
 
-local function slide (time, x, alpha)
-  transition.to(shade, {
-    time = time,
-    transition = easing.outExpo,
-    alpha = alpha
-  })
-end
-
 function login:show ()
   local time = 400
-  form.alpha = 1
-  transition.from(form, {
+  group.alpha = 1
+  transition.from(group, {
     time = time,
     transition = easing.outExpo,
-    x = form.contentWidth
+    x = group.contentWidth
   })
   for _,field in pairs(fields) do
     field.alpha = 1
@@ -87,14 +78,14 @@ function login:show ()
     transition.from(field, {
       time = time,
       transition = easing.outExpo,
-      x = field.x + form.contentWidth
+      x = field.x + group.contentWidth
     })
   end
 end
 
 function login:hide ()
   local time = 1500
-  transition.to(form, {
+  transition.to(group, {
     time = time,
     transition = easing.linear,
     alpha = 0

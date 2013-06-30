@@ -53,9 +53,10 @@ local function rowrender (event)
   end
 end
 
-local menu, tableview = {}
+local menu, group, tableview = {}, display.newGroup(), nil
 
 function menu:init (top)
+  if tableview then return end
   tableview = widget.newTableView({
     left = 0,
     top = top,
@@ -70,7 +71,7 @@ function menu:init (top)
         items[event.row.id].action()
       end
     end
-  })
+  }) group:insert(tableview)
 end
 
 local nocolor = {

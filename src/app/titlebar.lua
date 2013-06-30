@@ -5,20 +5,24 @@ local height = 48
 local r, g, b = 0, 133, 161
 local font = "Roboto-Regular"
 
+display.setStatusBar(display.DarkStatusBar)
+
 local titlebar = EventEmitter:new()
-local up, caret, caption
 
 function titlebar:getBottom ()
   return display.topStatusBarContentHeight + height
 end
 
+local group, up, caret, caption = display.newGroup()
+
 function titlebar:init ()
-  display.setStatusBar(display.DarkStatusBar)
+  if group.numChildren > 0 then return end
+
   -- prevent scrolled content from shining through device's status bar
-  local statusbarshield = display.newRect(0, 0, display.contentWidth, display.topStatusBarContentHeight)
+  local statusbarshield = display.newRect(group, 0, 0, display.contentWidth, display.topStatusBarContentHeight)
   statusbarshield:setFillColor(0, 0, 0)
 
-  local bar = display.newRect(0, 0, display.contentWidth, height)
+  local bar = display.newRect(group, 0, 0, display.contentWidth, height)
   bar:setFillColor(r, g, b)
   
   up = widget.newButton({
@@ -27,23 +31,23 @@ function titlebar:init ()
     onRelease = function ()
       self:emit("up")
     end
-  })
+  }) group:insert(up)
   
-  caret = display.newImage("1_navigation_previous_item.png", 0, 0)
+  caret = display.newImage(group, "1_navigation_previous_item.png", 0, 0)
   caret.height, caret.width = 20, 20
 
-  local logo = display.newImage("logo_zilliz_kleur_laag.png", 0, 0)
+  local logo = display.newImage(group, "logo_zilliz_kleur_laag.png", 0, 0)
   local ratio = logo.width / logo.height
   logo.height, logo.width = 18, 18 * ratio
 
-  caption = display.newText("", 0, 0, font, 20)
+  caption = display.newText(group, "", 0, 0, font, 20)
 
   local hr = {}
-  hr.background = display.newRect(0, 0, display.contentWidth, 2)
+  hr.background = display.newRect(group, 0, 0, display.contentWidth, 2)
   hr.background:setFillColor(0, 0, 0, 255)
-  hr[1] = display.newRect(0, 0, display.contentWidth, 1)
+  hr[1] = display.newRect(group, 0, 0, display.contentWidth, 1)
   hr[1]:setFillColor(r, g, b, 200)
-  hr[2] = display.newRect(0, 0, display.contentWidth, 1)
+  hr[2] = display.newRect(group, 0, 0, display.contentWidth, 1)
   hr[2]:setFillColor(r, g, b, 140)
 
   bar.y = display.topStatusBarContentHeight + bar.contentHeight / 2

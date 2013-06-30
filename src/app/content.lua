@@ -43,17 +43,17 @@ local function rowrender (event)
   whattext:setTextColor(0, 0, 0)
 end
 
-local content, tableview = {}
+local content, group, tableview = {}, display.newGroup(), nil
 
 function content:init (top)
+  if tableview then return end
   tableview = widget.newTableView({
     left = 0,
     top = top,
     width = display.viewableContentWidth,
     height = display.viewableContentHeight - top,
     onRowRender = rowrender
-  })
-
+  }) group:insert(tableview)
   -- FIXME; can break on any new widget version,
   -- but for now probably a better solution than keeping a fork of the widget library.
   -- The problem is that the TableView widget uses up all touch hook points for its

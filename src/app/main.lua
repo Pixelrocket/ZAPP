@@ -1,16 +1,13 @@
 require("node_modules.lua-loader.init")(function() end)
 local json = require("json")
 local savestate = require("lua-savestate")
-
 local menu = require("menu")
 local content = require("content")
-local titlebar = require("titlebar")
 local login = require("login")
-local top = titlebar:getBottom() menu:init(top) content:init(top) login:init(top) titlebar:init()
+local titlebar = require("titlebar")
 
-savestate:init({
-  selectedclient = nil
-})
+local top = titlebar:getBottom()
+login:init(top) titlebar:init() menu:init(top) content:init(top)  
 
 titlebar:on("up", function ()
   content:slide("right")
@@ -47,7 +44,10 @@ login:on("authenticated", function (userinfo, accesstoken)
   menu:add("zorgboerderij", userinfo.carefarm.displayname)
   fetchclients()
 end)
-login:show()
+
+savestate:init({
+  selectedclient = nil
+})
 
 local showerror
 
