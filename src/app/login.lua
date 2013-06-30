@@ -84,16 +84,16 @@ function login:show ()
 end
 
 function login:hide ()
-  local time = 1500
+  local time = 1200
   transition.to(group, {
     time = time,
-    transition = easing.linear,
+    transition = easing.outExpo,
     alpha = 0
   })
   for _,field in pairs(fields) do
     transition.to(field, {
       time = time,
-      transition = easing.linear,
+      transition = easing.outExpo,
       alpha = 0,
       onComplete = function ()
         field.isVisible = false
