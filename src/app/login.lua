@@ -66,10 +66,10 @@ function login:init(top)
   local height = display.viewableContentHeight - top
   local bg = display.newRect(group, 0, top, width, height) bg:setFillColor(255, 255, 255)
   top = top + 16
-  local uid = createtextfield(top, "Gebruikersnaam", "next")
+  local uid = createtextfield(top, "Gebruikersnaam", "next") -- hilhorst averschuur
   group:insert(uid)
   top = top + 48
-  local pwd = createtextfield(top, "Wachtwoord", "go")
+  local pwd = createtextfield(top, "Wachtwoord", "go") -- 171049 huurcave-4711
   group:insert(pwd)
   top = top + 48
   local button = widget.newButton({
