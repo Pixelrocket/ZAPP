@@ -66,6 +66,11 @@ function login:init(top)
   local height = display.viewableContentHeight - top
   local bg = display.newRect(group, 0, top, width, height) bg:setFillColor(255, 255, 255)
   top = top + 16
+  local caption = display.newText(group, "INLOGGEN", 16 + 9, top, "Roboto-Regular", 14)
+  caption:setTextColor(51, 181, 229)
+  top = caption.y + caption.contentHeight / 2 + 4
+  local line = display.newLine(group, 16,top, width - 16,top)
+  line:setColor(51, 181, 229)
   local uid = createtextfield(top, "Gebruikersnaam", "next") -- hilhorst averschuur
   group:insert(uid)
   top = top + 48
