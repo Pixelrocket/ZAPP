@@ -47,6 +47,7 @@ local function createtextfield (top, hint, returnKey)
 
   function group:deactivate ()
     local text = textfield.text
+    if text == "" then text = hint end
     placeholders[textfield] = nil
     textfield:removeSelf()
     fields[hint] = text
