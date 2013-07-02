@@ -16,7 +16,9 @@ end
 
 local width = display.viewableContentWidth
 
-local function createtextfield (top, hint, returnKey, isSecure)
+local function createtextfield (
+  top -- FIXME
+  , hint, returnKey, isSecure)
   local group = display.newGroup()
 
   local line = display.newLine(group, 16,top + 44, 16,top + 48)
