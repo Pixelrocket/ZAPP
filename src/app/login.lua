@@ -1,7 +1,7 @@
 local EventEmitter = require("lua-events").EventEmitter
 local widget = require("widget")
 
-local fields = {}
+local login = EventEmitter:new()
 
 local function input (event)
   local fieldgroup = event.target.fieldgroup
@@ -10,12 +10,12 @@ local function input (event)
   elseif event.phase == "ended" or event.phase == "submitted" then
     fieldgroup:finish()
   elseif event.phase == "editing" then
-    fieldgroup:hideplaceholder()
+    fieldgroup:change()
   end
 end
 
 local function createtextfield (width, hint, returnKey, isSecure)
-  local group, textfield = display.newGroup()
+  local group, value, textfield = EventEmitter:new(display.newGroup()), "", nil
 
   local line = display.newLine(group, 0,44, 0,48)
   line:append(width,48, width,44)
@@ -45,21 +45,32 @@ local function createtextfield (width, hint, returnKey, isSecure)
 
   function group:start ()
     placeholdertext.text = hint
+    if value ~= "" then
+      value = ""
+      self:emit("change", hint, value)
+    end
   end
 
-  function group:hideplaceholder ()
+  function group:value ()
+    return value
+  end
+
+  function group:change ()
     placeholdertext.isVisible = false
+    value = textfield.text
+    self:emit("change", hint, value)
   end
 
   function group:finish ()
-    local text = textfield.text
-    fields[hint] = text
+    if not textfield then return end
+    textfield:removeSelf()
+    textfield = nil
+    local text = value
     if text == "" then
       text = hint
-    elseif textfield.isSecure then
+    elseif isSecure then
       text = string.gsub(text, ".", "*")
     end
-    textfield:removeSelf()
     placeholdertext.text = text
     placeholdertext.isVisible = true
     line:setColor(153, 153, 153)
@@ -86,27 +97,38 @@ local function createform (width)
   group:insert(pwd)
   pwd.y = uid.y + 48
 
+  local function authenticate ()
+    -- TODO: check credentials from textFields on the server,
+    -- which on success will presumably return some userinfo object,
+    -- and a token providing access to the user's resources on the server
+    timer.performWithDelay(500, function ()
+      login:emit("authenticated", userinfo, accesstoken)
+      login:hide()
+    end)
+  end
+  
   local button = widget.newButton({
     label = "Inloggen",
     left = 0, top = pwd.y + 52, width = width, height = 40,
     font = "Roboto-Regular", fontSize = 18,
-    onRelease = function ()
-      for k,v in pairs(fields) do
-        print(k,v)
-      end
-      -- TODO: check credentials from textFields on the server,
-      -- which on success will presumably return some userinfo object,
-      -- and a token providing access to the user's resources on the server
-      timer.performWithDelay(500, function ()
-        self:emit("authenticated", userinfo, accesstoken)
-        self:hide()
-      end)
-    end
+    isEnabled = false,
+    onRelease = authenticate
   }) group:insert(button)
+
+  local function newvalue ()
+    if #uid:value() > 0 and #pwd:value() > 0 then
+      button:setEnabled(true)
+    else
+      button:setEnabled(false)
+    end
+  end
+  uid:on("change", newvalue)
+  pwd:on("change", newvalue)
+
   return group
 end
 
-local login, group = EventEmitter:new(), display.newGroup()
+local group = display.newGroup()
 
 function login:init(top)
   if group.numChildren > 0 then return end
