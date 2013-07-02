@@ -14,27 +14,23 @@ local function input (event)
   end
 end
 
-local width = display.viewableContentWidth
+local function createtextfield (width, hint, returnKey, isSecure)
+  local group, textfield = display.newGroup()
 
-local function createtextfield (
-  top -- FIXME
-  , hint, returnKey, isSecure)
-  local group = display.newGroup()
-
-  local line = display.newLine(group, 16,top + 44, 16,top + 48)
-  line:append(width - 16,top + 48, width - 16,top + 44)
+  local line = display.newLine(group, 0,44, 0,48)
+  line:append(width,48, width,44)
   line:setColor(153, 153, 153)
 
-  local placeholdertext = display.newText(group, hint, 16 + 9, top + 8, width - 32 - 13, 40, "Roboto-Regular", 18)
+  local placeholdertext = display.newText(group, hint, 9, 8, width - 13, 40, "Roboto-Regular", 18)
   placeholdertext:setTextColor(153, 153, 153)
-
-  local textfield
 
   function placeholdertext:touch (event)
     if event.phase == "ended" then
       line:setColor(0, 153, 204)
       line.width = 2
-      textfield = native.newTextField(16, top + 4, width - 32, 40)
+      -- trial and error positioning ftw
+      local left, top = placeholdertext:contentToLocal(placeholdertext.x, placeholdertext.y)
+      textfield = native.newTextField(0 - left, 4 - top, width, 40)
       textfield.font = native.newFont("Roboto-Regular", 18)
       textfield.hasBackground = false
       textfield.isSecure = isSecure or false
@@ -69,31 +65,30 @@ local function createtextfield (
     line:setColor(153, 153, 153)
     line.width = 1
   end
-
   return group
 end
 
-local login, group = EventEmitter:new(), display.newGroup()
+local function createform (width)
+  local group = display.newGroup()
 
-function login:init(top)
-  if group.numChildren > 0 then return end
-  local height = display.viewableContentHeight - top
-  local bg = display.newRect(group, 0, top, width, height) bg:setFillColor(255, 255, 255)
-  top = top + 16
-  local caption = display.newText(group, "INLOGGEN", 16 + 9, top, "Roboto-Regular", 14)
+  local caption = display.newText(group, "INLOGGEN", 9, 0, "Roboto-Regular", 14)
   caption:setTextColor(51, 181, 229)
-  top = caption.y + caption.contentHeight / 2 + 4
-  local line = display.newLine(group, 16,top, width - 16,top)
+
+  local line = display.newLine(group, 0,0, width,0)
   line:setColor(51, 181, 229)
-  local uid = createtextfield(top, "Gebruikersnaam", "next") -- hilhorst averschuur
+  line.y = caption.y + caption.contentHeight / 2 + 4
+
+  local uid = createtextfield(width, "Gebruikersnaam", "next") -- hilhorst averschuur
   group:insert(uid)
-  top = top + 48
-  local pwd = createtextfield(top, "Wachtwoord", "go", true) -- 171049 huurcave-4711
+  uid.y = line.y
+
+  local pwd = createtextfield(width, "Wachtwoord", "go", true) -- 171049 huurcave-4711
   group:insert(pwd)
-  top = top + 48
+  pwd.y = uid.y + 48
+
   local button = widget.newButton({
     label = "Inloggen",
-    left = 16, top = top + 4, width = width - 32, height = 40,
+    left = 0, top = pwd.y + 52, width = width, height = 40,
     font = "Roboto-Regular", fontSize = 18,
     onRelease = function ()
       for k,v in pairs(fields) do
@@ -108,7 +103,20 @@ function login:init(top)
       end)
     end
   }) group:insert(button)
-  top = top + 48
+  return group
+end
+
+local login, group = EventEmitter:new(), display.newGroup()
+
+function login:init(top)
+  if group.numChildren > 0 then return end
+  local width, height = display.viewableContentWidth, display.viewableContentHeight - top
+  print("init width", width)
+  local bg = display.newRect(group, 0, 0, width, height) bg:setFillColor(255, 255, 255)
+  group.y = top
+  local form = createform(width - 32)
+  group:insert(form)
+  form.x, form.y = 16, 16
 end
 
 function login:show ()
