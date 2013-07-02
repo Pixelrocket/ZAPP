@@ -1,16 +1,16 @@
 local EventEmitter = require("lua-events").EventEmitter
 local widget = require("widget")
 
-local placeholders = {}
 local fields = {}
 
 local function input (event)
-  local textfield = event.target
+  local fieldgroup = event.target.fieldgroup
   if event.phase == "began" then
+    fieldgroup:start()
   elseif event.phase == "ended" or event.phase == "submitted" then
-    local placeholder = placeholders[textfield]
-    placeholder:deactivate()
+    fieldgroup:finish()
   elseif event.phase == "editing" then
+    fieldgroup:hideplaceholder()
   end
 end
 
@@ -37,18 +37,25 @@ local function createtextfield (
       textfield = native.newTextField(16, top + 4, width - 32, 40)
       textfield.font = native.newFont("Roboto-Regular", 18)
       textfield.hasBackground = false
-      placeholdertext.isVisible = false
       textfield.isSecure = isSecure or false
       textfield:setReturnKey(returnKey)
       textfield:addEventListener("userInput", input)
       native.setKeyboardFocus(textfield)
-      placeholders[textfield] = group
+      textfield.fieldgroup = group
     end
     return true
   end 
   placeholdertext:addEventListener("touch", text)
 
-  function group:deactivate ()
+  function group:start ()
+    placeholdertext.text = hint
+  end
+
+  function group:hideplaceholder ()
+    placeholdertext.isVisible = false
+  end
+
+  function group:finish ()
     local text = textfield.text
     fields[hint] = text
     if text == "" then
@@ -56,7 +63,6 @@ local function createtextfield (
     elseif textfield.isSecure then
       text = string.gsub(text, ".", "*")
     end
-    placeholders[textfield] = nil
     textfield:removeSelf()
     placeholdertext.text = text
     placeholdertext.isVisible = true
