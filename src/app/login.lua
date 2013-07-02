@@ -16,7 +16,7 @@ end
 
 local width = display.viewableContentWidth
 
-local function createtextfield (top, hint, returnKey)
+local function createtextfield (top, hint, returnKey, isSecure)
   local group = display.newGroup()
 
   local line = display.newLine(group, 16,top + 44, 16,top + 48)
@@ -36,6 +36,7 @@ local function createtextfield (top, hint, returnKey)
       textfield.font = native.newFont("Roboto-Regular", 18)
       textfield.hasBackground = false
       placeholdertext.isVisible = false
+      textfield.isSecure = isSecure or false
       textfield:setReturnKey(returnKey)
       textfield:addEventListener("userInput", input)
       native.setKeyboardFocus(textfield)
@@ -47,10 +48,14 @@ local function createtextfield (top, hint, returnKey)
 
   function group:deactivate ()
     local text = textfield.text
-    if text == "" then text = hint end
+    fields[hint] = text
+    if text == "" then
+      text = hint
+    elseif textfield.isSecure then
+      text = string.gsub(text, ".", "*")
+    end
     placeholders[textfield] = nil
     textfield:removeSelf()
-    fields[hint] = text
     placeholdertext.text = text
     placeholdertext.isVisible = true
     line:setColor(153, 153, 153)
@@ -75,7 +80,7 @@ function login:init(top)
   local uid = createtextfield(top, "Gebruikersnaam", "next") -- hilhorst averschuur
   group:insert(uid)
   top = top + 48
-  local pwd = createtextfield(top, "Wachtwoord", "go") -- 171049 huurcave-4711
+  local pwd = createtextfield(top, "Wachtwoord", "go", true) -- 171049 huurcave-4711
   group:insert(pwd)
   top = top + 48
   local button = widget.newButton({
