@@ -1,6 +1,7 @@
 require("node_modules.lua-loader.init")(function() end)
 local json = require("json")
 local savestate = require("lua-savestate")
+local showerror = require("showerror")
 local menu = require("menu")
 local content = require("content")
 local login = require("login")
@@ -13,35 +14,27 @@ titlebar:on("up", function ()
   content:slide("right")
 end)
 
-local authenticated = false
+local accesstoken, caption
 content:on("slide", function (position)
   if "right" == position then titlebar:deactivate()
-  elseif authenticated then titlebar:activate(savestate:get("selectedclient")) end
+  elseif accesstoken then titlebar:activate(caption) end
 end)
 
 local fetchclients
-login:on("authenticated", function (userinfo, accesstoken)
-  local userinfo = userinfo or {
-    displayname = "Alex Verschuur",
-    carefarm = {
-      displayname = "Boer Harms"
-    }
+login:on("authenticated", function (userinfo, token)
+  -- FIXME: wordt niet opnieuw gerenderd bij opnieuw inloggen...
+  userinfo.carefarm = userinfo.carefarm or {
+    name = "Boer Harms"
   }
-  authenticated = true
-  menu:add("username", userinfo.displayname, function ()
-    native.showAlert("ZilliZ", "Wilt u met een ander account inloggen?", {"Annuleren", "OK"},
-      function (event)
-        if "clicked" == event.action
-        and 2 == event.index then
-          authenticated = false
-          login:show()
-          content:empty()
-          content:slide("left")
-          menu:empty()
-        end
-      end)
+  accesstoken = token
+  menu:add("username", userinfo.name, function ()
+    accesstoken = nil
+    login:show()
+    content:empty()
+    content:slide("left")
+    menu:empty()
   end)
-  menu:add("zorgboerderij", userinfo.carefarm.displayname)
+  menu:add("zorgboerderij", userinfo.carefarm.name)
   fetchclients()
 end)
 
@@ -49,11 +42,11 @@ savestate:init({
   selectedclient = nil
 })
 
-local showerror
-
 local listclients
 fetchclients = function ()
-  network.request("https://www.greenhillhost.nl/ws_zapp/getClients/", "GET", function (event)
+  local url = "https://www.greenhillhost.nl/ws_zapp/getClients/"
+  url = url .. "?token=" .. accesstoken
+  network.request(url, "GET", function (event)
     local clients = {}
     if event.isError
     or event.status ~= 200 then
@@ -73,33 +66,41 @@ listclients = function (clients)
     content:slide("right")
     return print("no clients!")
   end
-  local known, name = false, nil
+  local known, id = false, nil
   for i,client in ipairs(clients) do
-    name = client.clientnameinformal
-    if not known and name == savestate:get("selectedclient") then known = true end
-    menu:add("client" .. name, name, setclient(name))
+    id = client.clientid
+    if not known and id == savestate:get("selectedclient") then
+      known = true
+      caption = client.clientnameinformal
+    end
+    menu:add("client" .. id, client.clientnameinformal, setclient(id, client.clientnameinformal))
   end
   menu:remove("fetchclients")
-  if known then name = savestate:get("selectedclient")
-  else name = clients[1].clientnameinformal end
-  setclient(name)()
+  if known then
+    setclient(savestate:get("selectedclient"), caption)()
+  else
+    setclient(clients[1].clientid, clients[1].clientnameinformal)()
+  end
 end
 
 local fetchreports
-setclient = function (name)
+setclient = function (id, name)
   return function ()
+    caption = name
     content:empty()
-    savestate:set("selectedclient", name, true)
-    menu:select("client" .. name)
-    fetchreports(name)
+    savestate:set("selectedclient", id, true)
+    menu:select("client" .. id)
+    fetchreports(id)
     content:slide("left")
   end
 end
 
 local listreports
-fetchreports = function (client)
-  -- TODO: client parameter in reports service
-  network.request("https://www.greenhillhost.nl/ws_zapp/getDailyReports/", "GET", function (event)
+fetchreports = function (id)
+  local url = "https://www.greenhillhost.nl/ws_zapp/getDailyReports/"
+  url = url .. "?token=" .. accesstoken
+  url = url .. "&clientid=" .. id
+  network.request(url, "GET", function (event)
     local reports = {}
     if event.isError
     or event.status ~= 200 then
@@ -134,13 +135,4 @@ listreports = function (reports)
       })
     end
   end
-end
-
-showerror = function (message)
-  native.showAlert("ZilliZ", message, {"OK"},
-    function (event)
-      if "clicked" == event.action then
-        print("error", message)
-      end
-    end)
 end

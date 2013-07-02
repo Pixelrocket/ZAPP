@@ -129,7 +129,7 @@ end
 
 local selected
 function menu:select (id)
-  if items[id] then
+  if items[id] and items[id].flag then
     selected = items[id]:select(selected)
   end
 end
