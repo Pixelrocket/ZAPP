@@ -19,8 +19,8 @@ end
 local function createtextfield (width, hint, returnKey, isSecure)
   local group, value, textfield = EventEmitter:new(display.newGroup()), "", nil
 
-  local line = display.newLine(group, 0,44, 0,48)
-  line:append(width,48, width,44)
+  local line = display.newLine(group, 0,40, 0,44)
+  line:append(width,44, width,40)
   line:setColor(153, 153, 153)
 
   local placeholdertext = display.newText(group, hint, 9, 8, width - 13, 40, "Roboto-Regular", 18)
@@ -143,7 +143,7 @@ local function createform (width)
   
   local testbutton = widget.newButton({
     label = "Door",
-    left = 0, top = button.y + 48, width = width, height = 40,
+    left = 0, top = button.y + 24, width = width, height = 40,
     font = "Roboto-Regular", fontSize = 18,
     isEnabled = true,
     onRelease = function () authenticate("averschuur", "huurcave-4711") end
