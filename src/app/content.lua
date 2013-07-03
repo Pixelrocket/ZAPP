@@ -84,7 +84,7 @@ function content:add (id, report, action)
   else -- multiline
     rowHeight = rowHeight + probe.contentHeight * math.ceil(probe.contentWidth / (availablewidth * .95) )
   end
-  probe:removeSelf() probe = nil;
+  probe:removeSelf() probe = nil
   rowHeight = rowHeight + 2 * margin.height + margin.spacing
 
   tableview:insertRow({

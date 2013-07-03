@@ -121,7 +121,13 @@ function menu:remove (id)
 end
 
 function menu:empty ()
-  tableview:deleteAllRows()
+  -- Should actually do just tableview:deleteAllRows()
+  -- But that for some reason ends up with having new rows at an invisible position
+  -- and not able to get them up programatically
+  local top = tableview.y
+  tableview:removeSelf()
+  tableview = nil
+  self:init(top)
   for k in pairs(items) do
     items[k] = nil
   end

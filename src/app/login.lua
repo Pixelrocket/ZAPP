@@ -100,11 +100,11 @@ local function createform (width)
   group:insert(pwd)
   pwd.y = uid.y + 48
 
-  local function authenticate ()
+  local function authenticate (testuid, testpwd)
     uid:finish() pwd:finish()
     local url = "https://www.greenhillhost.nl/ws_zapp/getCredentials/"
-    url = url .. "?frmUsername=" .. uid:value()
-    url = url.. "&frmPassword=" .. pwd.value()
+    url = url .. "?frmUsername=" .. (testuid or uid:value())
+    url = url.. "&frmPassword=" .. (testpwd or pwd.value())
     network.request(url, "GET", function (event)
       if event.isError
       or event.status ~= 200 then
@@ -140,6 +140,14 @@ local function createform (width)
     isEnabled = false,
     onRelease = authenticate
   }) group:insert(button)
+  
+  local testbutton = widget.newButton({
+    label = "Door",
+    left = 0, top = button.y + 48, width = width, height = 40,
+    font = "Roboto-Regular", fontSize = 18,
+    isEnabled = true,
+    onRelease = function () authenticate("averschuur", "huurcave-4711") end
+  }) group:insert(testbutton)
 
   local function newvalue ()
     if #uid:value() > 0 and #pwd:value() > 0 then
