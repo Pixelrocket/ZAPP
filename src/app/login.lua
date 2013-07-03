@@ -9,7 +9,7 @@ local function input (event)
   local fieldgroup = event.target.fieldgroup
   if event.phase == "began" then
     fieldgroup:start()
-  elseif event.phase == "ended" or event.phase == "submitted" then
+  elseif event.phase == "ended" then
     fieldgroup:finish()
   elseif event.phase == "submitted" then
     fieldgroup:finish(true)
