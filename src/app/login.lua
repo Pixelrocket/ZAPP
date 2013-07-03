@@ -107,11 +107,10 @@ local function createform (width)
   group:insert(pwd)
   pwd.y = uid.y + 48
 
-  local function authenticate (defaults)
-    uid:finish() pwd:finish() native.setKeyboardFocus(nil)
+  local function authenticate (uid, pwd)
     local url = "https://www.greenhillhost.nl/ws_zapp/getCredentials/"
-    url = url .. "?frmUsername=" .. (defaults.uid or uid:value())
-    url = url.. "&frmPassword=" .. (defaults.pwd or pwd:value())
+    url = url .. "?frmUsername=" .. uid
+    url = url.. "&frmPassword=" .. pwd
     network.request(url, "GET", function (event)
       if event.isError
       or event.status ~= 200 then
@@ -145,7 +144,10 @@ local function createform (width)
     left = 0, top = pwd.y + 52, width = width, height = 40,
     font = "Roboto-Regular", fontSize = 18,
     isEnabled = false,
-    onRelease = authenticate
+    onRelease = function ()
+      uid:finish() pwd:finish()
+      authenticate(uid:value(), pwd:value())
+    end
   }) group:insert(button)
   
   local testbutton = widget.newButton({
@@ -153,7 +155,10 @@ local function createform (width)
     left = 0, top = button.y + 24, width = width, height = 40,
     font = "Roboto-Regular", fontSize = 18,
     isEnabled = true,
-    onRelease = function () authenticate({uid = "averschuur", pwd = "huurcave-4711"}) end
+    onRelease = function ()
+      uid:finish() pwd:finish()
+      authenticate("averschuur", "huurcave-4711")
+    end
   }) group:insert(testbutton)
 
   local function newvalue ()
@@ -169,7 +174,8 @@ local function createform (width)
   uid:on("submit", function () pwd:focus() end)
   pwd:on("submit", function ()
     if #uid:value() > 0 and #pwd:value() > 0 then
-      authenticate()
+      native.setKeyboardFocus(nil)
+      authenticate(uid:value(), pwd:value())
     end
   end)
 
