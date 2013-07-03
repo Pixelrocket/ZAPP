@@ -11,6 +11,8 @@ local function input (event)
     fieldgroup:start()
   elseif event.phase == "ended" or event.phase == "submitted" then
     fieldgroup:finish()
+  elseif event.phase == "submitted" then
+    fieldgroup:finish(true)
   elseif event.phase == "editing" then
     fieldgroup:change()
   end
@@ -26,20 +28,24 @@ local function createtextfield (width, hint, returnKey, isSecure)
   local placeholdertext = display.newText(group, hint, 9, 8, width - 13, 40, "Roboto-Regular", 18)
   placeholdertext:setTextColor(153, 153, 153)
 
+  function group:focus ()
+    line:setColor(0, 153, 204)
+    line.width = 2
+    -- trial and error positioning ftw
+    local left, top = placeholdertext:contentToLocal(placeholdertext.x, placeholdertext.y)
+    textfield = native.newTextField(0 - left, 4 - top, width, 40)
+    textfield.font = native.newFont("Roboto-Regular", 18)
+    textfield.hasBackground = false
+    textfield.isSecure = isSecure or false
+    textfield:setReturnKey(returnKey)
+    textfield:addEventListener("userInput", input)
+    native.setKeyboardFocus(textfield)
+    textfield.fieldgroup = group
+  end
+
   function placeholdertext:touch (event)
     if event.phase == "ended" then
-      line:setColor(0, 153, 204)
-      line.width = 2
-      -- trial and error positioning ftw
-      local left, top = placeholdertext:contentToLocal(placeholdertext.x, placeholdertext.y)
-      textfield = native.newTextField(0 - left, 4 - top, width, 40)
-      textfield.font = native.newFont("Roboto-Regular", 18)
-      textfield.hasBackground = false
-      textfield.isSecure = isSecure or false
-      textfield:setReturnKey(returnKey)
-      textfield:addEventListener("userInput", input)
-      native.setKeyboardFocus(textfield)
-      textfield.fieldgroup = group
+      group:focus()
     end
     return true
   end 
@@ -63,7 +69,7 @@ local function createtextfield (width, hint, returnKey, isSecure)
     self:emit("change", hint, value)
   end
 
-  function group:finish ()
+  function group:finish (submit)
     if not textfield then return end
     textfield.isVisible = false
     textfield:removeSelf()
@@ -78,6 +84,7 @@ local function createtextfield (width, hint, returnKey, isSecure)
     placeholdertext.isVisible = true
     line:setColor(153, 153, 153)
     line.width = 1
+    if submit then self:emit("submit") end
   end
   return group
 end
@@ -100,11 +107,11 @@ local function createform (width)
   group:insert(pwd)
   pwd.y = uid.y + 48
 
-  local function authenticate (testuid, testpwd)
-    uid:finish() pwd:finish()
+  local function authenticate (defaults)
+    uid:finish() pwd:finish() native.setKeyboardFocus(nil)
     local url = "https://www.greenhillhost.nl/ws_zapp/getCredentials/"
-    url = url .. "?frmUsername=" .. (testuid or uid:value())
-    url = url.. "&frmPassword=" .. (testpwd or pwd.value())
+    url = url .. "?frmUsername=" .. (defaults.uid or uid:value())
+    url = url.. "&frmPassword=" .. (defaults.pwd or pwd:value())
     network.request(url, "GET", function (event)
       if event.isError
       or event.status ~= 200 then
@@ -146,7 +153,7 @@ local function createform (width)
     left = 0, top = button.y + 24, width = width, height = 40,
     font = "Roboto-Regular", fontSize = 18,
     isEnabled = true,
-    onRelease = function () authenticate("averschuur", "huurcave-4711") end
+    onRelease = function () authenticate({uid = "averschuur", pwd = "huurcave-4711"}) end
   }) group:insert(testbutton)
 
   local function newvalue ()
@@ -158,6 +165,13 @@ local function createform (width)
   end
   uid:on("change", newvalue)
   pwd:on("change", newvalue)
+
+  uid:on("submit", function () pwd:focus() end)
+  pwd:on("submit", function ()
+    if #uid:value() > 0 and #pwd:value() > 0 then
+      authenticate()
+    end
+  end)
 
   return group
 end
