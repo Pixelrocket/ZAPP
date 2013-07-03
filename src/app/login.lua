@@ -16,10 +16,12 @@ local function createtextfield (width, hint, returnKey, isSecure)
   local placeholdertext = display.newText(group, hint, 9, 8, width - 13, 40, "Roboto-Regular", 18)
   placeholdertext:setTextColor(153, 153, 153)
 
-  local function setvalue (val)
-    if val ~= value then
-      group:emit("change", hint, val)
-    end value = val
+  local function setvalue (newvalue)
+    local oldvalue = value
+    value = newvalue
+    if value ~= oldvalue then
+      group:emit("change", hint, value)
+    end
   end
 
   local function finish (submit)
@@ -136,15 +138,15 @@ local function createform (width)
     label = "Inloggen",
     left = 0, top = pwd.y + 52, width = width, height = 40,
     font = "Roboto-Regular", fontSize = 18,
-    isEnabled = false,
     onRelease = function ()
       uid:finish() pwd:finish()
       authenticate(uid:value(), pwd:value())
     end
   }) group:insert(button)
+  button.isVisible = false
   
   local testbutton = widget.newButton({
-    label = "Door",
+    label = "Dev: inloggen default account",
     left = 0, top = button.y + 24, width = width, height = 40,
     font = "Roboto-Regular", fontSize = 18,
     isEnabled = true,
@@ -156,9 +158,9 @@ local function createform (width)
 
   local function newvalue ()
     if #uid:value() > 0 and #pwd:value() > 0 then
-      button:setEnabled(true)
+      button.isVisible = true
     else
-      button:setEnabled(false)
+      button.isVisible = false
     end
   end
   uid:on("change", newvalue)
