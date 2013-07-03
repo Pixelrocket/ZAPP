@@ -5,21 +5,9 @@ local json = require("json")
 
 local login = EventEmitter:new()
 
-local function input (event)
-  local fieldgroup = event.target.fieldgroup
-  if event.phase == "began" then
-    fieldgroup:start()
-  elseif event.phase == "ended" then
-    fieldgroup:finish()
-  elseif event.phase == "submitted" then
-    fieldgroup:finish(true)
-  elseif event.phase == "editing" then
-    fieldgroup:change()
-  end
-end
-
 local function createtextfield (width, hint, returnKey, isSecure)
-  local group, value, textfield = EventEmitter:new(display.newGroup()), "", nil
+  local group = EventEmitter:new(display.newGroup())
+  local value, textfield = ""
 
   local line = display.newLine(group, 0,40, 0,44)
   line:append(width,44, width,40)
@@ -28,10 +16,47 @@ local function createtextfield (width, hint, returnKey, isSecure)
   local placeholdertext = display.newText(group, hint, 9, 8, width - 13, 40, "Roboto-Regular", 18)
   placeholdertext:setTextColor(153, 153, 153)
 
-  function group:focus ()
+  local function setvalue (val)
+    if val ~= value then
+      group:emit("change", hint, val)
+    end value = val
+  end
+
+  local function finish (submit)
+    if not textfield then return end
+    textfield.isVisible = false
+    textfield:removeSelf() textfield = nil
+    local text = value
+    if text == "" then
+      text = hint
+    elseif isSecure then
+      text = string.gsub(text, ".", "*")
+    end
+    placeholdertext.text = text
+    placeholdertext.isVisible = true
+    line:setColor(153, 153, 153)
+    line.width = 1
+    if submit then group:emit("submit") end
+  end
+
+  local function input (event)
+    if event.phase == "began" then
+      placeholdertext.text = hint
+      setvalue("")
+    elseif event.phase == "ended" then
+      finish()
+    elseif event.phase == "submitted" then
+      finish(true)
+    elseif event.phase == "editing" then
+      placeholdertext.isVisible = false
+      setvalue(textfield.text)
+    end
+  end
+
+  local function focus ()
     line:setColor(0, 153, 204)
     line.width = 2
-    -- trial and error positioning ftw
+    -- trial and error positioning ftw ;-)
     local left, top = placeholdertext:contentToLocal(placeholdertext.x, placeholdertext.y)
     textfield = native.newTextField(0 - left, 4 - top, width, 40)
     textfield.font = native.newFont("Roboto-Regular", 18)
@@ -45,47 +70,15 @@ local function createtextfield (width, hint, returnKey, isSecure)
 
   function placeholdertext:touch (event)
     if event.phase == "ended" then
-      group:focus()
+      focus()
     end
     return true
-  end 
-  placeholdertext:addEventListener("touch", text)
+  end placeholdertext:addEventListener("touch", placeholdertext)
 
-  function group:start ()
-    placeholdertext.text = hint
-    if value ~= "" then
-      value = ""
-      self:emit("change", hint, value)
-    end
-  end
+  function group:focus () focus() end
+  function group:finish () finish() end
+  function group:value () return value end
 
-  function group:value ()
-    return value
-  end
-
-  function group:change ()
-    placeholdertext.isVisible = false
-    value = textfield.text
-    self:emit("change", hint, value)
-  end
-
-  function group:finish (submit)
-    if not textfield then return end
-    textfield.isVisible = false
-    textfield:removeSelf()
-    textfield = nil
-    local text = value
-    if text == "" then
-      text = hint
-    elseif isSecure then
-      text = string.gsub(text, ".", "*")
-    end
-    placeholdertext.text = text
-    placeholdertext.isVisible = true
-    line:setColor(153, 153, 153)
-    line.width = 1
-    if submit then self:emit("submit") end
-  end
   return group
 end
 
@@ -189,8 +182,7 @@ function login:init(top)
   local width, height = display.viewableContentWidth, display.viewableContentHeight - top
   local bg = display.newRect(group, 0, 0, width, height) bg:setFillColor(255, 255, 255)
   group.y = top
-  local form = createform(width - 32)
-  group:insert(form)
+  local form = createform(width - 32) group:insert(form)
   form.x, form.y = 16, 16
 end
 
