@@ -22,9 +22,10 @@ function TextField:new (width, hint, returnKey, isSecure)
   end
 
   local function finish (submit)
-    if not textfield then return end
-    textfield.isVisible = false
-    textfield:removeSelf() textfield = nil
+    if textfield then
+      textfield.isVisible = false
+      textfield:removeSelf() textfield = nil
+    end
     placeholdertext:setTextColor(0, 0, 0)
     local text = value
     if text == "" then
@@ -80,6 +81,7 @@ function TextField:new (width, hint, returnKey, isSecure)
   function group:focus () focus() end
   function group:finish () finish() end
   function group:value () return value end
+  function group:reset () value = "" finish() end
 
   return group
 end

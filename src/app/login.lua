@@ -5,10 +5,13 @@ local TextField = require("textfield")
 
 local login = EventEmitter:new()
 
-local function authenticate (uid, pwd)
+local uid, pwd
+
+local function authenticate (uidval, pwdval)
+  uidval, pwdval = uidval or uid:value(), pwdval or pwd:value()
   local url = "https://www.greenhillhost.nl/ws_zapp/getCredentials/"
-  url = url .. "?frmUsername=" .. uid
-  url = url.. "&frmPassword=" .. pwd
+  url = url .. "?frmUsername=" .. uidval
+  url = url.. "&frmPassword=" .. pwdval
   native.setKeyboardFocus(nil)
   network.request(url, "GET", function (event)
     if event.isError
@@ -43,10 +46,10 @@ local sendbutton
 local function createform (width)
   local group = display.newGroup()
 
-  local uid = TextField:new(width, "Gebruikersnaam", "next")
+  uid = TextField:new(width, "Gebruikersnaam", "next")
   group:insert(uid)
 
-  local pwd = TextField:new(width, "Wachtwoord", "go", true)
+  pwd = TextField:new(width, "Wachtwoord", "go", true)
   group:insert(pwd)
   pwd.y = uid.y + 48
 
@@ -56,7 +59,6 @@ local function createform (width)
     font = "Roboto-Regular", fontSize = 18,
     isEnabled = true,
     onRelease = function ()
-      uid:finish() pwd:finish()
       authenticate("averschuur", "huurcave-4711")
     end
   }) group:insert(testbutton)
@@ -84,13 +86,12 @@ local function createform (width)
     elseif #uid:value() < 1 then
       uid:focus()
     else
-      authenticate(uid:value(), pwd:value())
+      authenticate()
     end
   end)
 
   sendbutton:on("release", function ()
-    uid:finish() pwd:finish()
-    authenticate(uid:value(), pwd:value())
+    authenticate()
   end)
 
   return group
@@ -133,7 +134,11 @@ function login:hide ()
   transition.to(group, {
     time = time,
     transition = easing.outExpo,
-    alpha = 0
+    alpha = 0,
+    onComplete = function ()
+      uid:reset()
+      pwd:reset()
+    end
   })
 end
 
