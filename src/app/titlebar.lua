@@ -76,8 +76,8 @@ function titlebar:setcaption (text, options)
     time = 400,
     transition = easing.outExpo,
     alpha = (options.alpha or 1),
-    onStart = onStart,
-    onComplete = onComplete
+    onStart = options.onStart,
+    onComplete = options.onComplete
   })
 end
 
