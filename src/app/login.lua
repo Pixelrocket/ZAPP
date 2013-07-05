@@ -1,5 +1,4 @@
 local EventEmitter = require("lua-events").EventEmitter
-local widget = require("widget")
 local showerror = require("showerror")
 local json = require("json")
 local TextField = require("textfield")
@@ -51,7 +50,7 @@ local function createform (width)
   group:insert(pwd)
   pwd.y = uid.y + 48
 
-  local testbutton = widget.newButton({
+  local testbutton = require("widget").newButton({
     label = "Dev: inloggen default account",
     left = 0, top = pwd.y + 52 + 48, width = width, height = 40,
     font = "Roboto-Regular", fontSize = 18,
@@ -115,7 +114,6 @@ function login:init(titlebar)
 
   local form = createform(width - 32) group:insert(form)
   form.x, form.y = 16, 16
-
 end
 
 function login:show ()
