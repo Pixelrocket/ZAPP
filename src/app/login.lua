@@ -87,6 +87,38 @@ local function createtextfield (width, hint, returnKey, isSecure)
   return group
 end
 
+local function authenticate (uid, pwd)
+  local url = "https://www.greenhillhost.nl/ws_zapp/getCredentials/"
+  url = url .. "?frmUsername=" .. uid
+  url = url.. "&frmPassword=" .. pwd
+  network.request(url, "GET", function (event)
+    if event.isError
+    or event.status ~= 200 then
+      return showerror("Het is niet gelukt om u in te loggen via het netwerk")
+    end
+
+    local credentials = json.decode(event.response)[1]
+    if #(credentials.token or "") ~= 32 then
+      return showerror("Het is niet gelukt om u in te loggen via het netwerk")
+    end
+    if (credentials.noofclients or 0) < 1 then
+      return showerror("Er zijn nog geen cliënten gekoppeld aan uw account")
+    end
+    local name
+    local function addpart (part)
+      if not part then return end
+      if name then name = name .. " " .. part
+      else name = part end
+    end
+    for _,field in ipairs({"firstname", "infix", "lastname"}) do
+      addpart(credentials[field])
+    end
+    local email = credentials.emailaddress
+    login:emit("authenticated", {name = name, email = email}, credentials.token)
+    login:hide()
+  end)
+end
+
 local function createform (width)
   local group = display.newGroup()
 
@@ -105,38 +137,6 @@ local function createform (width)
   group:insert(pwd)
   pwd.y = uid.y + 48
 
-  local function authenticate (uid, pwd)
-    local url = "https://www.greenhillhost.nl/ws_zapp/getCredentials/"
-    url = url .. "?frmUsername=" .. uid
-    url = url.. "&frmPassword=" .. pwd
-    network.request(url, "GET", function (event)
-      if event.isError
-      or event.status ~= 200 then
-        return showerror("Het is niet gelukt om u in te loggen via het netwerk")
-      end
-
-      local credentials = json.decode(event.response)[1]
-      if #(credentials.token or "") ~= 32 then
-        return showerror("Het is niet gelukt om u in te loggen via het netwerk")
-      end
-      if (credentials.noofclients or 0) < 1 then
-        return showerror("Er zijn nog geen cliënten gekoppeld aan uw account")
-      end
-      local name
-      local function addpart (part)
-        if not part then return end
-        if name then name = name .. " " .. part
-        else name = part end
-      end
-      for _,field in ipairs({"firstname", "infix", "lastname"}) do
-        addpart(credentials[field])
-      end
-      local email = credentials.emailaddress
-      login:emit("authenticated", {name = name, email = email}, credentials.token)
-      login:hide()
-    end)
-  end
-  
   local button = widget.newButton({
     label = "Inloggen",
     left = 0, top = pwd.y + 52, width = width, height = 40,
