@@ -28,9 +28,11 @@ local function createtextfield (width, hint, returnKey, isSecure)
     if not textfield then return end
     textfield.isVisible = false
     textfield:removeSelf() textfield = nil
+    placeholdertext:setTextColor(0, 0, 0)
     local text = value
     if text == "" then
       text = hint
+      placeholdertext:setTextColor(153, 153, 153)
     elseif isSecure then
       text = string.gsub(text, ".", "*")
     end
@@ -56,6 +58,7 @@ local function createtextfield (width, hint, returnKey, isSecure)
   end
 
   local function focus ()
+    placeholdertext:setTextColor(153, 153, 153)
     line:setColor(0, 153, 204)
     line.width = 2
     -- trial and error positioning ftw ;-)
