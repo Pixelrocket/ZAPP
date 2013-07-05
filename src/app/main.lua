@@ -7,8 +7,12 @@ local content = require("content")
 local login = require("login")
 local titlebar = require("titlebar")
 
+titlebar:init()
+login:init(titlebar)
+
 local top = titlebar:getBottom()
-login:init(top) titlebar:init() menu:init(top) content:init(top)  
+menu:init(top)
+content:init(top)  
 
 titlebar:on("up", function ()
   content:slide("right")

@@ -91,6 +91,7 @@ local function authenticate (uid, pwd)
   local url = "https://www.greenhillhost.nl/ws_zapp/getCredentials/"
   url = url .. "?frmUsername=" .. uid
   url = url.. "&frmPassword=" .. pwd
+  native.setKeyboardFocus(nil)
   network.request(url, "GET", function (event)
     if event.isError
     or event.status ~= 200 then
@@ -119,38 +120,21 @@ local function authenticate (uid, pwd)
   end)
 end
 
+local sendbutton
+
 local function createform (width)
   local group = display.newGroup()
 
-  local caption = display.newText(group, "INLOGGEN", 9, 0, "Roboto-Regular", 14)
-  caption:setTextColor(51, 181, 229)
-
-  local line = display.newLine(group, 0,0, width,0)
-  line:setColor(51, 181, 229)
-  line.y = caption.y + caption.contentHeight / 2 + 4
-
   local uid = createtextfield(width, "Gebruikersnaam", "next") -- hilhorst averschuur
   group:insert(uid)
-  uid.y = line.y
 
   local pwd = createtextfield(width, "Wachtwoord", "go", true) -- 171049 huurcave-4711
   group:insert(pwd)
   pwd.y = uid.y + 48
 
-  local button = widget.newButton({
-    label = "Inloggen",
-    left = 0, top = pwd.y + 52, width = width, height = 40,
-    font = "Roboto-Regular", fontSize = 18,
-    onRelease = function ()
-      uid:finish() pwd:finish()
-      authenticate(uid:value(), pwd:value())
-    end
-  }) group:insert(button)
-  button.isVisible = false
-  
   local testbutton = widget.newButton({
     label = "Dev: inloggen default account",
-    left = 0, top = button.y + 24, width = width, height = 40,
+    left = 0, top = pwd.y + 52 + 48, width = width, height = 40,
     font = "Roboto-Regular", fontSize = 18,
     isEnabled = true,
     onRelease = function ()
@@ -161,37 +145,62 @@ local function createform (width)
 
   local function newvalue ()
     if #uid:value() > 0 and #pwd:value() > 0 then
-      button.isVisible = true
+      sendbutton:show()
     else
-      button.isVisible = false
+      sendbutton:hide()
     end
   end
   uid:on("change", newvalue)
   pwd:on("change", newvalue)
 
-  uid:on("submit", function () pwd:focus() end)
+  uid:on("submit", function ()
+    if #uid:value() < 1 then
+      uid:focus()
+    else
+      pwd:focus()
+    end
+  end)
   pwd:on("submit", function ()
-    if #uid:value() > 0 and #pwd:value() > 0 then
-      native.setKeyboardFocus(nil)
+    if #pwd:value() < 1 then
+      pwd:focus()
+    elseif #uid:value() < 1 then
+      uid:focus()
+    else
       authenticate(uid:value(), pwd:value())
     end
+  end)
+
+  sendbutton:on("release", function ()
+    uid:finish() pwd:finish()
+    authenticate(uid:value(), pwd:value())
   end)
 
   return group
 end
 
-local group = display.newGroup()
+local group, showtitle = display.newGroup()
 
-function login:init(top)
+function login:init(titlebar)
   if group.numChildren > 0 then return end
+
+  local top = titlebar:getBottom()
   local width, height = display.viewableContentWidth, display.viewableContentHeight - top
   local bg = display.newRect(group, 0, 0, width, height) bg:setFillColor(255, 255, 255)
   group.y = top
+
+  showtitle = function () titlebar:setcaption("Inloggen") end
+  showtitle()
+
+  sendbutton = titlebar:addbutton("send", "6_social_send_now.png")
+  sendbutton:hide()
+
   local form = createform(width - 32) group:insert(form)
   form.x, form.y = 16, 16
+
 end
 
 function login:show ()
+  showtitle()
   local time = 400
   group.alpha = 1
   transition.from(group, {
@@ -202,6 +211,7 @@ function login:show ()
 end
 
 function login:hide ()
+  sendbutton:hide()
   local time = 1200
   transition.to(group, {
     time = time,
