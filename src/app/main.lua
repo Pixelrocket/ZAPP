@@ -22,7 +22,6 @@ end)
 
 local fetchclients
 login:on("authenticated", function (userinfo, token)
-  -- FIXME: wordt niet opnieuw gerenderd bij opnieuw inloggen...
   userinfo.carefarm = userinfo.carefarm or {
     name = "Boer Harms"
   }
