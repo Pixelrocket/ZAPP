@@ -37,7 +37,6 @@ local function authenticate (uidval, pwdval)
     end
     local email = credentials.emailaddress
     login:emit("authenticated", {name = name, email = email}, credentials.token)
-    login:hide()
   end)
 end
 
@@ -97,7 +96,7 @@ local function createform (width)
   return group
 end
 
-local group, showtitle = display.newGroup()
+local group = display.newGroup()
 
 function login:init(titlebar)
   if group.numChildren > 0 then return end
@@ -107,9 +106,7 @@ function login:init(titlebar)
   local bg = display.newRect(group, 0, 0, width, height) bg:setFillColor(255, 255, 255)
   group.y = top
 
-  showtitle = function () titlebar:setcaption("Inloggen") end
-  showtitle()
-
+  titlebar:setcaption("Inloggen")
   sendbutton = titlebar:addbutton("send", "6_social_send_now.png")
   sendbutton:hide()
 
@@ -118,7 +115,6 @@ function login:init(titlebar)
 end
 
 function login:show ()
-  showtitle()
   local time = 400
   group.alpha = 1
   transition.from(group, {

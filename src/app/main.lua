@@ -14,10 +14,6 @@ local top = titlebar:getBottom()
 menu:init(top)
 content:init(top)  
 
-titlebar:on("up", function ()
-  content:slide("right")
-end)
-
 local accesstoken, caption
 content:on("slide", function (position)
   if "right" == position then titlebar:deactivate()
@@ -29,13 +25,20 @@ login:on("authenticated", function (userinfo, token)
   userinfo.carefarm = userinfo.carefarm or {
     name = "Boer Harms"
   }
+  accesstoken = nil
+  titlebar:on("up", function () content:slide("right") end)
+  content:empty()
+  menu:empty()
+  login:hide()
   accesstoken = token
   menu:add("username", userinfo.name, function ()
-    accesstoken = nil
+    titlebar:on("up", function ()
+      titlebar:on("up", function () content:slide("right") end)
+      content:slide("left")
+      login:hide()
+    end)
+    titlebar:activate("Inloggen")
     login:show()
-    content:empty()
-    content:slide("left")
-    menu:empty()
   end)
   menu:add("zorgboerderij", userinfo.carefarm.name)
   fetchclients()
