@@ -72,18 +72,18 @@ listclients = function (clients)
     content:slide("right")
     return print("no clients!")
   end
-  local known, id = false, nil
+  local known, id, name = false
   for i,client in ipairs(clients) do
     id = client.clientid
     if not known and id == savestate:get("selectedclient") then
       known = true
-      caption = client.clientnameinformal
+      name = client.clientnameinformal
     end
     menu:add("client" .. id, client.clientnameinformal, setclient(id, client.clientnameinformal))
   end
   menu:remove("fetchclients")
   if known then
-    setclient(savestate:get("selectedclient"), caption)()
+    setclient(savestate:get("selectedclient"), name)()
   else
     setclient(clients[1].clientid, clients[1].clientnameinformal)()
   end
