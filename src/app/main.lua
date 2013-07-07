@@ -24,7 +24,6 @@ login:on("authenticated", function (userinfo, token)
     name = "Boer Harms"
   }
   accesstoken = token
-  content:empty()
   menu:empty()
   titlebar:on("up", showmenu)
   login:hide()
@@ -72,17 +71,17 @@ listclients = function (clients)
     content:slide("right")
     return print("no clients!")
   end
-  local savedclient, done = savestate:get("selectedclient")
+  local savedclient, clientset = savestate:get("selectedclient")
   for _,client in ipairs(clients) do
     local id, name  = client.clientid, client.clientnameinformal
+    menu:add("client" .. id, name, setclient(id, name))
     if id == savedclient then
       setclient(id, name)()
-      done = true
+      clientset = true
     end
-    menu:add("client" .. id, name, setclient(id, name))
   end
   menu:remove("fetchclients")
-  if not done then
+  if not clientset then
     setclient(clients[1].clientid, clients[1].clientnameinformal)()
   end
 end
