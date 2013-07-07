@@ -14,33 +14,33 @@ local top = titlebar:getBottom()
 menu:init(top)
 content:init(top)  
 
-local accesstoken, caption
-content:on("slide", function (position)
-  if "right" == position then titlebar:deactivate()
-  elseif accesstoken then titlebar:activate(caption) end
-end)
+local function showmenu ()
+  content:slide("right")
+end
 
-local fetchclients
+local accesstoken, fetchclients
 login:on("authenticated", function (userinfo, token)
   userinfo.carefarm = userinfo.carefarm or {
     name = "Boer Harms"
   }
-  accesstoken = nil
-  titlebar:on("up", function () content:slide("right") end)
+  accesstoken = token
   content:empty()
   menu:empty()
+  titlebar:on("up", showmenu)
   login:hide()
-  accesstoken = token
+
   menu:add("username", userinfo.name, function ()
     titlebar:on("up", function ()
-      titlebar:on("up", function () content:slide("right") end)
       content:slide("left")
+      titlebar:on("up", showmenu)
       login:hide()
     end)
     titlebar:activate("Inloggen")
     login:show()
   end)
+
   menu:add("zorgboerderij", userinfo.carefarm.name)
+
   fetchclients()
 end)
 
@@ -72,19 +72,17 @@ listclients = function (clients)
     content:slide("right")
     return print("no clients!")
   end
-  local known, id, name = false
-  for i,client in ipairs(clients) do
-    id = client.clientid
-    if not known and id == savestate:get("selectedclient") then
-      known = true
-      name = client.clientnameinformal
+  local savedclient, done = savestate:get("selectedclient")
+  for _,client in ipairs(clients) do
+    local id, name  = client.clientid, client.clientnameinformal
+    if id == savedclient then
+      setclient(id, name)()
+      done = true
     end
-    menu:add("client" .. id, client.clientnameinformal, setclient(id, client.clientnameinformal))
+    menu:add("client" .. id, name, setclient(id, name))
   end
   menu:remove("fetchclients")
-  if known then
-    setclient(savestate:get("selectedclient"), name)()
-  else
+  if not done then
     setclient(clients[1].clientid, clients[1].clientnameinformal)()
   end
 end
@@ -92,11 +90,14 @@ end
 local fetchreports
 setclient = function (id, name)
   return function ()
-    caption = name
     content:empty()
+    fetchreports(id)
     savestate:set("selectedclient", id, true)
     menu:select("client" .. id)
-    fetchreports(id)
+    content:on("slide", function (position)
+      if "right" == position then titlebar:deactivate()
+      else titlebar:activate(name) end
+    end)
     content:slide("left")
   end
 end
