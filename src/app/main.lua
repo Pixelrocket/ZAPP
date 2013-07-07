@@ -7,10 +7,10 @@ local content = require("content")
 local login = require("login")
 local titlebar = require("titlebar")
 
-titlebar:init()
-login:init(titlebar)
-
 local top = titlebar:getBottom()
+titlebar:init()
+titlebar:setcaption("Inloggen")
+login:init(top, titlebar:addbutton("send", "6_social_send_now.png"))
 menu:init(top)
 content:init(top)  
 

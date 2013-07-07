@@ -5,13 +5,10 @@ local TextField = require("textfield")
 
 local login = EventEmitter:new()
 
-local uid, pwd
-
-local function authenticate (uidval, pwdval)
-  uidval, pwdval = uidval or uid:value(), pwdval or pwd:value()
+local function authenticate (uid, pwd)
   local url = "https://www.greenhillhost.nl/ws_zapp/getCredentials/"
-  url = url .. "?frmUsername=" .. uidval
-  url = url.. "&frmPassword=" .. pwdval
+  url = url .. "?frmUsername=" .. uid
+  url = url.. "&frmPassword=" .. pwd
   native.setKeyboardFocus(nil)
   network.request(url, "GET", function (event)
     if event.isError
@@ -40,27 +37,15 @@ local function authenticate (uidval, pwdval)
   end)
 end
 
-local sendbutton
-
-local function createform (width)
+local function createform (width, sendbutton)
   local group = display.newGroup()
 
-  uid = TextField:new(width, "Gebruikersnaam", "next")
+  local uid = TextField:new(width, "Gebruikersnaam", "next")
   group:insert(uid)
 
-  pwd = TextField:new(width, "Wachtwoord", "go", true)
+  local pwd = TextField:new(width, "Wachtwoord", "go", true)
   group:insert(pwd)
   pwd.y = uid.y + 48
-
-  local testbutton = require("widget").newButton({
-    label = "Dev: inloggen default account",
-    left = 0, top = pwd.y + 52 + 48, width = width, height = 40,
-    font = "Roboto-Regular", fontSize = 18,
-    isEnabled = true,
-    onRelease = function ()
-      authenticate("averschuur", "huurcave-4711")
-    end
-  }) group:insert(testbutton)
 
   local function newvalue ()
     if #uid:value() > 0 and #pwd:value() > 0 then
@@ -85,12 +70,15 @@ local function createform (width)
     elseif #uid:value() < 1 then
       uid:focus()
     else
-      authenticate()
+      authenticate(uid:value(), pwd:value())
+      sendbutton:hide()
+      uid:reset()
+      pwd:reset()
     end
   end)
 
   sendbutton:on("release", function ()
-    authenticate()
+    pwd:emit("submit")
   end)
 
   return group
@@ -98,20 +86,19 @@ end
 
 local group = display.newGroup()
 
-function login:init(titlebar)
+function login:init(top, sendbutton)
   if group.numChildren > 0 then return end
 
-  local top = titlebar:getBottom()
   local width, height = display.viewableContentWidth, display.viewableContentHeight - top
-  local bg = display.newRect(group, 0, 0, width, height) bg:setFillColor(255, 255, 255)
+  local bg = display.newRect(group, 0, 0, width, height)
+  bg:setFillColor(255, 255, 255)
   group.y = top
 
-  titlebar:setcaption("Inloggen")
-  sendbutton = titlebar:addbutton("send", "6_social_send_now.png")
-  sendbutton:hide()
-
-  local form = createform(width - 32) group:insert(form)
+  local form = createform(width - 32, sendbutton)
+  group:insert(form)
   form.x, form.y = 16, 16
+
+  sendbutton:hide()
 end
 
 function login:show ()
@@ -125,16 +112,11 @@ function login:show ()
 end
 
 function login:hide ()
-  sendbutton:hide()
   local time = 1200
   transition.to(group, {
     time = time,
     transition = easing.outExpo,
-    alpha = 0,
-    onComplete = function ()
-      uid:reset()
-      pwd:reset()
-    end
+    alpha = 0
   })
 end
 
