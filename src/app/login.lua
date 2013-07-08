@@ -9,7 +9,6 @@ local function authenticate (uid, pwd)
   local url = "https://www.greenhillhost.nl/ws_zapp/getCredentials/"
   url = url .. "?frmUsername=" .. uid
   url = url.. "&frmPassword=" .. pwd
-  native.setKeyboardFocus(nil)
   network.request(url, "GET", function (event)
     if event.isError
     or event.status ~= 200 then
@@ -79,6 +78,7 @@ local function createform (width, sendbutton)
   end)
 
   login:on("hide", function ()
+    native.setKeyboardFocus(nil)
     sendbutton:hide()
     uid:reset()
     pwd:reset()
