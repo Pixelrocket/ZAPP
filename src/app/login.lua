@@ -5,7 +5,7 @@ local TextField = require("textfield")
 
 local login = EventEmitter:new()
 
-local function authenticate (uid, pwd, after)
+local function authenticate (uid, pwd)
   local url = "https://www.greenhillhost.nl/ws_zapp/getCredentials/"
   url = url .. "?frmUsername=" .. uid
   url = url.. "&frmPassword=" .. pwd
@@ -34,7 +34,6 @@ local function authenticate (uid, pwd, after)
     end
     local email = credentials.emailaddress
     login:emit("authenticated", {name = name, email = email}, credentials.token)
-    after()
   end)
 end
 
@@ -71,16 +70,18 @@ local function createform (width, sendbutton)
     elseif #uid:value() < 1 then
       uid:focus()
     else
-      authenticate(uid:value(), pwd:value(), function ()
-        sendbutton:hide()
-        uid:reset()
-        pwd:reset()
-      end)
+      authenticate(uid:value(), pwd:value())
     end
   end)
 
   sendbutton:on("release", function ()
     pwd:emit("submit")
+  end)
+
+  login:on("hide", function ()
+    sendbutton:hide()
+    uid:reset()
+    pwd:reset()
   end)
 
   return group
@@ -120,6 +121,7 @@ function login:hide ()
     transition = easing.outExpo,
     alpha = 0
   })
+  self:emit("hide")
 end
 
 return login
