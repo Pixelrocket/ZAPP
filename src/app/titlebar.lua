@@ -24,7 +24,7 @@ function titlebar:init ()
   statusbarshield:setFillColor(0, 0, 0)
 
   local bar = display.newRect(group, 0, 0, width, height)
-  bar:setFillColor(r, g, b)
+  bar:setFillColor(r, g, b, 200)
   
   up = widget.newButton({
     width = bar.width, height = bar.height,

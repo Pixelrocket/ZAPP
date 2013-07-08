@@ -62,7 +62,7 @@ function menu:init (top)
     top = top,
     width = display.viewableContentWidth * .8,
     height = display.viewableContentHeight - top,
-    backgroundColor = {132, 199, 115, 255},
+    backgroundColor = {132, 199, 115, 200},
     noLines = true,
     onRowRender = rowrender,
     onRowTouch = function (event)
