@@ -28,7 +28,7 @@ function titlebar:init ()
   
   up = widget.newButton({
     width = bar.width, height = bar.height,
-    defaultFile = "default.png", overFile = "over.png",
+    defaultFile = "button-default.png", overFile = "button-over.png",
     onRelease = function ()
       self:emit("up") return true
     end
@@ -104,7 +104,7 @@ function titlebar:addbutton (name, imagepath)
 
   local button = widget.newButton({
     width = height, height = height,
-    defaultFile = "default.png", overFile = "over.png",
+    defaultFile = "button-default.png", overFile = "button-over.png",
     onPress = function ()
       api:emit("press") return true
     end,
