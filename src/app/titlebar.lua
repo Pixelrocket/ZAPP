@@ -37,9 +37,9 @@ function titlebar:init ()
   caret = display.newImage(group, "1_navigation_previous_item.png", 0, 0)
   caret.height, caret.width = 20, 20
 
-  local logo = display.newImage(group, "logo_zilliz.png", 0, 0)
+  local logo = display.newImage(group, "Icon-ldpi.png", 0, 0)
   local ratio = logo.width / logo.height
-  logo.height, logo.width = 18, 18 * ratio
+  logo.height, logo.width = 24, 24 * ratio
 
   caption = display.newText(group, "", 0, 0, font, 20)
 
