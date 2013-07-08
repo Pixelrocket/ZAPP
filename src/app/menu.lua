@@ -4,12 +4,12 @@ local items = {}
 
 local options = {
   text = {
-    r = 200, g = 200, b = 200,
+    r = 255, g = 255, b = 255,
     font = "Roboto-Regular", size = 18
   },
   margin = 8,
   accent = {
-    r = 72, g = 212, b = 217
+    r = 60, g = 176, b = 222
   }
 }
 local function rowrender (event)
@@ -62,7 +62,7 @@ function menu:init (top)
     top = top,
     width = display.viewableContentWidth * .8,
     height = display.viewableContentHeight - top,
-    backgroundColor = {0, 133, 161, 180},
+    backgroundColor = {132, 199, 115, 255},
     noLines = true,
     onRowRender = rowrender,
     onRowTouch = function (event)
@@ -80,7 +80,7 @@ local nocolor = {
 }
 local actioncolor = {
   default = {0, 0, 0, 0},
-  over = {51, 181, 229, 225}
+  over = {51, 181, 229, 255}
 }
 
 local function insertRow (id, options, text, action)
