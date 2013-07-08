@@ -141,7 +141,7 @@ listreports = function (reports)
       content:add("report" .. i, {
         what = report.cdo_dossier,
         who = name,
-        when = report.cdo_date_added
+        when = report.cdo_date_added_ts
       })
     end
   end
