@@ -55,7 +55,9 @@ fetchclients = function ()
     local clients = {}
     if event.isError
     or event.status ~= 200 then
-      showerror("Het is niet gelukt om een netwerkverbinding te maken")
+      local msg = "Het is niet gelukt om een netwerkverbinding te maken"
+      msg = msg .. "\nfetchclients " .. event.status
+      showerror(msg)
     else
       clients = json.decode(event.response) or clients
     end
@@ -110,7 +112,9 @@ fetchreports = function (id)
     local reports = {}
     if event.isError
     or event.status ~= 200 then
-      showerror("Het is niet gelukt om een netwerkverbinding te maken")
+      local msg = "Het is niet gelukt om een netwerkverbinding te maken"
+      msg = msg .. "\nfetchreports " .. event.status
+      showerror(msg)
     else
       reports = json.decode(event.response) or reports
     end
