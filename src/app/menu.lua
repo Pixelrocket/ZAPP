@@ -9,7 +9,7 @@ local options = {
   },
   margin = 8,
   accent = {
-    r = 60, g = 176, b = 222
+    r = 177, g = 209, b = 222
   }
 }
 local function rowrender (event)
@@ -62,7 +62,7 @@ function menu:init (top)
     top = top,
     width = display.viewableContentWidth * .8,
     height = display.viewableContentHeight - top,
-    backgroundColor = {132, 199, 115, 200},
+    backgroundColor = {102, 120, 128},
     noLines = true,
     onRowRender = rowrender,
     onRowTouch = function (event)

@@ -3,7 +3,7 @@ local widget = require("widget")
 
 local width = display.viewableContentWidth
 local height = 48
-local r, g, b = 60, 176, 222
+local r, g, b = 177, 209, 222
 local font = "Roboto-Regular"
 
 display.setStatusBar(display.DarkStatusBar)
@@ -24,7 +24,7 @@ function titlebar:init ()
   statusbarshield:setFillColor(0, 0, 0)
 
   local bar = display.newRect(group, 0, 0, width, height)
-  bar:setFillColor(r, g, b, 200)
+  bar:setFillColor(r, g, b)
   
   up = widget.newButton({
     width = bar.width, height = bar.height,
@@ -41,7 +41,8 @@ function titlebar:init ()
   local ratio = logo.width / logo.height
   logo.height, logo.width = 24, 24 * ratio
 
-  caption = display.newText(group, "", 0, 0, font, 20)
+  caption = display.newText(group, "", 0, 0, font, 18)
+  caption:setTextColor(0, 0, 0)
 
   local hr = {}
   hr.background = display.newRect(group, 0, 0, width, 2)
@@ -114,8 +115,6 @@ function titlebar:addbutton (name, imagepath)
   }) buttongroup:insert(button)
 
   local image = display.newImage(buttongroup, imagepath)
-  image.width = button.contentWidth
-  image.height = button.contentHeight
   image.x = button.x image.y = button.y
 
   group:insert(buttongroup)

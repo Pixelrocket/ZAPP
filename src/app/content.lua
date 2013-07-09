@@ -52,6 +52,7 @@ function content:init (top)
     top = top,
     width = display.viewableContentWidth,
     height = display.viewableContentHeight - top,
+    backgroundColor = {251, 255, 250},
     onRowRender = rowrender
   }) group:insert(tableview)
   -- FIXME; can break on any new widget version,
@@ -63,6 +64,11 @@ function content:init (top)
   local view = tableview[2]
   self = Slider:new(self, view, {moveobject = tableview})
 end
+
+local nocolor = {
+  default = {0, 0, 0, 0},
+  over = {0, 0, 0, 0}
+}
 
 function content:add (id, report, action)
   if items[id] then return end
@@ -89,6 +95,7 @@ function content:add (id, report, action)
 
   tableview:insertRow({
     id = id,
+    rowColor = nocolor,
     rowHeight = rowHeight
   })
 end
