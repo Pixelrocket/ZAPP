@@ -70,7 +70,7 @@ end
 function titlebar:setcaption (text, options)
   if text and "string" == type(text) then
     caption.text = text
-    caption.x = 2 + caption.contentWidth / 2 + up.contentWidth
+    caption.x = caption.contentWidth / 2 + up.contentWidth
   end
   options = options or {}
   transition.to(caption, {
