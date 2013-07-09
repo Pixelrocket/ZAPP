@@ -101,7 +101,7 @@ function login:init(top, sendbutton)
 
   local width, height = display.viewableContentWidth, display.viewableContentHeight - top
   local bg = display.newRect(group, 0, 0, width, height)
-  bg:setFillColor(251, 255, 250)
+  bg:setFillColor(239, 255, 235)
   group.y = top
 
   local form = createform(width - 32, sendbutton)

@@ -9,7 +9,7 @@ local options = {
   },
   margin = 8,
   accent = {
-    r = 177, g = 209, b = 222
+    r = 204, g = 241, b = 255
   }
 }
 local function rowrender (event)

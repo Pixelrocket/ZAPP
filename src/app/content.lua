@@ -52,7 +52,7 @@ function content:init (top)
     top = top,
     width = display.viewableContentWidth,
     height = display.viewableContentHeight - top,
-    backgroundColor = {251, 255, 250},
+    backgroundColor = {239, 255, 235},
     onRowRender = rowrender
   }) group:insert(tableview)
   -- FIXME; can break on any new widget version,
