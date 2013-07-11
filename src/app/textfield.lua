@@ -6,7 +6,7 @@ local font = "Roboto-Regular"
 
 function TextField:new (width, hint, returnKey, isSecure)
   local group = EventEmitter:new(display.newGroup())
-  local value, textfield = ""
+  local value = ""
 
   local line = display.newLine(group, 1,40, 1,44)
   line:append(width,44, width,40)
@@ -19,7 +19,7 @@ function TextField:new (width, hint, returnKey, isSecure)
     local oldvalue = value
     value = newvalue
     if value ~= oldvalue then
-      group:emit("change", hint, value)
+      group:emit("changed", value)
     end
     placeholdertext.isVisible = false
   end
@@ -33,18 +33,16 @@ function TextField:new (width, hint, returnKey, isSecure)
     placeholdertext.isVisible = true
     line:setColor(153, 153, 153)
     line.width = 1
-    textfield = nil
   end
 
   local function input (event)
-    local phase, target = event.phase, event.target
+    local phase = event.phase
+    group:emit(phase, event)
     if "editing" == phase then
-      setvalue(target.text)
+      setvalue(event.text)
     elseif "ended" == phase or "submitted" == phase then
       finish()
-      target.isVisible = false
-      target:removeSelf()
-      if "submitted" == phase then group:emit("submit") end
+      event.target:removeSelf()
     end
   end
 
@@ -53,7 +51,7 @@ function TextField:new (width, hint, returnKey, isSecure)
     line.width = 2
     -- trial and error positioning ftw ;-)
     local left, top = placeholdertext:contentToLocal(placeholdertext.x, placeholdertext.y)
-    textfield = native.newTextField(-1 - left, 4 - top, width, 40)
+    local textfield = native.newTextField(-1 - left, 4 - top, width, 40)
     textfield.font = native.newFont(font, 18)
     textfield.hasBackground = false
     textfield.isSecure = isSecure or false
