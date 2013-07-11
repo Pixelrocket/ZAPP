@@ -21,15 +21,22 @@ function TextField:new (width, hint, returnKey, isSecure)
     if value ~= oldvalue then
       group:emit("changed", value)
     end
-    placeholdertext.isVisible = false
+    if "" == value then
+      placeholdertext.text = hint
+      placeholdertext:setTextColor(153, 153, 153)
+      placeholdertext.isVisible = true
+    else
+      placeholdertext.isVisible = false
+    end
   end
 
   local function finish ()
-    local text, shade = value, 0
-    if "" == text   then text, shade = hint, 153
-    elseif isSecure then text = string.gsub(text, ".", "•") end
-    placeholdertext.text = text
-    placeholdertext:setTextColor(shade, shade, shade)
+    if "" ~= value then
+      local text = value
+      if isSecure then text = string.gsub(value, ".", "•") end
+      placeholdertext.text = text
+      placeholdertext:setTextColor(0, 0, 0)
+    end
     placeholdertext.isVisible = true
     line:setColor(153, 153, 153)
     line.width = 1
@@ -47,6 +54,7 @@ function TextField:new (width, hint, returnKey, isSecure)
   end
 
   local function focus ()
+    setvalue("")
     line:setColor(0, 153, 204)
     line.width = 2
     -- trial and error positioning ftw ;-)
