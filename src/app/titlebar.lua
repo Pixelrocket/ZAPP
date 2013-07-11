@@ -115,7 +115,8 @@ function titlebar:addbutton (name, imagepath)
   }) buttongroup:insert(button)
 
   local image = display.newImage(buttongroup, imagepath)
-  image.x = button.x image.y = button.y
+  image.x, image.y = button.x, button.y
+  image.width, image.height = button.width * 5 / 6, button.height * 5 / 6
 
   group:insert(buttongroup)
   buttongroup.x = width - buttongroup.contentWidth
