@@ -70,6 +70,12 @@ local nocolor = {
   over = {0, 0, 0, 0}
 }
 
+-- precalculate the value we need to pass to inserRow()
+local rowHeight = 2 * margin.height + margin.spacing
+local probe = display.newText("", 0, 0, font, fontsize.small)
+rowHeight = rowHeight + probe.contentHeight -- room for report heading
+probe:removeSelf() probe = nil
+
 function content:add (id, report, action)
   if items[id] then return end
   items[id] = {report = report, action = action}
@@ -77,21 +83,10 @@ function content:add (id, report, action)
     report.what = string.gsub(report.what, match, " ")
   end
 
-  local rowHeight, probe -- precalculate the value we need to pass to inserRow()
-  -- room for report heading
-  probe = display.newText("", 0, 0, font, fontsize.small)
-  rowHeight = probe.contentHeight
-  probe:removeSelf()
-  -- room for report text
-  probe = display.newText(report.what, 0, 0, font, fontsize.large)
-  local availablewidth = tableview.contentWidth - 2 * margin.width
-  if availablewidth >= probe.contentWidth then
-    rowHeight = rowHeight + probe.contentHeight
-  else -- multiline
-    rowHeight = rowHeight + probe.contentHeight * math.ceil(probe.contentWidth / (availablewidth * .95) )
-  end
+  local rowHeight = rowHeight 
+  probe = display.newText(report.what, 0, 0, group.contentWidth - 2 * margin.width, 0, font, fontsize.large)
+  rowHeight = rowHeight + probe.contentHeight -- room for report text
   probe:removeSelf() probe = nil
-  rowHeight = rowHeight + 2 * margin.height + margin.spacing
 
   tableview:insertRow({
     id = id,
