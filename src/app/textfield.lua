@@ -24,41 +24,36 @@ function TextField:new (width, hint, returnKey, isSecure)
     placeholdertext.isVisible = false
   end
 
-  local function finish (submit)
-    if textfield then
-      textfield.isVisible = false
-      textfield:removeSelf() textfield = nil
-    end
-    local text = value
-    if "" == text then
-      text = hint
-      placeholdertext:setTextColor(153, 153, 153)
-    elseif isSecure then
-      text = string.gsub(text, ".", "•")
-    end
+  local function finish ()
+    local text, shade = value, 0
+    if "" == text   then text, shade = hint, 153
+    elseif isSecure then text = string.gsub(text, ".", "•") end
     placeholdertext.text = text
-    placeholdertext:setTextColor(0, 0, 0)
+    placeholdertext:setTextColor(shade, shade, shade)
     placeholdertext.isVisible = true
-    line:setColor(153, 153, 153) line.width = 1
-    if submit then group:emit("submit") end
+    line:setColor(153, 153, 153)
+    line.width = 1
+    textfield = nil
   end
 
   local function input (event)
-    local phase = event.phase
-    if     "editing"   == phase then
-      setvalue(textfield.text)
-    elseif "ended"     == phase then
+    local phase, target = event.phase, event.target
+    if "editing" == phase then
+      setvalue(target.text)
+    elseif "ended" == phase or "submitted" == phase then
       finish()
-    elseif "submitted" == phase then
-      finish(true)
+      target.isVisible = false
+      target:removeSelf()
+      if "submitted" == phase then group:emit("submit") end
     end
   end
 
   local function focus ()
-    line:setColor(0, 153, 204) line.width = 2
+    line:setColor(0, 153, 204)
+    line.width = 2
     -- trial and error positioning ftw ;-)
     local left, top = placeholdertext:contentToLocal(placeholdertext.x, placeholdertext.y)
-    textfield = native.newTextField(0 - left, 4 - top, width, 40)
+    textfield = native.newTextField(-1 - left, 4 - top, width, 40)
     textfield.font = native.newFont(font, 18)
     textfield.hasBackground = false
     textfield.isSecure = isSecure or false
@@ -73,7 +68,6 @@ function TextField:new (width, hint, returnKey, isSecure)
   end placeholdertext:addEventListener("touch", touch)
 
   function group:focus () focus() end
-  function group:finish () finish() end
   function group:value () return value end
   function group:reset () setvalue("") finish() end
 

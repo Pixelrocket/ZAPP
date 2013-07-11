@@ -49,7 +49,7 @@ local function createform (width, sendbutton)
   local uid = TextField:new(width, "Gebruikersnaam", "next")
   group:insert(uid)
 
-  local pwd = TextField:new(width, "Wachtwoord", "go", true)
+  local pwd = TextField:new(width, "Wachtwoord", "send", true)
   group:insert(pwd)
   pwd.y = uid.y + 48
 
@@ -114,6 +114,7 @@ end
 function login:show ()
   local time = 400
   group.alpha = 1
+  group.isVisible = true
   transition.from(group, {
     time = time,
     transition = easing.outExpo,
@@ -126,7 +127,10 @@ function login:hide ()
   transition.to(group, {
     time = time,
     transition = easing.outExpo,
-    alpha = 0
+    alpha = 0,
+    onComplete = function ()
+      group.isVisible = false
+    end
   })
   self:emit("hide")
 end
