@@ -3,7 +3,7 @@ local widget = require("widget")
 
 local width = display.viewableContentWidth
 local height = 48
-local r, g, b = 204, 241, 255
+local r, g, b = 194, 229, 242
 local font = "Roboto-Regular"
 
 display.setStatusBar(display.DarkStatusBar)
