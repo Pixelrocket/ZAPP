@@ -19,7 +19,7 @@ function TextField:new (width, hint, returnKey, isSecure)
     local oldvalue = value
     value = newvalue
     if value ~= oldvalue then
-      group:emit("changed", value)
+      group:emit("change", value)
     end
     if "" == value then
       placeholdertext.text = hint
@@ -42,15 +42,22 @@ function TextField:new (width, hint, returnKey, isSecure)
     line.width = 1
   end
 
+  local prev
   local function input (event)
     local phase = event.phase
-    group:emit(phase, event)
     if "editing" == phase then
       setvalue(event.text)
-    elseif "ended" == phase or "submitted" == phase then
+    elseif "ended" == phase
+    and "ended" ~= prev and "submitted" ~= prev then
       finish()
       event.target:removeSelf()
+    elseif "submitted" == phase
+    and "ended" ~= prev and "submitted" ~= prev then
+      finish()
+      event.target:removeSelf()
+      group:emit("submit")
     end
+    prev = phase
   end
 
   local function focus ()

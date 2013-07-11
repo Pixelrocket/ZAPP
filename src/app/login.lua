@@ -60,28 +60,29 @@ local function createform (width, sendbutton)
       sendbutton:hide()
     end
   end
-  uid:on("changed", newvalue)
-  pwd:on("changed", newvalue)
+  uid:on("change", newvalue)
+  pwd:on("change", newvalue)
 
-  uid:on("submitted", function ()
+  uid:on("submit", function ()
     if #uid:value() < 1 then
       uid:focus()
     else
       pwd:focus()
     end
   end)
-  pwd:on("submitted", function ()
-    if #pwd:value() < 1 then
-      pwd:focus()
-    elseif #uid:value() < 1 then
+
+  pwd:on("submit", function ()
+    if #uid:value() < 1 then
       uid:focus()
+    elseif #pwd:value() < 1 then
+      pwd:focus()
     else
       authenticate(uid:value(), pwd:value())
     end
   end)
 
   sendbutton:on("release", function ()
-    pwd:emit("submitted")
+    pwd:emit("submit")
   end)
 
   login:on("hide", function ()
