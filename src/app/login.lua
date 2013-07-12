@@ -1,6 +1,7 @@
 local EventEmitter = require("lua-events").EventEmitter
 local showerror = require("showerror")
 local json = require("json")
+local escape = require("socket.url").escape
 local TextField = require("textfield")
 
 local login = EventEmitter:new()
@@ -12,8 +13,8 @@ local function authenticate (uid, pwd)
   -- which is crazy, but must be dealt with
   if authenticating then return end
   local url = "https://www.greenhillhost.nl/ws_zapp/getCredentials/"
-  url = url .. "?frmUsername=" .. uid
-  url = url.. "&frmPassword=" .. pwd
+  url = url .. "?frmUsername=" .. escape(uid)
+  url = url .. "&frmPassword=" .. escape(pwd)
   authenticating = true
   network.request(url, "GET", function (event)
     authenticating = false

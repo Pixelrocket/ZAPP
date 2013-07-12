@@ -1,5 +1,6 @@
 require("node_modules.lua-loader.init")(function() end)
 local json = require("json")
+local escape = require("socket.url").escape
 local savestate = require("lua-savestate")
 local showerror = require("showerror")
 local menu = require("menu")
@@ -50,7 +51,7 @@ savestate:init({
 local listclients
 fetchclients = function ()
   local url = "https://www.greenhillhost.nl/ws_zapp/getClients/"
-  url = url .. "?token=" .. accesstoken
+  url = url .. "?token=" .. escape(accesstoken)
   network.request(url, "GET", function (event)
     local clients = {}
     if event.isError
@@ -106,8 +107,8 @@ end
 local listreports
 fetchreports = function (id)
   local url = "https://www.greenhillhost.nl/ws_zapp/getDailyReports/"
-  url = url .. "?token=" .. accesstoken
-  url = url .. "&clientid=" .. id
+  url = url .. "?token=" .. escape(accesstoken)
+  url = url .. "&clientid=" .. escape(id)
   network.request(url, "GET", function (event)
     local reports = {}
     if event.isError
