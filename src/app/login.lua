@@ -6,18 +6,11 @@ local TextField = require("textfield")
 
 local login = EventEmitter:new()
 
-local authenticating
 local function authenticate (uid, pwd)
-  -- appears to get called twice from userInput submit
-  -- (on device, not in the simulator)
-  -- which is crazy, but must be dealt with
-  if authenticating then return end
   local url = "https://www.greenhillhost.nl/ws_zapp/getCredentials/"
   url = url .. "?frmUsername=" .. escape(uid)
   url = url .. "&frmPassword=" .. escape(pwd)
-  authenticating = true
   network.request(url, "GET", function (event)
-    authenticating = false
     if event.isError
     or event.status ~= 200 then
       return showerror("Het is niet gelukt om u in te loggen via het netwerk")
