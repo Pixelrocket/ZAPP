@@ -2,9 +2,14 @@ local EventEmitter = require("lua-events").EventEmitter
 
 local TextField = {}
 
-local font = "Roboto-Regular"
+function TextField:new (hint, width, options)
+  options = options or {}
+  options.font = options.font or "Roboto-Regular"
+  options.size = options.size or 18
+  options.returnKey = options.returnKey
+  options.isSecure = options.isSecure or false
+  options.typeover = options.typeover or options.isSecure
 
-function TextField:new (width, hint, returnKey, isSecure)
   local group = EventEmitter:new(display.newGroup())
   local value = ""
 
@@ -12,7 +17,10 @@ function TextField:new (width, hint, returnKey, isSecure)
   line:append(width,44, width,40)
   line:setColor(153, 153, 153)
 
-  local placeholdertext = display.newText(group, hint, 9, 8, width - 13, 40, font, 18)
+  local probe = display.newText(group, "", 0, 0, options.font, options.size)
+  local placeholdertext = display.newText(group, hint, 9, 8,
+    width - 13, probe.contentHeight, options.font, options.size)
+  probe:removeSelf() probe = nil
   placeholdertext:setTextColor(153, 153, 153)
 
   local function setvalue (newvalue)
@@ -33,7 +41,7 @@ function TextField:new (width, hint, returnKey, isSecure)
   local function finish ()
     if "" ~= value then
       local text = value
-      if isSecure then text = string.gsub(value, ".", "•") end
+      if options.isSecure then text = string.gsub(value, ".", "•") end
       placeholdertext.text = text
       placeholdertext:setTextColor(0, 0, 0)
     end
@@ -61,16 +69,19 @@ function TextField:new (width, hint, returnKey, isSecure)
   end
 
   local function focus ()
-    setvalue("")
     line:setColor(0, 153, 204)
     line.width = 2
+    local text = value
+    if options.typeover then text = "" end
+    setvalue(text)
     -- trial and error positioning ftw ;-)
     local left, top = placeholdertext:contentToLocal(placeholdertext.x, placeholdertext.y)
     local textfield = native.newTextField(-1 - left, 4 - top, width, 40)
-    textfield.font = native.newFont(font, 18)
+    textfield.text = text
+    textfield.font = native.newFont(options.font, options.size)
     textfield.hasBackground = false
-    textfield.isSecure = isSecure or false
-    textfield:setReturnKey(returnKey)
+    textfield.isSecure = options.isSecure
+    if options.returnKey then textfield:setReturnKey(options.returnKey) end
     textfield:addEventListener("userInput", input)
     native.setKeyboardFocus(textfield)
   end

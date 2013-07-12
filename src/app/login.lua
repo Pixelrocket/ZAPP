@@ -46,10 +46,10 @@ end
 local function createform (width, sendbutton)
   local group = display.newGroup()
 
-  local uid = TextField:new(width, "Gebruikersnaam", "next")
+  local uid = TextField:new("Gebruikersnaam", width, {returnKey = "next"})
   group:insert(uid)
 
-  local pwd = TextField:new(width, "Wachtwoord", "send", true)
+  local pwd = TextField:new("Wachtwoord", width, {returnKey = "send", isSecure = true})
   group:insert(pwd)
   pwd.y = uid.y + 48
 
