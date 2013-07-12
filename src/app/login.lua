@@ -80,7 +80,6 @@ local function createform (width, sendbutton)
   end)
 
   function group:reset ()
-    native.setKeyboardFocus(nil)
     uid:reset()
     pwd:reset()
   end
@@ -105,7 +104,7 @@ function login:init(top, sendbutton)
   login:on("hide", function ()
     form:reset()
   end)
-  
+
 end
 
 function login:show ()

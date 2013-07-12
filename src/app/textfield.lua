@@ -93,7 +93,7 @@ function TextField:new (hint, width, options)
 
   function group:focus () focus() end
   function group:value () return value end
-  function group:reset () setvalue("") finish() end
+  function group:reset () setvalue("") finish() native.setKeyboardFocus(nil) end
 
   return group
 end
