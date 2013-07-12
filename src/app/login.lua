@@ -79,11 +79,11 @@ local function createform (width, sendbutton)
     pwd:emit("submit")
   end)
 
-  login:on("hide", function ()
+  function group:reset ()
     native.setKeyboardFocus(nil)
     uid:reset()
     pwd:reset()
-  end)
+  end
 
   return group
 end
@@ -98,11 +98,14 @@ function login:init(top, sendbutton)
   bg:setFillColor(239, 255, 235)
   group.y = top
 
+  sendbutton:hide()
   local form = createform(width - 32, sendbutton)
   group:insert(form)
   form.x, form.y = 16, 16
-
-  sendbutton:hide()
+  login:on("hide", function ()
+    form:reset()
+  end)
+  
 end
 
 function login:show ()
