@@ -47,7 +47,7 @@ function TextField:new (width, hint, returnKey, isSecure)
     local phase = event.phase
     if "editing" == phase then
       setvalue(event.text)
-    elseif "ended" == phase
+    elseif "ended" == phase -- need test prev to mimic expexted behavior
     and "ended" ~= prev and "submitted" ~= prev then
       finish()
       event.target:removeSelf()
