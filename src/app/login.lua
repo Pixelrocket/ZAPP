@@ -8,7 +8,7 @@ local widget = require("widget")
 local login = EventEmitter:new()
 
 local function authenticate (uid, pwd)
-  local url = "https://www.greenhillhost.nl/ws_zapp/getCredentials/"
+  local url = "https://www.greenhillhost.nl/ws_zapp/sessions/index.cfm"
   local params = {
     headers = {["Content-Type"] = "application/json"},
     body = json.encode({username = uid, password = pwd})
