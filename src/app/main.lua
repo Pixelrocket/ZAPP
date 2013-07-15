@@ -64,7 +64,7 @@ savestate:init({
 
 local listclients
 fetchclients = function ()
-  local url = "https://www.greenhillhost.nl/ws_zapp/getClients/"
+  local url = "https://www.greenhillhost.nl/ws_zapp/clients/index.cfm"
   url = url .. "?token=" .. escape(accesstoken)
   network.request(url, "GET", function (event)
     local clients = {}
@@ -117,7 +117,7 @@ end
 
 local listreports
 fetchreports = function (id)
-  local url = "https://www.greenhillhost.nl/ws_zapp/getDailyReports/"
+  local url = "https://www.greenhillhost.nl/ws_zapp/dailyReports/index.cfm"
   url = url .. "?token=" .. escape(accesstoken)
   url = url .. "&clientid=" .. escape(id)
   network.request(url, "GET", function (event)
