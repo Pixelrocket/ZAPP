@@ -19,6 +19,16 @@ local function showmenu ()
   content:slide("right")
 end
 
+local function showlogin ()
+  titlebar:on("up", function ()
+    titlebar:on("up", showmenu)
+    login:hide()
+  end)
+  titlebar:activate("Inloggen")
+  login:show()
+  content:slide("left")
+end
+
 local accesstoken, fetchclients
 login:on("authenticated", function (userinfo, token)
   accesstoken = token
@@ -27,13 +37,10 @@ login:on("authenticated", function (userinfo, token)
   login:hide()
 
   menu:add("username", userinfo.name, function ()
-    titlebar:on("up", function ()
-      titlebar:on("up", showmenu)
-      login:hide()
+    native.showAlert("ZilliZ", "Wilt u met een ander account inloggen?", {"Annuleren", "OK"}, function (event)
+      if "clicked" == event.action and 2 == event.index
+      then showlogin() end
     end)
-    titlebar:activate("Inloggen")
-    login:show()
-    content:slide("left")
   end)
 
   fetchclients()
