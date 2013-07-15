@@ -24,9 +24,9 @@ local function showlogin ()
     titlebar:on("up", showmenu)
     login:hide()
   end)
-  titlebar:activate("Inloggen")
   login:show()
   content:slide("left")
+  titlebar:activate("Inloggen")
 end
 
 local accesstoken, fetchclients
