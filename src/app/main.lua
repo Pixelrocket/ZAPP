@@ -28,12 +28,12 @@ login:on("authenticated", function (userinfo, token)
 
   menu:add("username", userinfo.name, function ()
     titlebar:on("up", function ()
-      content:slide("left")
       titlebar:on("up", showmenu)
       login:hide()
     end)
     titlebar:activate("Inloggen")
     login:show()
+    content:slide("left")
   end)
 
   fetchclients()
