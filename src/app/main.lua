@@ -21,9 +21,6 @@ end
 
 local accesstoken, fetchclients
 login:on("authenticated", function (userinfo, token)
-  userinfo.carefarm = userinfo.carefarm or {
-    name = "Boer Harms"
-  }
   accesstoken = token
   menu:empty()
   titlebar:on("up", showmenu)
@@ -38,8 +35,6 @@ login:on("authenticated", function (userinfo, token)
     titlebar:activate("Inloggen")
     login:show()
   end)
-
-  menu:add("zorgboerderij", userinfo.carefarm.name)
 
   fetchclients()
 end)
