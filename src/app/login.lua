@@ -9,18 +9,22 @@ local login = EventEmitter:new()
 
 local function authenticate (uid, pwd)
   local url = "https://www.greenhillhost.nl/ws_zapp/getCredentials/"
-  url = url .. "?frmUsername=" .. escape(uid)
-  url = url .. "&frmPassword=" .. escape(pwd)
-  network.request(url, "GET", function (event)
+  local params = {
+    headers = {["Content-Type"] = "application/json"},
+    body = json.encode({username = uid, password = pwd})
+  }
+  network.request(url, "POST", function (event)
     login:emit("requested")
+    local msg = "Het is niet gelukt om u in te loggen via het netwerk"
     if event.isError
     or event.status ~= 200 then
-      return showerror("Het is niet gelukt om u in te loggen via het netwerk")
+      return showerror(msg .. "\nauthenticate " .. event.status)
     end
 
     local credentials = json.decode(event.response)[1]
-    if #(credentials.token or "") ~= 32 then
-      return showerror("Het is niet gelukt om u in te loggen via het netwerk")
+    local token = credentials.token or ""
+    if #token ~= 32 then
+      return showerror(msg .. "\nauthenticate " .. token)
     end
     if (credentials.noofclients or 0) < 1 then
       return showerror("Er zijn nog geen cliënten gekoppeld aan uw account")
@@ -35,8 +39,8 @@ local function authenticate (uid, pwd)
       addpart(credentials[field])
     end
     local email = credentials.emailaddress
-    login:emit("authenticated", {name = name, email = email}, credentials.token)
-  end)
+    login:emit("authenticated", {name = name, email = email}, token)
+  end, params)
 end
 
 local function createform (width, sendbutton)
