@@ -2,7 +2,7 @@ local EventEmitter = require("lua-events").EventEmitter
 local showerror = require("showerror")
 local json = require("json")
 local escape = require("socket.url").escape
-local TextField = require("textfield")
+local TextField = require("coronasdk-textfield")
 
 local login = EventEmitter:new()
 
@@ -45,7 +45,7 @@ local function createform (width, sendbutton)
 
   local pwd = TextField:new("Wachtwoord", width, {returnKey = "send", isSecure = true})
   group:insert(pwd)
-  pwd.y = uid.y + 48
+  pwd.y = uid.y + uid.contentHeight
 
   local function newvalue ()
     if #uid:value() > 0 and #pwd:value() > 0 then
