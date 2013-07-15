@@ -116,6 +116,7 @@ function login:show ()
     transition = easing.outExpo,
     x = group.contentWidth
   })
+  self:emit("show")
 end
 
 function login:hide ()

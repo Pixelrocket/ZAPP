@@ -15,35 +15,45 @@ login:init(top, titlebar:addbutton("send", "6_social_send_now.png"))
 menu:init(top)
 content:init(top)  
 
-local function showmenu ()
-  content:slide("right")
-end
+local caption
+content:on("slide", function (position)
+  if "right" == position then titlebar:deactivate()
+  else titlebar:activate(caption) end
+end)
 
-local function showlogin ()
-  titlebar:on("up", function ()
-    titlebar:on("up", showmenu)
+local loggingin
+titlebar:on("up", function ()
+  if loggingin then
     login:hide()
-  end)
-  login:show()
+  else
+    content:slide("right")
+  end
+end)
+
+login:on("show", function ()
+  loggingin = true
   content:slide("left")
   titlebar:activate("Inloggen")
-end
+end)
+
+login:on("hide", function ()
+  loggingin = false
+  titlebar:activate(caption)
+end)
 
 local accesstoken, fetchclients
 login:on("authenticated", function (userinfo, token)
   accesstoken = token
   menu:empty()
-  titlebar:on("up", showmenu)
-  login:hide()
-
   menu:add("username", userinfo.name, function ()
     native.showAlert("ZilliZ", "Wilt u met een ander account inloggen?", {"Annuleren", "OK"}, function (event)
-      if "clicked" == event.action and 2 == event.index
-      then showlogin() end
+      if "clicked" == event.action and 2 == event.index then
+        login:show()
+      end
     end)
   end)
-
   fetchclients()
+  login:hide()
 end)
 
 savestate:init({
@@ -94,14 +104,11 @@ end
 local fetchreports
 setclient = function (id, name)
   return function ()
+    caption = name
     content:empty()
     fetchreports(id)
     savestate:set("selectedclient", id, true)
     menu:select("client" .. id)
-    content:on("slide", function (position)
-      if "right" == position then titlebar:deactivate()
-      else titlebar:activate(name) end
-    end)
     content:slide("left")
   end
 end
