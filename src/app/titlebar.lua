@@ -6,22 +6,16 @@ local height = 48
 local r, g, b = 194, 229, 242
 local font = "Roboto-Regular"
 
-display.setStatusBar(display.DarkStatusBar)
-
 local titlebar = EventEmitter:new()
 
 function titlebar:getBottom ()
-  return display.topStatusBarContentHeight + height
+  return height
 end
 
 local group, up, caret, caption = display.newGroup()
 
 function titlebar:init ()
   if group.numChildren > 0 then return end
-
-  -- prevent scrolled content from shining through device's status bar
-  local statusbarshield = display.newRect(group, 0, 0, width, display.topStatusBarContentHeight)
-  statusbarshield:setFillColor(0, 0, 0)
 
   local bar = display.newRect(group, 0, 0, width, height)
   bar:setFillColor(r, g, b)
@@ -52,7 +46,7 @@ function titlebar:init ()
   hr[2] = display.newRect(group, 0, 0, width, 1)
   hr[2]:setFillColor(r, g, b, 140)
 
-  bar.y = display.topStatusBarContentHeight + bar.contentHeight / 2
+  bar.y = bar.contentHeight / 2
   for _,displayobject in ipairs({up, caret, logo, caption}) do
     displayobject.y = bar.y
   end
@@ -120,7 +114,6 @@ function titlebar:addbutton (name, imagepath)
 
   group:insert(buttongroup)
   buttongroup.x = width - buttongroup.contentWidth
-  buttongroup.y = display.topStatusBarContentHeight
 
   function api:show ()
     buttongroup.isVisible = true

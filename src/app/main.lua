@@ -8,6 +8,8 @@ local content = require("content")
 local login = require("login")
 local titlebar = require("titlebar")
 
+display.setStatusBar(display.HiddenStatusBar)
+
 local top = titlebar:getBottom()
 titlebar:init()
 titlebar:setcaption("Inloggen")
