@@ -89,7 +89,7 @@ end
 
 local group = display.newGroup()
 
-function login:init(top, sendbutton)
+function login:init (top, sendbutton)
   if group.numChildren > 0 then return end
 
   local width, height = display.viewableContentWidth, display.viewableContentHeight - top
