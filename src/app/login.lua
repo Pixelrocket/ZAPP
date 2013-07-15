@@ -3,6 +3,7 @@ local showerror = require("showerror")
 local json = require("json")
 local escape = require("socket.url").escape
 local TextField = require("coronasdk-textfield")
+local widget = require("widget")
 
 local login = EventEmitter:new()
 
@@ -11,6 +12,7 @@ local function authenticate (uid, pwd)
   url = url .. "?frmUsername=" .. escape(uid)
   url = url .. "&frmPassword=" .. escape(pwd)
   network.request(url, "GET", function (event)
+    login:emit("requested")
     if event.isError
     or event.status ~= 200 then
       return showerror("Het is niet gelukt om u in te loggen via het netwerk")
@@ -47,6 +49,9 @@ local function createform (width, sendbutton)
   group:insert(pwd)
   pwd.y = uid.y + uid.contentHeight
 
+  local spinner = widget.newSpinner(sendbutton:bounds())
+  spinner.isVisible = false
+
   local function newvalue ()
     if #uid:value() > 0 and #pwd:value() > 0 then
       sendbutton:show()
@@ -71,6 +76,9 @@ local function createform (width, sendbutton)
     elseif #pwd:value() < 1 then
       pwd:focus()
     else
+      sendbutton:hide()
+      spinner:start()
+      spinner.isVisible = true
       authenticate(uid:value(), pwd:value())
     end
   end)
@@ -79,11 +87,18 @@ local function createform (width, sendbutton)
     pwd:emit("submit")
   end)
 
+  login:on("requested", function () 
+    spinner.isVisible = false
+    spinner:stop()
+    sendbutton:show()
+  end)
+
   function group:reset ()
     uid:reset()
     pwd:reset()
   end
 
+  sendbutton:hide()
   return group
 end
 
@@ -97,7 +112,6 @@ function login:init (top, sendbutton)
   bg:setFillColor(239, 255, 235)
   group.y = top
 
-  sendbutton:hide()
   local form = createform(width - 32, sendbutton)
   group:insert(form)
   form.x, form.y = 16, 16

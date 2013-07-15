@@ -123,6 +123,16 @@ function titlebar:addbutton (name, imagepath)
     buttongroup.isVisible = false
   end
 
+  function api:bounds ()
+    local bounds = image.contentBounds
+    return {
+      left = bounds.xMin,
+      top = bounds.yMin,
+      width = bounds.xMax - bounds.xMin,
+      height = bounds.yMax - bounds.yMin
+    }
+  end
+
   return api
 end
 
