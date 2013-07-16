@@ -64,8 +64,8 @@ savestate:init({
 })
 
 local spinner = widget.newSpinner()
-spinner.x = (display.viewableContentWidth - spinner.contentWidth) / 2
-spinner.y = (display.viewableContentHeight - spinner.contentHeight) / 2
+spinner.x = display.viewableContentWidth / 2
+spinner.y = display.viewableContentHeight / 2
 spinner.isVisible = false
 
 local listclients

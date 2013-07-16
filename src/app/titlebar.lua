@@ -125,12 +125,17 @@ function titlebar:addbutton (name, imagepath)
 
   function api:bounds ()
     local bounds = image.contentBounds
-    return {
+    local res = {
       left = bounds.xMin,
       top = bounds.yMin,
       width = bounds.xMax - bounds.xMin,
       height = bounds.yMax - bounds.yMin
     }
+    res.left = res.left + res.width / 6
+    res.top = res.top + res.height / 6
+    res.width = res.width * 4 / 6
+    res.height = res.height * 4 / 6
+    return res
   end
 
   return api
