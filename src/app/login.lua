@@ -171,6 +171,18 @@ function login:init (top, sendbutton)
     formdown()
   end)
 
+  function bg:touch (event)
+    if "ended" == event.phase then
+      form:reset()
+      formdown()
+    end
+    return true
+  end bg:addEventListener("touch", bg)
+
+  function formbg:touch (event)
+    return true
+  end formbg:addEventListener("touch", formbg)
+
   login:on("hide", function ()
     formdown()
     form:reset()
