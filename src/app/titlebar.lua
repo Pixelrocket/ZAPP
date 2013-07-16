@@ -36,7 +36,7 @@ function titlebar:init ()
   logo.height, logo.width = 24, 24 * ratio
 
   caption = display.newText(group, "", 0, 0, font, 18)
-  caption:setTextColor(0, 0, 0)
+  caption:setTextColor(0, 0, 0, 200)
 
   local hr = {}
   hr.background = display.newRect(group, 0, 0, width, 2)

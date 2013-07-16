@@ -136,19 +136,19 @@ function login:init (top, sendbutton)
     "Welkom bij zAPP, de ZilliZ app.",
     16, 16,
     width - 32, 0, "Roboto-Regular", 18)
-  heading:setTextColor(0, 0, 0)
+  heading:setTextColor(0, 0, 0, 200)
 
   local teaser = display.newText(group,
     "Met zAPP heeft u altijd en overal zicht\nop de actuele situatie van de cliënt.",
     16, heading.y + heading.contentHeight / 2,
     width - 32, 0, "Roboto-Regular", 14)
-  teaser:setTextColor(0, 0, 0)
+  teaser:setTextColor(0, 0, 0, 200)
 
   local instruction = display.newText(group,
     "Om te beginnen logt u in met uw ZilliZ account:",
     16, teaser.y + teaser.contentHeight / 2 + 8,
     width - 32, 0, "Roboto-Regular", 12)
-  instruction:setTextColor(0, 0, 0)
+  instruction:setTextColor(0, 0, 0, 200)
 
   local form = createform(width - 32, sendbutton)
   local formbg = display.newRect(form, 0, 0, form.contentWidth, form.contentHeight)
