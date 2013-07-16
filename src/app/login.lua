@@ -44,7 +44,7 @@ local function authenticate (uid, pwd)
 end
 
 local function createform (width, sendbutton)
-  local group = display.newGroup()
+  local group = EventEmitter:new(display.newGroup())
 
   local uid = TextField:new("Gebruikersnaam", width, {returnKey = "next"})
   group:insert(uid)
@@ -55,6 +55,21 @@ local function createform (width, sendbutton)
 
   local spinner = widget.newSpinner(sendbutton:bounds())
   spinner.isVisible = false
+
+  local function focus (field)
+    if 16 ~= group.y then
+      transition.to(group, {
+        time = 400,
+        transition = easing.outExpo,
+        y = 16,
+        onComplete = function () field:start() end
+      })
+    else
+      field:start()
+    end
+  end
+  uid:on("focus", focus)
+  pwd:on("focus", focus)
 
   local function newvalue ()
     if #uid:value() > 0 and #pwd:value() > 0 then
@@ -84,6 +99,7 @@ local function createform (width, sendbutton)
       spinner:start()
       spinner.isVisible = true
       authenticate(uid:value(), pwd:value())
+      group:emit("submit")
     end
   end)
 
@@ -135,20 +151,38 @@ function login:init (top, sendbutton)
   instruction:setTextColor(0, 0, 0)
 
   local form = createform(width - 32, sendbutton)
+  local formbg = display.newRect(form, 0, 0, form.contentWidth, form.contentHeight)
+  formbg:setFillColor(239, 255, 235)
+  formbg:toBack()
   group:insert(form)
   form.x, form.y = 16, instruction.y + instruction.contentHeight / 2 + 4
+
+  local y = form.y
+  local function formdown ()
+    native.setKeyboardFocus(nil)
+    transition.to(form, {
+      time = 400,
+      transition = easing.outExpo,
+      y = y
+    })
+  end
+
+  form:on("submit", function ()
+    formdown()
+  end)
+
   login:on("hide", function ()
+    formdown()
     form:reset()
   end)
 
 end
 
 function login:show ()
-  local time = 400
   group.alpha = 1
   group.isVisible = true
   transition.from(group, {
-    time = time,
+    time = 400,
     transition = easing.outExpo,
     x = group.contentWidth
   })
@@ -156,9 +190,8 @@ function login:show ()
 end
 
 function login:hide ()
-  local time = 1200
   transition.to(group, {
-    time = time,
+    time = 1200,
     transition = easing.outExpo,
     alpha = 0,
     onComplete = function ()
