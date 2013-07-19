@@ -63,20 +63,16 @@ savestate:init({
   selectedclient = nil
 })
 
-local spinner = widget.newSpinner()
-spinner.x = display.viewableContentWidth / 2
-spinner.y = display.viewableContentHeight / 2
-spinner.isVisible = false
+local spinner = widget.newSpinner() spinner.isVisible = false
+spinner.x, spinner.y = display.viewableContentWidth / 2, display.viewableContentHeight / 2
 
 local listclients
 fetchclients = function ()
   local url = "https://www.greenhillhost.nl/ws_zapp/clients/index.cfm"
   url = url .. "?token=" .. escape(accesstoken)
-  spinner:start()
-  spinner.isVisible = true
+  spinner:start() spinner.isVisible = true
   network.request(url, "GET", function (event)
-    spinner.isVisible = false
-    spinner:stop()
+    spinner.isVisible = false spinner:stop()
     local clients = {}
     if event.isError
     or event.status ~= 200 then
@@ -130,11 +126,9 @@ fetchreports = function (id)
   local url = "https://www.greenhillhost.nl/ws_zapp/dailyReports/index.cfm"
   url = url .. "?token=" .. escape(accesstoken)
   url = url .. "&clientid=" .. escape(id)
-  spinner:start()
-  spinner.isVisible = true
+  spinner:start() spinner.isVisible = true
   network.request(url, "GET", function (event)
-    spinner.isVisible = false
-    spinner:stop()
+    spinner.isVisible = false spinner:stop()
     local reports = {}
     if event.isError
     or event.status ~= 200 then
