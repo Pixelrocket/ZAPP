@@ -49,7 +49,7 @@ login:on("authenticated", function (userinfo, token)
   accesstoken = token
   menu:empty()
   menu:add("username", userinfo.name, function ()
-    native.showAlert("ZilliZ", "Wilt u met een ander account inloggen?", {"Annuleren", "OK"}, function (event)
+    native.showAlert("zAPP", "Wilt u met een ander account inloggen?", {"Annuleren", "OK"}, function (event)
       if "clicked" == event.action and 2 == event.index then
         login:show()
       end

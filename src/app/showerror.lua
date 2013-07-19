@@ -1,5 +1,5 @@
 local function showerror (message)
-  native.showAlert("ZilliZ", message, {"OK"},
+  native.showAlert("zAPP", message, {"OK"},
     function (event)
       if "clicked" == event.action then
         print("error", message)
