@@ -9,7 +9,7 @@
     "lua-savestate": "~0.0.1",
     "lua-timeago": "~0.0.2",
     "coronasdk-slider": "~0.0.1",
-    "coronasdk-textfield": "~0.0.2"
+    "coronasdk-textfield": "~0.0.2-1"
   },
   "devDependencies": {},
   "scripts": {
