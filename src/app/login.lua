@@ -133,21 +133,21 @@ function login:init (top, sendbutton)
   group.y = top
 
   local heading = display.newText(group,
-    "Welkom bij zAPP, de ZilliZ app.",
+    "Dit is zAPP, de ZilliZ app",
     16, 16,
-    width - 32, 0, "Roboto-Regular", 18)
+    width - 32, 0, "Roboto-Regular", 22)
   heading:setTextColor(0, 0, 0, 200)
 
   local teaser = display.newText(group,
-    "Met zAPP heeft u altijd en overal zicht\nop de actuele situatie van de cliënt.",
-    16, heading.y + heading.contentHeight / 2,
-    width - 32, 0, "Roboto-Regular", 14)
+    "Met zAPP ziet u altijd en overal\nde actuele situatie van de cliënt",
+    16, 8 + heading.y + heading.contentHeight / 2,
+    width - 32, 0, "Roboto-Regular", 18)
   teaser:setTextColor(0, 0, 0, 200)
 
   local instruction = display.newText(group,
-    "Om te beginnen logt u in met uw ZilliZ account:",
-    16, teaser.y + teaser.contentHeight / 2 + 8,
-    width - 32, 0, "Roboto-Regular", 12)
+    "Log in met uw ZilliZ account",
+    16, 16 + teaser.y + teaser.contentHeight / 2,
+    width - 32, 0, "Roboto-Regular", 14)
   instruction:setTextColor(0, 0, 0, 200)
 
   local form = createform(width - 32, sendbutton)
@@ -155,7 +155,7 @@ function login:init (top, sendbutton)
   formbg:setFillColor(239, 255, 235)
   formbg:toBack()
   group:insert(form)
-  form.x, form.y = 16, instruction.y + instruction.contentHeight / 2 + 4
+  form.x, form.y = 16, 8 + instruction.y + instruction.contentHeight / 2
 
   local y = form.y
   local function formdown ()
